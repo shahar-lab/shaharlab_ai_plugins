@@ -1,0 +1,12 @@
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*~
+
+# Claude Code local state (do not ship per-user settings)
+.claude/settings.local.json
+
+# Node (only the hook uses node; no deps are committed)
+node_modules/

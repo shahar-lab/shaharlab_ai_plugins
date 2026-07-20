@@ -1,0 +1,22 @@
+{
+  "name": "shaharlab",
+  "owner": {
+    "name": "Shahar Lab, Tel Aviv University"
+  },
+  "metadata": {
+    "description": "Shahar Lab (Tel Aviv University) Claude Code plugins: behavioral data analysis in R and online experiment development with jsPsych.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "shaharlab-behavioral-data-analysis",
+      "source": "./shaharlab-behavioral-data-analysis",
+      "description": "Behavioral data analysis in R: brms Bayesian regression, data preprocessing, lab plotting standards, 'one model, one folder' project scaffolding, R code walkthroughs, and the Malka/Sharon/Tomer orchestrator-architect-reviewer workflow. Lab rules are injected automatically at session start."
+    },
+    {
+      "name": "shaharlab-jspsych",
+      "source": "./shaharlab-jspsych",
+      "description": "Online experiment development: jsPsych coding style, window/attention monitoring, experiment planning (blueprint workflow with Tzadok / Galit / Miri / Devorah / Dan / Ezra), and manuscript method-section excerpts (Baruch)."
+    }
+  ]
+}
