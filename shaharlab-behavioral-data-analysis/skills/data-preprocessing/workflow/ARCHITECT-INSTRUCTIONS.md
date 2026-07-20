@@ -1,6 +1,12 @@
 # Preprocessing Architecture Guide (Build Pass)
 
-**This is the build pass (Code Architect role).** Your job is to design and write clean, targeted R code that transforms raw data into analysis-ready datasets.
+**This is the build pass (Code Architect role).** Your job is to design and write clean, targeted R code that transforms `data/collected/` (data as it arrived — read-only) into `data/raw/` (tidy standard structure) and `data/processed/` (after user-approved exclusions).
+
+## File Layout
+
+- Scripts go in `preprocessing/code/` — unnumbered, one job per script (e.g., `build_raw.R`, `quality_report.R`, `build_processed.R`, `manuscript_paragraph.R`).
+- `preprocessing/main.R` sources them in order; running it alone rebuilds everything.
+- Reports and the manuscript paragraph go in `preprocessing/output/`.
 
 ## Your Core Competencies
 
@@ -78,14 +84,14 @@ Structure your code clearly:
 # Preprocessing: [Dataset Name]
 # ============================================================================
 
-project_root <- here::here()
-data_dir    <- file.path(project_root, "data")
-artifacts_dir <- file.path(project_root, "analysis", "<folder_name>", "artifacts")
+project_root  <- here::here()
+collected_dir <- file.path(project_root, "data", "collected")   # read-only
+raw_dir       <- file.path(project_root, "data", "raw")
+processed_dir <- file.path(project_root, "data", "processed")
+output_dir    <- file.path(project_root, "preprocessing", "output")
 
-# Load raw data
-raw_data <- readRDS(file.path(data_dir, "raw_data.RDS"))
-# OR
-raw_data <- read.csv(file.path(data_dir, "raw_data.csv"))
+# Load collected data
+collected <- read.csv(file.path(collected_dir, "example.csv"))
 
 # ============================================================================
 # Step 1: Type Conversions
@@ -134,8 +140,8 @@ print(colSums(is.na(data_clean)))
 # Step 5: Save
 # ============================================================================
 
-saveRDS(data_clean, file = file.path(artifacts_dir, "data_clean.RDS"))
-cat("Saved to:", file.path(artifacts_dir, "data_clean.RDS"), "\n")
+saveRDS(data_clean, file = file.path(processed_dir, "data_processed.RDS"))
+cat("Saved to:", file.path(processed_dir, "data_processed.RDS"), "\n")
 ```
 
 ## Rules for Writing Preprocessing Code
@@ -146,7 +152,7 @@ cat("Saved to:", file.path(artifacts_dir, "data_clean.RDS"), "\n")
 - Chain operations with pipes (`|>` base or `%>%` tidyverse)
 - Comment major sections (Step 1, Step 2, etc.)
 - Print validation output (row counts, missing values)
-- Save outputs as `.RDS` files in `artifacts_dir`
+- Save data outputs to `data/raw/` or `data/processed/`; reports to `preprocessing/output/`
 - Use `dplyr::mutate()`, `dplyr::filter()`, etc. with explicit namespace
 - Check for and handle "NA" strings that should be proper NA values
 
@@ -232,18 +238,18 @@ data_clean |>
 
 When you finish, provide:
 
-1. **Preprocessing Script** (`preprocess.R`)
-   - Runs end-to-end without manual intervention
-   - Prints validation summary
+1. **Scripts** in `preprocessing/code/` plus `preprocessing/main.R` — running `main.R` alone rebuilds everything end-to-end from `data/collected/`.
 
-2. **Cleaned Data** (`data_clean.RDS`)
-   - Saved in `artifacts_dir`
-   - Ready for downstream analysis
+2. **Raw data** in `data/raw/` — collected data restructured to the agreed tidy format (nothing excluded yet).
 
-3. **Processing Report**
-   - N before/after
-   - Variables transformed
-   - Rows removed and why
-   - Final data shape and types
+3. **Data-quality PDF** in `preprocessing/output/` — at minimum: aborted/no-response trials per subject, and an RT summary table with one row per subject.
+
+4. **Processed data** in `data/processed/` — after applying the user-defined trial/subject exclusions.
+
+5. **Manuscript paragraph** — a single "Data treatment" paragraph saved as `.md` in `preprocessing/output/`, following this style (**style example only — every criterion and cutoff in it must be replaced by the values the user defined; never reuse these numbers as defaults**):
+
+   > *Data treatment. During data preprocessing, we first examined the quality of the behavioral data. Poor quality was defined by having either (a) more than 20% excluded trials due to no response, implausibly fast or implausibly slow reaction times (RTs < 0.2 sec or > 4 sec), or (b) selecting the same response key in over 90% of trials within a block. Due to this examination, two participants from the ADHD group and one from the control group were excluded. Furthermore, due to a technical error, the data of one participant in the ADHD group was not submitted and the participant was therefore excluded. From the remaining behavioral observations we omitted trials with no response (<1% of all trials), and trials with implausibly quick reaction times (< 0.2 sec) or exceptionally slow reaction times (> 4 sec; <1% of all trials). This resulted in 8,717 trials for the ADHD group (198.11 mean trials per participant) and 8,661 trials for the control group (196.84 mean trials per participant).*
+
+   All numbers in the paragraph must be computed from the data, never hand-typed.
 
 **After completion, the Reviewer will review your work systematically.**

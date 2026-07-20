@@ -223,9 +223,12 @@ Before approving, ask:
    - Are there data quality decisions that should be noted?
 
 3. **Is the output in analysis-ready format?**
-   - `.RDS` file saved in `artifacts_dir`?
-   - File path printed so user can verify?
-   - Can downstream analysis code load it without modification?
+   - Data files saved in `data/raw/` and `data/processed/`; reports in `preprocessing/output/`?
+   - Does running `preprocessing/main.R` alone rebuild everything from `data/collected/`?
+   - Was `data/collected/` left untouched?
+   - Are all deliverables present: quality PDF, processed data, manuscript paragraph `.md` with computed (not hand-typed) numbers?
+   - Was every exclusion criterion (RT cutoffs, thresholds) explicitly given by the user, not invented by the architect?
+   - Can downstream analysis code load the processed data without modification?
 
 ---
 

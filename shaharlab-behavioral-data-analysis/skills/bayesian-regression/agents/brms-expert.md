@@ -36,5 +36,6 @@ Your job is to write the code, not to ask questions about the specification.
 3. Generate unnumbered scripts for each step in the approved plan
 4. Ensure all paths use `file.path()` and `project_root`
 5. Save artifacts and plots to appropriate folders
-6. Document analysis in summary.md with the exact prior specification
-7. Verify all outputs landed in `artifacts_dir` / `output_dir` and no paths were invented
+6. Generate a diagnostics script producing `diagnostic.pdf` (summary table, trankplot, pairs plot — see `references/02_diagnostics.md`), always, regardless of the approved plan
+7. Document analysis in summary.md with the exact prior specification
+8. Verify all outputs landed in `artifacts_dir` / `output_dir` and no paths were invented

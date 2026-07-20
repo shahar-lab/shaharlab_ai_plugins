@@ -41,10 +41,8 @@ MANDATORY RULES:
 6. Follow Shahar Lab coding conventions (base R pipe |>, minimal comments, descriptive names)
 
 Read these files for guidance:
-- references/sampling/sampling.md (if generating posterior samples)
-- references/prior_predictive_check/prior_predictive_check.md (if generating PPC)
-- references/posterior_predictive_check/posterior_predictive_check.md (if checking model fit)
-- references/diagnostics/diagnostics.md (if diagnostic plots needed)
+- references/01_sampling_and_priors.md (for priors and the model-fitting script)
+- references/02_diagnostics.md (mandatory — for the diagnostic.pdf script)
 ```
 
 ---
@@ -57,10 +55,12 @@ The sub-agent should generate:
 2. **Scripts** — Unnumbered R files in code/ folder:
    - Data loading or generation script
    - Model fitting script with user's priors
+   - Diagnostics script producing `diagnostic.pdf` (see `references/02_diagnostics.md`) — mandatory, not conditional on the plan
    - Posterior sampling/extraction script
    - Visualization scripts (as specified in the plan)
 3. **Documentation** — summary.md with analysis overview, prior spec, and outputs
 4. **Artifacts** — Saved models, posterior draws, and plots
+5. **Diagnostics** — `diagnostic.pdf` in `output_dir` with the summary table, trankplot, and pairs plot as separate pages
 
 ---
 
@@ -72,6 +72,7 @@ After the sub-agent completes, verify:
 - [ ] All scripts build paths with `file.path()` from the caller-defined directory variables
 - [ ] Scripts are unnumbered and focused (50-80 lines max each)
 - [ ] Artifacts saved to artifacts/; plots to output/
+- [ ] `diagnostic.pdf` generated in output/ with summary table, trankplot, and pairs plot as separate pages
 - [ ] summary.md documents the analysis with prior specification
 - [ ] Code follows Shahar Lab style (|> pipe, base R, minimal comments)
 

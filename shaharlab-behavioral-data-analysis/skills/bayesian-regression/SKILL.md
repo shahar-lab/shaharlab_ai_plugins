@@ -35,7 +35,7 @@ This file contains the exact sequence for:
 Once the user has approved formula, priors, and plan:
 1. Read: `workflow/EXPERT-INSTRUCTIONS.md`
 2. Invoke the sub-agent with the user's approved specifications
-3. Reference the examples in `references/` as needed
+3. Reference the examples in `references/` as needed, including `references/02_diagnostics.md` for the mandatory `diagnostic.pdf` script
 
 ## Assumptions (Standalone Skill)
 

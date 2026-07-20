@@ -54,7 +54,5 @@ If you find yourself writing code before the user has approved all three items, 
 ## Reference
 
 For sub-agent code patterns, also reference:
-- `references/sampling/sampling.md`
-- `references/prior_predictive_check/prior_predictive_check.md`
-- `references/posterior_predictive_check/posterior_predictive_check.md`
-- `references/diagnostics/diagnostics.md`
+- `references/01_sampling_and_priors.md`
+- `references/02_diagnostics.md` (mandatory `diagnostic.pdf` script)
