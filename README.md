@@ -6,7 +6,7 @@ Version-controlled Claude Code plugins for the Shahar Lab (Tel Aviv University).
 
 | Plugin | What it gives you |
 |---|---|
-| [`shaharlab-behavioral-data-analysis`](shaharlab-behavioral-data-analysis/) | Behavioral data analysis in R: brms Bayesian regression, data preprocessing, lab plotting standards, "one model, one folder" project scaffolding, R code walkthroughs, and the Malka / Sharon / Tomer orchestrator–architect–reviewer workflow. Lab rules are injected automatically at session start. |
+| [`shaharlab-behavioral-data-analysis`](shaharlab-behavioral-data-analysis/) | Behavioral data analysis in R: brms Bayesian regression, data preprocessing, lab plotting standards, "one model, one folder" project scaffolding, R code walkthroughs, and the Malka / Sharon / Tomer orchestrator–architect–reviewer workflow. Lab rules are read on demand by the agents, not injected into every session. |
 | [`shaharlab-jspsych`](shaharlab-jspsych/) | Online experiment development: jsPsych coding style, window/attention monitoring, experiment planning (blueprint workflow with Tzadok / Galit / Miri / Devorah / Dan / Ezra), and manuscript method-section excerpts (Baruch). |
 
 Each plugin's own README lists its skills and agents.
@@ -69,9 +69,11 @@ claude --plugin-dir path/to/shaharlab_ai_plugins/shaharlab-behavioral-data-analy
 
 - Tool permissions are **not** shipped by the plugins; manage them in your own
   project's `.claude/settings.json` (or via `/permissions`).
-- The behavioral-data-analysis plugin uses a `SessionStart` hook (**Node.js
-  required**) to inject the lab's project, coding, and path-enforcement rules
-  into every session.
+- Neither plugin ships hooks or slash commands — skills and agents are the only
+  entry points, so no Node.js is required and unrelated sessions stay free of
+  lab-specific context. The behavioral-data-analysis agents read the lab's
+  project and coding rules from `references/` on demand, only when a lab task is
+  actually in progress.
 
 ## Layout
 
@@ -83,8 +85,7 @@ shaharlab-behavioral-data-analysis/
 ├── README.md · CHANGELOG.md
 ├── skills/    bayesian-regression, code-walkthrough, data-preprocessing, plotting, project-scaffolding
 ├── agents/    malka-orchestrator, code-architect, code-reviewer
-├── context/   orchestrator, project-rules, coding-rules, path-enforcement, lab-linter
-└── hooks/     hooks.json + inject-context.js (SessionStart context injection)
+└── references/  project-rules, coding-rules (read on demand by the agents)
 
 shaharlab-jspsych/
 ├── .claude-plugin/plugin.json

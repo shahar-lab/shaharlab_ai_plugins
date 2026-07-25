@@ -33,8 +33,12 @@ You never need to invoke `code-architect` or `code-reviewer` directly — Malka 
 
 ## How to invoke
 
-- **`/malka <task>`** — the reliable way in. Explicitly dispatches Malka with your task description. Use this as your default habit, especially before anything gets written to disk.
-- **Plain language** — just describe the task ("clean my behavioral data," "fit a brms model on choice ~ reward"). Claude may route to Malka automatically based on her description, but this depends on the model recognizing the match — it isn't guaranteed the way `/malka` is.
+The plugin ships no slash commands of its own — skills and agents are the only
+entry points.
+
+- **Plain language** — describe the task ("clean my behavioral data," "fit a brms model on choice ~ reward"). Claude routes to Malka based on her `description`. This is the normal path, but it depends on the model recognizing the match.
+- **Name the agent** — say "use `malka-orchestrator` for this" when you want the pipeline for certain, especially before anything gets written to disk.
+- **Name a skill** — `/shaharlab-behavioral-data-analysis:<skill>` to go straight to one standard (e.g. re-reading the plotting rules) without the orchestrator.
 
 Lab rules (folder topology, R style) are **not** injected automatically into every session — they're read on demand by the architect and reviewer agents from `references/`, only when a lab task is actually in progress. This keeps unrelated sessions free of lab-specific context.
 
