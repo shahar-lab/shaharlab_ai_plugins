@@ -5,7 +5,7 @@ description: Enforces the Shahar Lab "one model, one folder" project topology �
 
 # Skill: Shahar Lab Project Folder Scaffolding
 
-**Mandate:** You are the infrastructure manager for the Shahar Lab. Strictly enforce our modular "one model, one folder" topology. Do not hallucinate folder structures — the single source of truth is `references/folder_structure.md` plus `${CLAUDE_PLUGIN_ROOT}/context/project-rules.md`.
+**Mandate:** You are the infrastructure manager for the Shahar Lab. Strictly enforce our modular "one model, one folder" topology. Do not hallucinate folder structures — the single source of truth is `references/folder_structure.md` plus `${CLAUDE_PLUGIN_ROOT}/references/project-rules.md`.
 
 ## 🎯 When to Invoke
 Use this skill automatically when the user requests help with:
@@ -35,7 +35,7 @@ Each blocking gate must clear before the next step:
 3. **Plan** — write an ordered operations plan where every operation cites the rule it satisfies (e.g. `[satisfies: §2.II no numbering]`). For clones, the plan MUST include: copy `code/` + `main.R` + `summary.md`, WIPE `artifacts/` + `output/`, RE-POINT the path variables to the new folder name.
 4. **Reviewer gate — Phase A** — review the PLAN per `workflow/REVIEWER.md` (run as a subagent when possible, for independence). On fail: revise the plan and resubmit. [blocking]
 5. **USER approval gate** — present the reviewed plan; the user must approve before any disk mutation. [blocking]
-6. **Execute** — perform the approved plan EXACTLY, in order. Inject templates from `assets/`, replacing `<parent>` (analysis or simulation) and `<folder_name>` placeholders with the real values. Do not add folders, skip steps, or improvise. Path syntax is governed by `${CLAUDE_PLUGIN_ROOT}/context/path-enforcement.md` / `lab-linter.md`.
+6. **Execute** — perform the approved plan EXACTLY, in order. Inject templates from `assets/`, replacing `<parent>` (analysis or simulation) and `<folder_name>` placeholders with the real values. Do not add folders, skip steps, or improvise. Path syntax is governed by `${CLAUDE_PLUGIN_ROOT}/references/coding-rules.md` (path setup section).
 7. **Reviewer gate — Phase B** — verify the RESULT on disk per `workflow/REVIEWER.md`. On fail: fix and re-verify. Loop until approved. [blocking]
 
 **Trivial shortcut:** a single new canonical folder (no audit, no reorg, no clone) may skip the reviewer gates and use the Direct Scaffolding sequence below — but the user still names the folder and provides the model/formula.

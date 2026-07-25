@@ -2,7 +2,7 @@
 
 **This is the scaffolding domain checklist used by the `code-reviewer` agent.** Your job is to verify TWICE — the plan (Phase A) and the executed result (Phase B) — against the lab topology, and emit a feedback block. You do NOT touch the disk. When possible, run this review as a separate subagent so the reviewer did not author what it reviews.
 
-> Do not restate the topology here. Verify against `${CLAUDE_PLUGIN_ROOT}/context/project-rules.md`, `references/folder_structure.md`, `references/new_folder.md`, `references/smart_clone.md`, and the path rules in `${CLAUDE_PLUGIN_ROOT}/context/path-enforcement.md` and `${CLAUDE_PLUGIN_ROOT}/context/lab-linter.md`. Cite, don't duplicate.
+> Do not restate the topology here. Verify against `${CLAUDE_PLUGIN_ROOT}/references/project-rules.md`, `references/folder_structure.md`, `references/new_folder.md`, `references/smart_clone.md`, and the path rules in `${CLAUDE_PLUGIN_ROOT}/references/coding-rules.md`. Cite, don't duplicate.
 
 ## Phase A: Review the PLAN (pre-execution gate)
 
@@ -28,7 +28,7 @@ Inspect the disk after execution:
 - [ ] No data duplication; no numbered scripts in `code/` (§2.I, §2.II)
 - [ ] `.stan` / mechanistic files only in `models/` (§2.III)
 - [ ] `summary.md` present with metadata (§3)
-- [ ] Hook-enforced path syntax held: `here::here()` + `file.path()` (`${CLAUDE_PLUGIN_ROOT}/context/path-enforcement.md`)
+- [ ] Path syntax correct: `here::here()` + `file.path()` (`${CLAUDE_PLUGIN_ROOT}/references/coding-rules.md`)
 
 **On pass:** approve — scaffolding is rule-compliant. **On fail:** send back for re-execution and loop.
 

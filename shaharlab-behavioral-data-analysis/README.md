@@ -25,16 +25,18 @@ task and Claude routes to the right one.
 
 Available as subagent types once the plugin is loaded:
 
-- **`malka-orchestrator`** — coordinates the analysis workflow.
-- **`code-architect`** — designs the analysis/code plan.
-- **`code-reviewer`** — reviews R code against lab standards.
+- **`malka-orchestrator`** — coordinates the analysis workflow: interviews you, briefs the architect, relays approval gates, dispatches the reviewer.
+- **`code-architect`** — designs the analysis/code plan, scaffolds the folder, writes the code.
+- **`code-reviewer`** — reviews the result against lab standards.
 
-## Session-start behavior
+You never need to invoke `code-architect` or `code-reviewer` directly — Malka dispatches them for you.
 
-This plugin uses a **`SessionStart` hook** (`hooks/inject-context.js`,
-**Node.js required**) that injects the lab's project rules, coding rules, and
-path-enforcement rules into every session automatically. No action needed — but
-Node must be on your `PATH`.
+## How to invoke
+
+- **`/malka <task>`** — the reliable way in. Explicitly dispatches Malka with your task description. Use this as your default habit, especially before anything gets written to disk.
+- **Plain language** — just describe the task ("clean my behavioral data," "fit a brms model on choice ~ reward"). Claude may route to Malka automatically based on her description, but this depends on the model recognizing the match — it isn't guaranteed the way `/malka` is.
+
+Lab rules (folder topology, R style) are **not** injected automatically into every session — they're read on demand by the architect and reviewer agents from `references/`, only when a lab task is actually in progress. This keeps unrelated sessions free of lab-specific context.
 
 ## What changed
 

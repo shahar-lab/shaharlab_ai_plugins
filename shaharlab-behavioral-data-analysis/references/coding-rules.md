@@ -104,3 +104,16 @@ Use only `#` for smaller subtitles:
 - Do NOT load libraries (they are loaded in main.R)
 - Start directly with a functional header (e.g., `#### CREATE EXAMPLE DATA ####`, `#### LOAD MODEL ####`)
 - Inherit paths and libraries from the parent environment when sourced from main.R
+
+## Using paths in sourced scripts (see project-rules.md §4 for the full path-setup contract)
+
+In sourced scripts under `code/`:
+* Load data via the `data_path` variable passed from `main.R`.
+* Save derived objects to `artifacts_dir` (e.g. `file.path(artifacts_dir, "fit.rds")`).
+* Save plots/tables to `output_dir` (e.g. `file.path(output_dir, "plot.png")`).
+
+## Calling external tools (Python, shell)
+
+When a script calls out via `system2()` or similar:
+* Escape any path that may contain spaces with `shQuote()`.
+* Pass absolute paths to the external process, e.g. `system2("python", args = c(script_path, shQuote(data_path), shQuote(output_dir)))`.
