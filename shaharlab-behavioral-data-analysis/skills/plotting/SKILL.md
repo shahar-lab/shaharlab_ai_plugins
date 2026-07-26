@@ -3,32 +3,20 @@ name: plotting
 description: Shahar Lab plotting standards for R/ggplot2 — routes each plot request to the correct reference (plot types, colors, panel tagging, export). Use whenever creating or revising any figure or plot for the lab.
 ---
 
-# plotting Skill: Routing & Decisions
+# Skill: Shahar Lab Plotting
 
-This file answers: "Which reference should I read for this plot request?"
+This file is the only routing table for plotting: it answers "which plot type is this, and which files do I read?" Each file below owns its rules outright — this file cites them and never restates their values.
 
-**Reading order matters. Follow this flow.**
+The skill has two folders, and the split is the fastest way to find a rule:
 
----
+- **`standards/`** — rules that apply to **every** plot, whatever its type: color, export, panel tagging.
+- **`plot-types/`** — one folder per plot type, holding only that type's own rules plus a runnable example.
 
-## STEP 1: Identify the Plot Type
+**Rule values live in exactly one file.** Runnable code examples may of course show a rule in use (an example has to be complete), but if you need to know what the lab's export width or tag style *is*, there is exactly one file to read for it. Do not copy values between files.
 
-What did the user ask for?
+## Assumptions (check before writing any code)
 
-Refer to `references/PLOT_TYPES.md` for the decision tree, or use these keywords:
-
-| Request | Plot Type | Read Next |
-|---------|-----------|-----------|
-| "Plot the posterior" / "Show credible intervals" / "Effect estimate" | posterior | `references/plot-posterior/instructions.md` |
-| "Scatter plot" / "x vs y" / "parameter recovery" | scatter | `references/plot-scatter/instructions.md` |
-| Multiple plots assembled together | multi-panel | `references/EXPORT_STANDARD.md` + `references/PANEL_TAGGING_STANDARD.md` |
-| "Use colors" / "colorblind palette" | color rules | `references/COLOR_STANDARD.md` |
-
----
-
-## STEP 2: Check the Assumptions
-
-This skill is standalone: it knows plotting code, nothing about projects or folders. It assumes the caller provides:
+This skill is standalone: it knows plotting code, nothing about projects or folders. It assumes the caller has provided:
 
 - A variable `output_dir` (an existing directory) — all `ggsave()` calls target `file.path(output_dir, ...)`
 - Libraries loaded: `ggplot2`, `ggdist`, `patchwork`, `tidyverse`
@@ -36,88 +24,48 @@ This skill is standalone: it knows plotting code, nothing about projects or fold
 
 If any assumption is unmet, stop and tell the caller what is missing. Do not create directories, load libraries, or invent paths.
 
----
+## Routing
 
-## STEP 3: Read Plot-Type Specific Rules
+| User asks for | Plot type | Color | Panel tags | Read |
+|---|---|---|---|---|
+| "plot the posterior" / "credible interval" / "effect estimate" / "Bayesian estimate" | posterior (single) | optional — gray80 default | none | `plot-types/plot-posterior/instructions.md` + `example.R` |
+| the same, for two or more distributions | posterior (multi) | **required** | none | `plot-types/plot-posterior/instructions.md` + `example.R` |
+| "scatter" / "x vs y" / "correlation" / "parameter recovery" / "observed vs predicted" | scatter | **required** | none | `plot-types/plot-scatter/instructions.md` + `example.R` |
+| "multiple panels" / "composite" / "combine plots" | multi-panel composite | inherited from panels | **required** | `standards/PANEL_TAGGING_STANDARD.md` |
 
-### If posterior:
-**Read:** `references/plot-posterior/instructions.md`
-- Understand layout (wide, short, clean)
-- Understand axes (x = parameter, no y-axis)
-- Understand slab + interval separation
-- Understand theme (no gridlines, minimal)
-- Use the example in `references/plot-posterior/example.R` as your template
+Everything in `standards/` applies to every row above.
 
-### If scatter:
-**Read:** `references/plot-scatter/instructions.md`
-- Understand equal axes requirement (coord_equal)
-- Understand shared limits (both x and y from same range)
-- Understand required layers (points + trend line + diagonal reference + Pearson r annotation)
-- Understand theme
-- Use the example in `references/plot-scatter/example.R` as your template
+## Procedure
 
----
+1. **Identify the plot type** from the routing table.
+2. **Verify the assumptions** above. Stop if any is unmet.
+3. **Read the plot type's `instructions.md`** in `plot-types/` and use its `example.R` as your template.
+4. **Read `standards/COLOR_STANDARD.md`** if the plot uses color — it owns the "when is color required" rule and every approved palette.
+5. **Read `standards/PANEL_TAGGING_STANDARD.md`** if the figure has 2+ panels — it owns the tagging rule, the tag style, and the assembly library.
+6. **Write the code**, then export and verify per `standards/EXPORT_STANDARD.md` — it owns the canvas defaults, the dual-format rule, file naming, and the post-export checklist.
 
-## STEP 4: Read Structural Rules (Apply to ALL Plots)
+## Mandatory rules (never override)
 
-**Read (in parallel):**
-- `CONFIG.md` — export defaults (width, height, dpi, format)
-- `references/PANEL_TAGGING_STANDARD.md` — if your figure has 2+ panels
-- `references/COLOR_STANDARD.md` — if your plot uses color
+Each rule below is defined in the file cited; read that file for the actual values.
 
----
+1. **Dual export** — always PDF + PNG → `standards/EXPORT_STANDARD.md`
+2. **Canvas defaults** — width, height, DPI, background → `standards/EXPORT_STANDARD.md`
+3. **Panel tagging** — required if 2+ panels, in the mandated style → `standards/PANEL_TAGGING_STANDARD.md`
+4. **Assembly library** — patchwork only → `standards/PANEL_TAGGING_STANDARD.md`
+5. **Colorblind-safe palettes only** → `standards/COLOR_STANDARD.md`
+6. **Theme** — `theme_minimal(base_size = 13)` with no gridlines (`panel.grid = element_blank()`). This skill is the home for the two global theme rules; the per-type instructions apply them and may show them in examples.
+7. **`output_dir` is mandatory** — every file saves there, never anywhere else (see Assumptions).
+8. **No titles, subtitles, or captions** unless the user explicitly asks for one.
 
-## STEP 5: Write Your Code
+## What this skill does NOT cover
 
-Use the plot-type example as your template. Apply color rules if needed. Prepare for dual export (PDF + PNG).
-
----
-
-## STEP 6: Export & Verify
-
-**Read:** `references/EXPORT_STANDARD.md`
-
-- Save both .pdf and .png
-- Use `file.path(output_dir, ...)` for all ggsave() calls
-- Apply default width/height unless user requests otherwise
-- Verify both files exist in output_dir/
-
----
-
-## What This Skill Does NOT Cover
-
-- **Folder structure & paths** — the caller defines `output_dir` (see STEP 2)
+- **Folder structure & paths** — the caller defines `output_dir` (see Assumptions)
 - **Library loading** — the caller loads libraries before plot code runs
 - **Data preparation** — assume data is ready and in scope
 - **Directory creation** — never create `output_dir` yourself; it must already exist
 
----
+## Adding a new plot type
 
-## Quick Reference
+Create `plot-types/plot-<name>/` containing `instructions.md` (prose rules only, no YAML frontmatter — these are reference files, not skills) and a runnable `example.R`, then add one row to the routing table above. Do not add a second routing table anywhere.
 
-| Task | Read This |
-|------|-----------|
-| How do I plot a posterior? | `references/plot-posterior/instructions.md` |
-| How do I plot a scatter? | `references/plot-scatter/instructions.md` |
-| What colors should I use? | `references/COLOR_STANDARD.md` |
-| How do I tag multi-panel figures? | `references/PANEL_TAGGING_STANDARD.md` |
-| What are the export defaults? | `references/EXPORT_STANDARD.md` |
-| What must be true in my parent script? | SKILL.md STEP 2 (assumptions) |
-| What are the non-negotiable rules? | `CONFIG.md` |
-| Which plot type should I use? | `references/PLOT_TYPES.md` |
-
----
-
-## Example Workflow: Plot Multiple Posteriors
-
-1. User: "Plot the posteriors for Group A and Group B side-by-side"
-2. Agent reads SKILL.md: "posterior plot, but TWO distributions → need colors"
-3. Agent checks STEP 2 assumptions: ✓ output_dir, libraries, draws in scope
-4. Agent reads `references/plot-posterior/instructions.md`: "Multiple posteriors rule: use colors, alpha = 0.50, legend required"
-5. Agent reads `references/COLOR_STANDARD.md`: Choose Okabe-Ito palette
-6. Agent reads `references/EXPORT_STANDARD.md`: "Both PDF and PNG, width = 10, height = 8, dpi = 300"
-7. Agent writes code using example.R as template + color rules
-8. Agent exports: `ggsave(..., .pdf)` and `ggsave(..., .png)`
-9. Agent verifies both files exist in output_dir/
-
-Done.
+A rule that would apply to *every* plot type does not belong in `plot-types/` — put it in the matching `standards/` file, or add a new one and cite it from the mandatory-rules list.

@@ -65,14 +65,14 @@ library(ggdist)
 library(bayesplot)
 ```
 
-## Mandatory Plotting Rule: `/plot-posterior` for Posteriors
+## Mandatory Plotting Rule: `plotting` skill for Posteriors
 
 **For all posterior distribution plots (parameter summaries, credible intervals, etc.):**
-- You MUST use the `/plot-posterior` skill from plotting
+- You MUST use the `plotting` skill, following `skills/plotting/plot-types/plot-posterior/instructions.md`
 - Do NOT write raw ggplot code for posterior visualization
 - This applies to all brms model parameter plots, MCMC diagnostics, and posterior summaries
 
-The skill handles all posterior-related visualizations. Direct users to the skill when they need posterior plots.
+The `plotting` skill handles all posterior-related visualizations.
 
 ## how to use headers in R
 

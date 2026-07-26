@@ -8,6 +8,8 @@ description: >-
 compatibility: None
 ---
 
+**Never run this skill as a subagent.** Every step below is a user-facing STOP/wait gate (Step B.5, Step D.12) — a subagent has no user to wait on. This skill only ever runs in the main conversation thread.
+
 ## References
 
 | Stage | Reference | Purpose |

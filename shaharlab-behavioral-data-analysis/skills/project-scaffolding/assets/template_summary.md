@@ -12,4 +12,4 @@
 
 ## 3. Findings / Summary
 * (Leave this section blank until the model is completely fitted and evaluated).
-* Posterior plots are produced via the `/plot-posterior` skill (plotting).
+* Posterior plots are produced via the `plotting` skill's posterior routing.

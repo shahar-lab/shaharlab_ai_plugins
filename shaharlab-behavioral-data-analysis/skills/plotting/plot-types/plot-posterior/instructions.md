@@ -1,21 +1,10 @@
----
-name: posterior-plot
-description: Plot, visualize, or display a posterior distribution, Bayesian estimate, credible interval, or multiple posteriors together using ggdist in R. Triggered whenever the user asks to plot or show a posterior, Bayesian result, or credible interval.
-user-invocable: true
-allowed-tools: Read Write Bash
-argument-hint: [description of posterior or variable name]
----
+# Posterior Plot Instructions
 
-## Before Using This Skill: Mandatory Reading
-
-1. **Read SKILL.md** to confirm this is the right plot type
-2. **Check the SKILL.md STEP 2 assumptions** (output_dir, libraries, data in scope)
-3. **Read CONFIG.md** for canvas defaults (width = 10, height = 8, theme_minimal(base_size = 13))
-4. **Read EXPORT_STANDARD.md** for dual-format export rules (PDF + PNG, dpi = 300)
-5. **Read COLOR_STANDARD.md** if color is requested (see section "Structural Rule: When Color is Required")
-6. **See example.R** in this folder for a complete, runnable single posterior example
-
----
+Reached from the `plotting` skill's routing table. This is a reference file, not a
+separately invocable skill — the skill's `SKILL.md` owns the procedure, the
+assumptions to check, and the global theme and export rules. This file owns only
+the rules specific to posterior plots. See `example.R` in this folder for a
+complete, runnable single-posterior example.
 
 ## Posterior Distribution Plotting Rules
 
@@ -174,7 +163,7 @@ The slab fill **must never vary** by CI width. The alpha/opacity trick (`aes(alp
 
 - Use `stat_slab()` for the shape with **uniform light gray fill** (`fill = "gray80"`) — no alpha mapping on the slab.
 - Use `stat_pointinterval(.width = c(0.80, 0.90))` separately for the CI lines and median point.
-- Only use color if the user explicitly asks for it. If color is requested, follow the **color skill** for palette choices.
+- Only use color if the user explicitly asks for it. If color is requested, follow `../../standards/COLOR_STANDARD.md` for palette choices.
 - Always add a **thin light dashed vertical line at the median** (thinner and lighter than the zero reference line):
   ```r
   geom_vline(xintercept = median(draws), linetype = "dashed", colour = "grey65", linewidth = 0.4)
@@ -188,7 +177,7 @@ The slab fill **must never vary** by CI width. The alpha/opacity trick (`aes(alp
 - Plot **all distributions at the same y = 0** so they share a single horizontal axis — never stack them by group on the y-axis.
 - Use `stat_slab()` for the shape with **uniform fill per group** (`alpha ≈ 0.50` for overlap visibility) — no CI banding on the slab.
 - Use `stat_pointinterval(.width = c(0.80, 0.90))` separately per group for the CI lines and median point.
-- Use **different colors per distribution** — follow the **color skill** for palette selection.
+- Use **different colors per distribution** — follow `../../standards/COLOR_STANDARD.md` for palette selection.
 - Always include a **legend** identifying each distribution.
 - All other rules still apply: no gridlines, no y-axis, dashed zero line, wide/short shape.
 
@@ -196,7 +185,7 @@ The slab fill **must never vary** by CI width. The alpha/opacity trick (`aes(alp
 
 ### Color Dependency
 
-When the user requests color (single distribution) or whenever multiple distributions are plotted, refer to **COLOR_STANDARD.md** for palette and color choices. See the section "Structural Rule: When Color is Required" to determine if color is mandatory (it is for multiple posteriors).
+When the user requests color (single distribution) or whenever multiple distributions are plotted, refer to `../../standards/COLOR_STANDARD.md` for palette and color choices. See its section "Structural Rule: When Color is Required" to determine if color is mandatory (it is for multiple posteriors).
 
 ---
 
@@ -261,7 +250,7 @@ df <- bind_rows(
   data.frame(theta = rnorm(4000, -0.20, 0.60), group = "Group B")
 )
 
-# Use color skill for palette; example uses accessible two-color pair:
+# Palette per ../../standards/COLOR_STANDARD.md; example uses an accessible two-color pair:
 pal <- c("Group A" = "#4477AA", "Group B" = "#EE6677")
 
 ggplot(df, aes(x = theta, y = 0, fill = group, colour = group)) +

@@ -51,12 +51,13 @@ following, read its reference first and follow its coding rules exactly:**
 
 | Working on | Read first |
 |---|---|
-| `index.html` — creation or regeneration, Pavlovia integration, script load order | [references/index-html.md](references/index-html.md) |
-| `local_dev.js` — the `PAVLOVIA_PLUGIN_ACTIVATE` flag and `CONFIG_LOCAL_DEV` test-run overrides | [references/local-dev-js.md](references/local-dev-js.md) |
-| `js/config.js` — settings, timing, prompts, labels, item pools, attention checks, completion codes | [references/config-js.md](references/config-js.md) |
-| `js/setup.js` — session identifiers, data stamping, Pavlovia init/finish nodes, local CSV fallback | [references/setup-js.md](references/setup-js.md) |
-| Instruction, consent, or multi-page informational screens | [references/instructions.md](references/instructions.md) |
-| Phase scripts, trial procedures, repeating timeline blocks | [references/timeline-blocks.md](references/timeline-blocks.md) |
+| `index.html` — creation or regeneration, Pavlovia integration, script load order | [references/general/index-html.md](references/general/index-html.md) |
+| `local_dev.js` — the `PAVLOVIA_PLUGIN_ACTIVATE` flag and `CONFIG_LOCAL_DEV` test-run overrides | [references/general/local-dev-js.md](references/general/local-dev-js.md) |
+| `js/config.js` — settings, timing, prompts, labels, item pools, attention checks, completion codes | [references/general/config-js.md](references/general/config-js.md) |
+| `js/setup.js` — session identifiers, data stamping, Pavlovia init/finish nodes, local CSV fallback | [references/general/setup-js.md](references/general/setup-js.md) |
+| Instruction, consent, or multi-page informational screens | [references/components/instructions.md](references/components/instructions.md) |
+| Phase scripts, trial procedures, repeating timeline blocks | [references/components/timeline-blocks.md](references/components/timeline-blocks.md) |
+| Page-by-page Likert scale component | [references/components/likert.md](references/components/likert.md) |
 
 A change that spans several parts (e.g. a new phase that adds config keys and a script tag)
 requires each matching reference.

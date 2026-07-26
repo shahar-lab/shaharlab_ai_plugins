@@ -51,13 +51,13 @@ code_dir      <- file.path(project_root, "<parent>", "<folder_name>", "code")
 
 **Why:** This contract ensures cloud runners, validation scripts, and future AI agents can locate and archive outputs consistently, and guarantees analyses run identically across machines.
 
-## 5. Visualization Mandate: `/plot-posterior` Skill
-All parameter summary plots (posterior distributions, credible intervals, parameter estimates) **must** use the `/plot-posterior` skill from the **plotting** tool capsule. This ensures:
+## 5. Visualization Mandate: the `plotting` skill's posterior instructions
+All parameter summary plots (posterior distributions, credible intervals, parameter estimates) **must** follow `${CLAUDE_PLUGIN_ROOT}/skills/plotting/plot-types/plot-posterior/instructions.md` (reached via the `plotting` skill's routing in its `SKILL.md`). This ensures:
 - Consistent, publication-ready visualization across all analyses
 - Centralized styling and aesthetic management
 - Reproducible plot generation with audit trails
 
-**No raw ggplot code for posteriors.** The skill handles all posterior visualization. See `${CLAUDE_PLUGIN_ROOT}/skills/plotting/` for implementation details.
+**No raw ggplot code for posteriors.** The `plotting` skill handles all posterior visualization.
 
 ## 6. Operational Mandate
 AI agents must prioritize brevity and modularity. If a script exceeds 80 lines, the agent must proactively suggest splitting it into smaller, focused modules orchestrated by `main.R`.

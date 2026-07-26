@@ -35,5 +35,5 @@ output_dir    <- file.path(project_root, "<parent>", "<folder_name>", "output")
 # source(file.path(code_dir, "check_ppc.R"))
 
 # 4. Plotting (Saves to output/)
-# Posterior plots must use the /plot-posterior skill (shaharlab_plotting), not raw ggplot.
+# Posterior plots must use the plotting skill's posterior routing, not raw ggplot.
 # source(file.path(code_dir, "plot_posteriors.R"))

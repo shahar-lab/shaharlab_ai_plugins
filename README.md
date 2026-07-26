@@ -23,9 +23,10 @@ type.
 /plugin install shaharlab-jspsych@shaharlab
 ```
 
-Then just use the skills — e.g. `/shaharlab-behavioral-data-analysis:plotting`
-or `/shaharlab-jspsych:experiment-plan`. Agents (Malka, Tzadok, Dan, …) become
-available as subagent types.
+Then just use the skills — e.g. `/shaharlab-behavioral-data-analysis:malka`
+or `/shaharlab-jspsych:experiment-plan`. Agents (Sharon, Tomer, Tzadok, Dan, …)
+become available as subagent types, dispatched by the skills rather than
+invoked directly.
 
 To **update** later:
 
@@ -83,8 +84,8 @@ claude --plugin-dir path/to/shaharlab_ai_plugins/shaharlab-behavioral-data-analy
 shaharlab-behavioral-data-analysis/
 ├── .claude-plugin/plugin.json
 ├── README.md · CHANGELOG.md
-├── skills/    bayesian-regression, code-walkthrough, data-preprocessing, plotting, project-scaffolding
-├── agents/    malka-orchestrator, code-architect, code-reviewer
+├── skills/    malka, bayesian-regression, code-walkthrough, data-preprocessing, plotting, project-scaffolding
+├── agents/    code-architect, brms-expert, code-reviewer
 └── references/  project-rules, coding-rules (read on demand by the agents)
 
 shaharlab-jspsych/

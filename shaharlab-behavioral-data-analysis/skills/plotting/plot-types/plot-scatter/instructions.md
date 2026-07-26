@@ -1,25 +1,14 @@
----
-name: plot-scatter
-description: Create or review scatter plots in R using ggplot2. Use whenever the user asks for a scatter plot, correlation plot, x-y plot, observed-vs-predicted plot, parameter recovery scatter, or any point plot comparing two numeric variables. Always apply COLOR_STANDARD.md for color choices.
-user-invocable: true
-allowed-tools: Read Write Bash
-argument-hint: [x variable, y variable, and data frame]
----
+# Scatter Plot Instructions
 
-## Before Using This Skill: Mandatory Reading
-
-1. **Read SKILL.md** to confirm this is the right plot type
-2. **Check the SKILL.md STEP 2 assumptions** (output_dir, libraries, data in scope)
-3. **Read CONFIG.md** for canvas defaults (width = 10, height = 8, theme_minimal(base_size = 13))
-4. **Read EXPORT_STANDARD.md** for dual-format export rules (PDF + PNG, dpi = 300)
-5. **Read COLOR_STANDARD.md** for color choices (scatter plots require colors per the structural rule)
-6. **See example.R** in this folder for a complete, runnable scatter plot example
-
----
+Reached from the `plotting` skill's routing table. This is a reference file, not a
+separately invocable skill — the skill's `SKILL.md` owns the procedure, the
+assumptions to check, and the global theme and export rules. This file owns only
+the rules specific to scatter plots. See `example.R` in this folder for a
+complete, runnable example.
 
 ## Purpose
 
-Use this skill whenever creating or reviewing a scatter plot in R. Scatter plots must be made with **ggplot2**, and any color choices must follow **COLOR_STANDARD.md** so the plot remains colorblind-safe and avoids strong pure hues.
+Follow these rules whenever creating or reviewing a scatter plot in R. Scatter plots must be made with **ggplot2**, and any color choices must follow `../../standards/COLOR_STANDARD.md` so the plot remains colorblind-safe and avoids strong pure hues.
 
 ## Required Data Check
 
@@ -51,7 +40,7 @@ Use a clean ggplot2 theme such as `theme_minimal(base_size = 13)`. Remove unnece
 
 ## Color Dependency
 
-Scatter plots **always** require color (see COLOR_STANDARD.md for the structural rule). Apply **COLOR_STANDARD.md** for palette and color choices. Prefer colorblind-safe palettes such as Okabe-Ito, Paul Tol, or viridis depending on whether the color mapping is categorical or continuous.
+Scatter plots **always** require color. Apply `../../standards/COLOR_STANDARD.md` for the structural rule and for palette and color choices. Prefer colorblind-safe palettes such as Okabe-Ito, Paul Tol, or viridis depending on whether the color mapping is categorical or continuous.
 
 ## R Template
 

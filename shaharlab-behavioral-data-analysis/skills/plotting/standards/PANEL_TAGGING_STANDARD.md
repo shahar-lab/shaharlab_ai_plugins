@@ -1,5 +1,11 @@
 # Panel Tagging Standard for Multi-Panel Figures
 
+This file owns two rules for the lab: how multi-panel figures are **assembled**, and how their panels are **tagged**.
+
+## Assembly Library
+
+**Use `patchwork` only.** Never `gridExtra`, never `cowplot`. All composite figures are assembled with patchwork's `|` and `/` operators, which is also what makes the tagging below work.
+
 ## When to Apply Panel Tags
 
 **Rule:** If and ONLY if a figure has 2 or more panels.

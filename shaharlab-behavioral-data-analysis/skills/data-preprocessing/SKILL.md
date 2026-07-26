@@ -16,6 +16,8 @@ Use this skill automatically when the user requests help with:
 
 ## Folder Structure (fixed)
 
+Matches `${CLAUDE_PLUGIN_ROOT}/skills/project-scaffolding/references/folder_structure.md` (the single source of truth for lab topology):
+
 ```
 preprocessing/          # data cleaning scripts
 ├── code/               # unnumbered R scripts (one job per script)

@@ -11,6 +11,7 @@ Project_Root/
 │
 ├── preprocessing/               (code that builds raw/ and processed/ from collected/)
 │   ├── code/                    (unnumbered R scripts)
+│   ├── output/                  (data-quality PDF, manuscript-ready exclusions paragraph)
 │   └── main.R                   (main execution orchestrator script)
 │
 ├── models/                      (reusable computational/statistical model definitions)
