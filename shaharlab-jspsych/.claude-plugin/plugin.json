@@ -1,6 +1,6 @@
 {
   "name": "shaharlab-jspsych",
-  "description": "Shahar Lab online experiment toolkit: jsPsych coding style, window monitoring, experiment planning workflow, and manuscript methods excerpts.",
+  "description": "Shahar Lab online experiment toolkit: the lab-online-exp-orchestrator interview/blueprint/dispatch workflow, jsPsych coding style (incl. Likert and window monitoring), and manuscript methods excerpts.",
   "version": "1.0.0",
   "author": { "name": "Shahar Lab, Tel Aviv University" }
 }

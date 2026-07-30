@@ -6,8 +6,8 @@ Version-controlled Claude Code plugins for the Shahar Lab (Tel Aviv University).
 
 | Plugin | What it gives you |
 |---|---|
-| [`shaharlab-behavioral-data-analysis`](shaharlab-behavioral-data-analysis/) | Behavioral data analysis in R: brms Bayesian regression, data preprocessing, lab plotting standards, "one model, one folder" project scaffolding, R code walkthroughs, and the Malka / Sharon / Tomer orchestrator–architect–reviewer workflow. Lab rules are read on demand by the agents, not injected into every session. |
-| [`shaharlab-jspsych`](shaharlab-jspsych/) | Online experiment development: jsPsych coding style, window/attention monitoring, experiment planning (blueprint workflow with Tzadok / Galit / Miri / Devorah / Dan / Ezra), and manuscript method-section excerpts (Baruch). |
+| [`shaharlab-behavioral-data-analysis`](shaharlab-behavioral-data-analysis/) | Behavioral data analysis in R: brms Bayesian regression, data preprocessing, lab visualization standards, "one model, one folder" project scaffolding, R code walkthroughs, and the Malka orchestrator workflow that directs `code-writer` and `code-reviewer` over an indexed `coding-knowledge/` tree. Lab rules are read on demand by the agents, not injected into every session. |
+| [`shaharlab-jspsych`](shaharlab-jspsych/) | Online experiment development: the `lab-online-exp-orchestrator` interview/blueprint/dispatch workflow, jsPsych coding style (incl. Likert scales and window/attention monitoring), and manuscript method-section excerpts — built and reviewed by its own `code-architect` / `code-reviewer` pair. |
 
 Each plugin's own README lists its skills and agents.
 
@@ -24,9 +24,10 @@ type.
 ```
 
 Then just use the skills — e.g. `/shaharlab-behavioral-data-analysis:malka`
-or `/shaharlab-jspsych:experiment-plan`. Agents (Sharon, Tomer, Tzadok, Dan, …)
-become available as subagent types, dispatched by the skills rather than
-invoked directly.
+or `/shaharlab-jspsych:lab-online-exp-orchestrator`. Each plugin's agents
+(`code-writer` / `code-reviewer` for data analysis, `code-architect` /
+`code-reviewer` for jsPsych) become available as subagent types, dispatched by
+the skills rather than invoked directly.
 
 To **update** later:
 
@@ -73,8 +74,8 @@ claude --plugin-dir path/to/shaharlab_ai_plugins/shaharlab-behavioral-data-analy
 - Neither plugin ships hooks or slash commands — skills and agents are the only
   entry points, so no Node.js is required and unrelated sessions stay free of
   lab-specific context. The behavioral-data-analysis agents read the lab's
-  project and coding rules from `references/` on demand, only when a lab task is
-  actually in progress.
+  project and coding rules from `coding-knowledge/00-constitution/` on demand,
+  only when a lab task is actually in progress.
 
 ## Layout
 
@@ -84,16 +85,17 @@ claude --plugin-dir path/to/shaharlab_ai_plugins/shaharlab-behavioral-data-analy
 shaharlab-behavioral-data-analysis/
 ├── .claude-plugin/plugin.json
 ├── README.md · CHANGELOG.md
-├── skills/    malka, bayesian-regression, code-walkthrough, data-preprocessing, plotting, project-scaffolding
-├── agents/    code-architect, brms-expert, code-reviewer
-└── references/  project-rules, coding-rules (read on demand by the agents)
+├── skills/    malka (the orchestrator), code-walkthrough
+├── coding-knowledge/  00-constitution, 01-scaffolding, 02-preprocessing,
+│                      03-visualization, 04-bayesian-regression
+│                      (not skills — indexed by malka, read by the agents)
+└── agents/    code-writer, code-reviewer
 
 shaharlab-jspsych/
 ├── .claude-plugin/plugin.json
 ├── README.md · CHANGELOG.md
-├── skills/    jspsych-coding-style, jspsych-window-monitoring, experiment-plan, manuscript-excerpt
-└── agents/    tzadok, planning-interviewer-galit, planning-architect-miri, planning-reviewer-devorah,
-               jspsych-architect-dan, jspsych-reviewer-ezra, manuscript-editor-baruch
+├── skills/    lab-online-exp-orchestrator, jspsych-coding-style, manuscript-excerpt
+└── agents/    code-architect, code-reviewer
 ```
 
 Licensed under [MIT](LICENSE).

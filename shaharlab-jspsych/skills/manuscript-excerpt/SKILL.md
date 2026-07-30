@@ -1,12 +1,12 @@
 ---
 name: manuscript-excerpt
-description: Generates a publication-ready method paragraph (dense narrative prose, not sections/tables) from a completed jsPsych experiment. Drives Baruch (manuscript-editor-baruch). Use when the experiment is finalized and the researcher is ready to write up.
+description: Generates a publication-ready method paragraph (dense narrative prose, not sections/tables) from a completed jsPsych experiment. Executed by code-architect via lab-online-exp-orchestrator. Use when the experiment is finalized and the researcher is ready to write up.
 ---
 
 # Skill: Shahar Lab Online Experiment Manuscript Excerpt
 
 ## When to use
-Invoke via `/manuscript-excerpt` when the researcher wants the task procedure written up for a manuscript. This drives Baruch (`manuscript-editor-baruch`).
+Invoke via `lab-online-exp-orchestrator` when the researcher wants the task procedure written up for a manuscript; it dispatches `code-architect` to execute this skill.
 
 ## The output is a paragraph, not a report
 
@@ -28,7 +28,7 @@ The deliverable is **one dense narrative paragraph** (or a short run of paragrap
 
 ## Process
 
-1. **Read the project.** Baruch reads the plan (`ai_artifacts/plan/EXPERIMENT_BLUEPRINT.md`, `ai_artifacts/plan/artifacts/SPECIFICATION.md`), instructions, and task code — enough to know the cover story, trial sequence, timing constants, response device, what's randomized/counterbalanced, and how comprehension is checked. See his agent definition for the full read list.
+1. **Read the project.** Read the plan (`ai_artifacts/plan/EXPERIMENT_BLUEPRINT.md`, `ai_artifacts/plan/artifacts/SPECIFICATION.md`), instructions, and task code — enough to know the cover story, trial sequence, timing constants, response device, what's randomized/counterbalanced, and how comprehension is checked. See `code-architect.md`'s `manuscript-excerpt` stage for the full read list.
 2. **Write the paragraph(s).** Only from what's actually in the code/spec — no invented numbers, no invented cover story details. Match the register and density of the examples above: specific numbers inline, mechanism explained (what's randomized, what predicts outcome, what's irrelevant and why the participant is told so), no meta-commentary.
 3. **Flag gaps inline**, don't guess: `[CONFIRM WITH RESEARCHER: fixation duration is 500ms in one file and 1000ms in another — which is current?]`
 4. **Save the output** to `ai_artifacts/manuscript-excerpt/method_excerpt.md`. Create the folder if missing. Never modify any other project file.

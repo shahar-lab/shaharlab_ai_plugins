@@ -8,5 +8,8 @@ desktop.ini
 # Claude Code local state (do not ship per-user settings)
 .claude/settings.local.json
 
+# Local dev-only instructions for working on this repo (not part of either plugin)
+.claude/CLAUDE.md
+
 # Node (only the hook uses node; no deps are committed)
 node_modules/

@@ -11,12 +11,12 @@
     {
       "name": "shaharlab-behavioral-data-analysis",
       "source": "./shaharlab-behavioral-data-analysis",
-      "description": "Behavioral data analysis in R: brms Bayesian regression, data preprocessing, lab plotting standards, 'one model, one folder' project scaffolding, R code walkthroughs, and the Malka/Sharon/Tomer orchestrator-architect-reviewer workflow. Invoke a skill directly or just describe the task."
+      "description": "Behavioral data analysis in R: brms Bayesian regression, data preprocessing, lab visualization standards, 'one model, one folder' project scaffolding, R code walkthroughs, and the Malka orchestrator workflow that directs the code-writer and code-reviewer subagents over an indexed coding-knowledge tree. Invoke Malka directly or just describe the task."
     },
     {
       "name": "shaharlab-jspsych",
       "source": "./shaharlab-jspsych",
-      "description": "Online experiment development: jsPsych coding style, window/attention monitoring, experiment planning (blueprint workflow with Tzadok / Galit / Miri / Devorah / Dan / Ezra), and manuscript method-section excerpts (Baruch)."
+      "description": "Online experiment development: the lab-online-exp-orchestrator interview/blueprint/dispatch workflow, jsPsych coding style (incl. Likert scales and window/attention monitoring), and manuscript method-section excerpts, built and reviewed by code-architect/code-reviewer."
     }
   ]
 }

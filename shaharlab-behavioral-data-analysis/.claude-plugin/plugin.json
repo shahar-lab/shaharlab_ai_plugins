@@ -1,6 +1,6 @@
 {
   "name": "shaharlab-behavioral-data-analysis",
-  "description": "Shahar Lab behavioral data analysis toolkit: R/brms Bayesian regression, data preprocessing, plotting standards, project folder scaffolding, and the Malka/Sharon/Tomer orchestrator workflow. Invoke a skill directly or just describe the task.",
-  "version": "1.0.0",
+  "description": "Shahar Lab behavioral data analysis toolkit: R/brms Bayesian regression, data preprocessing, visualization standards, project folder scaffolding, and the Malka orchestrator workflow that directs the code-writer and code-reviewer subagents. Invoke Malka directly or just describe the task.",
+  "version": "2.0.0",
   "author": { "name": "Shahar Lab, Tel Aviv University" }
 }

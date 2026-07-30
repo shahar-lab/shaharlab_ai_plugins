@@ -1,6 +1,6 @@
 ---
 name: jspsych-coding-style
-description: Enforce ShaharLab's plain-script architecture whenever Claude creates, modifies, reviews, or troubleshoots JavaScript for a jsPsych experiment. Use for phase scripts, screens, trials, loops, instruction or consent screens, configuration variables, shared helpers, stimuli, timelines, index.html, setup, and local-dev switches.
+description: Enforce ShaharLab's plain-script architecture whenever Claude creates, modifies, reviews, or troubleshoots JavaScript for a jsPsych experiment. Use for phase scripts, screens, trials, loops, instruction or consent screens, configuration variables, shared helpers, stimuli, timelines, index.html, setup, local-dev switches, Likert scales, and window monitoring (recording tab/blur/fullscreen exits or reporting on exported session data).
 ---
 
 # ShaharLab jsPsych Coding Style
@@ -58,32 +58,18 @@ following, read its reference first and follow its coding rules exactly:**
 | Instruction, consent, or multi-page informational screens | [references/components/instructions.md](references/components/instructions.md) |
 | Phase scripts, trial procedures, repeating timeline blocks | [references/components/timeline-blocks.md](references/components/timeline-blocks.md) |
 | Page-by-page Likert scale component | [references/components/likert.md](references/components/likert.md) |
+| Window monitoring — recording tab/blur/fullscreen exits, or reporting on exported session data | [references/validity_checks/window-monitoring.md](references/validity_checks/window-monitoring.md) |
 
 A change that spans several parts (e.g. a new phase that adds config keys and a script tag)
 requires each matching reference.
 
 ## General jsPsych coding rules
 
-- **jsPsych 8.** Pin the core to `8.x` and plugins to their matching `2.x` line. Note the
-  v8 API: `button_html` is a function `(choice, choiceIndex) => html` — the `%choice%`
-  string template no longer exists.
-- `initJsPsych()` and `jsPsych.run()` appear only in `index.html`'s inline script, each
-  exactly once. Phase files never call them.
-- Phase scripts push their own trials onto the shared global `timeline` and never touch
-  another phase's nodes; only `index.html` creates `timeline` and runs it.
-- Prefer `timeline_variables` when many trials share one structure and differ only in
-  data. Ordinary loops are fine when they express real generation logic — pair
-  generation, accumulated instruction pages, per-trial closures.
-- Timing, labels, fixed wording, and feature flags live in `js/config.js`; test-only
-  overrides live in `local_dev.js`. Never duplicate either in phase scripts.
-- Give every saved trial an explicit, meaningful `data` object. Keep column names and
-  value types stable across the study.
-- Participant-facing text comes from the blueprint, validated materials, or explicit
-  researcher instructions — never invented, never silently reworded.
-- Comment non-obvious behavior and invariants only; do not narrate straightforward syntax.
-- If a referenced deployment-critical file (Pavlovia bridge, credentials, pinned vendor
-  library) is missing or its path looks wrong, stop and ask the researcher via Tzadok —
-  do not recreate, rename, or source a replacement on your own judgment.
+The rules common to every file in this architecture — jsPsych 8 API, the `timeline`
+ownership invariant, where settings/text live, comment discipline, and the
+deployment-critical-file guard — live in
+[references/general/coding-rules.md](references/general/coding-rules.md). Read it
+alongside whichever reference above governs the specific file you're touching.
 
 ## Verification
 

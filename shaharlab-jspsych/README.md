@@ -1,8 +1,9 @@
 # shaharlab-jspsych
 
 Online experiment development in jsPsych for the Shahar Lab (Tel Aviv
-University). Bundles the lab's jsPsych coding style, window/attention
-monitoring, the experiment-planning blueprint workflow, and manuscript
+University). Bundles the lab's experiment orchestrator (planning interview,
+blueprint contract, and dispatch), the jsPsych coding style (including
+Likert scales and window/attention monitoring), and manuscript
 method-section excerpts.
 
 > Installation is documented once at the [repo root README](../README.md).
@@ -11,23 +12,25 @@ method-section excerpts.
 ## Skills
 
 Invoke with `/shaharlab-jspsych:<skill>`, or just describe the task and Claude
-routes to the right one.
+routes to the right one. Start any non-trivial request at
+`lab-online-exp-orchestrator` — it interviews you, maintains the experiment
+blueprint, and dispatches the other two skills to `code-architect`.
 
-| Skill | Use it when you… |
-|---|---|
-| `experiment-plan` | create/maintain the experiment plan — `EXPERIMENT_BLUEPRINT.md` (the researcher–AI contract) plus the agent-facing `ai_artifacts/plan/` folder. Run right after the planning interview and whenever the design changes. |
-| `jspsych-coding-style` | write, modify, review, or debug JavaScript for a jsPsych experiment (plain-script architecture: no modules, no bundler, no build step). |
-| `jspsych-window-monitoring` | build an experiment that records tab switches / window blur / fullscreen exits, or `/jspsych-window-monitoring <path>` to report on exported data. |
-| `manuscript-excerpt` | the experiment is finalized and you want a publication-ready method paragraph. |
+| Skill | Subcomponents | Use it when you… |
+|---|---|---|
+| `lab-online-exp-orchestrator` | `reference/blueprint-format.md`, `reference/example_blueprint.md`, `reference/example_specification.md` | want to plan a new experiment, update its design, or aren't sure which skill applies — this is the entry point. Interviews you, owns `ai_artifacts/plan/EXPERIMENT_BLUEPRINT.md` + `artifacts/` (the researcher–AI contract), gates approval, and dispatches `code-architect`/`code-reviewer`. |
+| `jspsych-coding-style` | `references/general/` (index-html, local-dev-js, config-js, setup-js, coding-rules), `references/components/` (instructions, timeline-blocks, likert), `references/validity_checks/` (window-monitoring), `interview.md` | write, modify, review, or debug JavaScript for a jsPsych experiment (plain-script architecture: no modules, no bundler, no build step) — including Likert scales and window/attention monitoring (recording tab switches / window blur / fullscreen exits, or reporting on exported session data). |
+| `manuscript-excerpt` | `interview.md` | the experiment is finalized and you want a publication-ready method paragraph. |
 
 ## Agents
 
-Available as subagent types once the plugin is loaded:
+Available as subagent types once the plugin is loaded — exactly two, shared
+across every stage the orchestrator dispatches:
 
-- **`tzadok`** — jsPsych workflow coordinator.
-- **Planning team** — `planning-interviewer-galit`, `planning-architect-miri`, `planning-reviewer-devorah`.
-- **Build team** — `jspsych-architect-dan`, `jspsych-reviewer-ezra`.
-- **`manuscript-editor-baruch`** — drives `manuscript-excerpt`.
+- **`code-architect`** — writes every work product: the blueprint/spec/changelog, the
+  experiment codebase, and the manuscript excerpt.
+- **`code-reviewer`** — reviews `code-architect`'s output against the stage's own
+  checklist. Read-only.
 
 ## What changed
 

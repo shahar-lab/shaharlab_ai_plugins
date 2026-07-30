@@ -22,7 +22,7 @@ creating or regenerating `index.html`, wiring Pavlovia, or changing script load 
    CLOSE blocks, in the blueprint's phase order.
 5. `PAVLOVIA_PLUGIN_ACTIVATE` lives in root-level `local_dev.js` ([local-dev-js.md](local-dev-js.md)),
    not here. Leave it `false` until the researcher explicitly confirms the experiment is
-   ready for Pavlovia; Dan owns the production-mode change.
+   ready for Pavlovia; `code-architect` owns the production-mode change.
 6. Check every item in Validation before handoff.
 
 ## Coding rules
@@ -46,8 +46,9 @@ creating or regenerating `index.html`, wiring Pavlovia, or changing script load 
 - Both Pavlovia pushes sit inside `if (PAVLOVIA_PLUGIN_ACTIVATE)`; the `else` branch pushes the local
   CSV-save trial. This is what lets the experiment run locally without freezing.
 - If a deployment-critical file (Pavlovia bridge, credentials, pinned vendor library)
-  appears to be missing, stop and ask the researcher via Tzadok — never recreate, rename,
-  or source a replacement from another project on your own judgment.
+  appears to be missing, stop and report it — via `lab-online-exp-orchestrator` back to
+  the researcher — never recreate, rename, or source a replacement from another project
+  on your own judgment.
 
 ## Example — the template
 
@@ -169,8 +170,9 @@ and Pavlovia tag exactly as shown.
 
 ## Validation
 
-This checklist is the shared contract between Dan, who owns the complete `index.html` and
-Pavlovia wiring, and Ezra, who reviews it. Both must be able to confirm every item:
+This checklist is the shared contract between `code-architect`, who owns the complete
+`index.html` and Pavlovia wiring, and `code-reviewer`, who reviews it. Both must be able
+to confirm every item:
 
 - [ ] jsPsych core `8.x` and plugins `2.x`, all version-pinned from `unpkg.com`; a tag
       exists only for plugins the experiment actually uses.
