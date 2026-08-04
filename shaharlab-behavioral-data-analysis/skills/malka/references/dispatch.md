@@ -11,38 +11,23 @@ blocks or returns creates a second copy, and the two drift apart silently. And k
 it lives in the dispatch call and nowhere on disk, and one running longer than that has content where a
 path belongs.
 
-## 1 · Planning the dispatches
+This file runs once per entry in the plan `references/planning.md` produced at Step 2 — that file decides
+how many dispatches the job is and which folder each one writes into.
 
-Settle how many dispatches the job is before building any card. **One dispatch, one folder:** the Writer
-writes only inside its `FOLDER`, which makes `project-rules.md` §1 ("One Model, One Folder") the boundary
-of a dispatch too — one canonical set, one `rules.md`, one surface for the Reviewer to pass.
-`preprocessing/` counts together with the `data/` stages its `converting_` scripts write.
-
-The boundary binds in both directions. A fit, its diagnostics, and its plot are one dispatch, not three. A
-job that crosses folders is a chain of dispatches in dependency order — preprocess, then analyse what it
-produced — each with its own review loop and three-round budget. What crosses travels in `PROJECT STATE`,
-and since each dispatch leaves a saved product behind (§2.I), the next starts from a file on disk rather
-than from the last agent's context.
-
-The plan is that list of folders, in order. Nothing else needs writing down: each entry becomes one
-dispatch's `FOLDER`, and §2–§4 run once per entry.
-
----
-
-## 2 · Dispatching the Code Writer
+## 1 · Dispatching the Code Writer
 
 ```
 JOB
 [one line, the job in the user's terms — no values]
 
 FOLDER
-[the one folder this dispatch works in]
+[the one folder this dispatch writes into]
 
 ROUTED READS
 - [the Step 3 selection for this agent, from references/knowledge-index.md]
 
 PROJECT STATE
-[what exists on disk that this job builds on, and every file it reads from outside FOLDER]
+[what exists on disk that this job builds on, including the files outside FOLDER it depends on]
 
 SPECIFICATION
 [the approved job, in the user's exact values]
@@ -54,9 +39,10 @@ The output paths, plus any ASSUMED tags. Or BLOCKED and the question.
 **`JOB`** names the job and carries no values — "revise the exclusion criteria", never the numbers.
 Values live in `SPECIFICATION` alone, so the two can never disagree.
 
-**`FOLDER`** is the folder you settled on above. It also resolves the one variable in the reads both agents
-take on every job: each agent file instructs it to read the two constitution files plus its folder's
-`01-folder-specific-rules/<type>/rules.md`, which §0's tree maps.
+**`FOLDER`** is this entry's folder from the plan, and it bounds **writing** only — both agents hold §0's
+whole tree and read across the project as the work requires. It also resolves the one variable in the reads
+both agents take on every job: each agent file instructs it to read the two constitution files plus its
+folder's `01-folder-specific-rules/<type>/rules.md`, which §0's tree maps.
 
 **`ROUTED READS`** is what you *decided* — the craft files for the stages this job involves, derived from
 `references/knowledge-index.md` alone. List paths and let the subagent open them itself: a few hundred
@@ -66,9 +52,11 @@ nothing. The two constitution files and the folder's `rules.md` stay off this li
 determines them, and a read the agent file states survives a card that forgot it.
 
 **`PROJECT STATE`** names what the job builds on — the folder being cloned, the profile the exploration
-pass returned, the scripts the user asked to revise — and every file it reads from outside `FOLDER`.
-Name the **path** and let the agent open it; describe columns or objects only for a file that is not on
-disk yet. Leave the slot out when the job starts from an empty folder and reads nothing outside it.
+pass returned, the scripts the user asked to revise — and the files outside `FOLDER` it depends on. Name the
+**path** and let the agent open it; describe columns or objects only for a file that is not on disk yet.
+This is a head start, not a permission list: it saves the agent from discovering what you already know
+matters, and it stays silent about the rest of the project, which the agent may read anyway. Leave the slot
+out when the job starts from an empty folder and depends on nothing outside it.
 
 **`SPECIFICATION`** is the approved job in the user's own values. The checklists catch convention
 violations; only this catches code that is clean and does the wrong thing.
@@ -155,7 +143,7 @@ The output paths, plus any ASSUMED tags. Or BLOCKED and the question.
 
 ---
 
-## 3 · Dispatching the Code Reviewer
+## 2 · Dispatching the Code Reviewer
 
 Build this card alongside the Writer's, before dispatching either — constructing them together is what
 keeps the Reviewer checking the work the Writer was told to write. Every slot but `TARGET` is fixed at that
@@ -222,10 +210,10 @@ routed there and not here — that is the `W`/`R` split doing its work.
 
 ---
 
-## 4 · Running the loop
+## 3 · Running the loop
 
-Dispatch the **Code Writer**, then the **Code Reviewer**. On `PASS`, move to the next dispatch in the plan,
-or to Step 5 when none remain. Treat `PASS` as the only passing verdict — every other verdict takes the
+Dispatch the **Code Writer**, then the **Code Reviewer**. On `PASS`, run this file again for the next entry
+in the plan, or move to Step 5 when none remain. Treat `PASS` as the only passing verdict — every other verdict takes the
 `FAIL` path.
 
 On `FAIL`, re-dispatch the Writer with the same card plus the revision block, then re-dispatch the
@@ -245,13 +233,13 @@ and take each agent's return at face value.
 
 ---
 
-## 5 · Troubleshooting
+## 4 · Troubleshooting
 
 | What comes back | What it means | What you do |
 |---|---|---|
 | Writer `BLOCKED`, naming a file it needs | you under-routed `ROUTED READS` | add the file, re-dispatch |
 | Writer `BLOCKED`, no defensible default | the specification is silent | get the value from the user, amend both cards |
-| Writer `BLOCKED`, needs a write outside `FOLDER` | the job crosses folders | split it into a chain of dispatches, per §1 |
+| Writer `BLOCKED`, needs a write outside `FOLDER` | the job crosses folders | revise the plan into a chain of dispatches, per `planning.md` |
 | Writer `BLOCKED`, `FOLDER` contradicts the work | the route is wrong | re-route on §0's tree and §2.III |
 | Reviewer `BLOCKED`, nothing to check against | the specification is silent | get the value from the user, amend both cards |
 | `FAIL` after three rounds | usually a Step 1 gap | stop; see below |

@@ -12,7 +12,7 @@ Cite rules, never restate them. Report findings, never fix them — you annotate
 
 ## 1 · Your card
 
-`JOB` names the review in one line. `FOLDER` is the one folder the work lands in, and resolves read 3 below. `TARGET` is the file or files to review. `ROUTED READS` names what you review against. `PROJECT STATE` is what the work was built on. `SPECIFICATION` is the job the user approved.
+`JOB` names the review in one line. `FOLDER` is the one folder the work writes into, and resolves read 3 below. `TARGET` is the file or files to review. `ROUTED READS` names what you review against. `PROJECT STATE` is what the work was built on. `SPECIFICATION` is the job the user approved.
 
 How you work — §2 through §5 — holds on every review.
 

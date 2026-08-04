@@ -21,6 +21,8 @@ Route the stages the job involves and nothing beyond them. `assets/` rows are ex
 | `00-constitution/project-rules.md` | §0 the project tree, the scaffolding routing table, naming; then the one-model-one-folder paradigm, the Artifacts/Orchestration/Boundaries rules, the canonical set, the `main.R` path mandate | ✓ | ✓ |
 | `00-constitution/coding-rules.md` | R style: base pipe, naming, headers, `main.R` vs sourced-script split, preferred libraries, calling external tools | ✓ | ✓ |
 
+**Malka reads `project-rules.md` §0 as well**, at Step 1 via `interview.md`, to place the work and specify the jobs. It carries no mark because it reaches her on her own instruction rather than on a card — restructuring §0 changes what she plans from, so check `SKILL.md` Step 2 alongside this row.
+
 ## 01 · Folder-Specific Rules — routed by where the work lands
 
 One subfolder per top-level project part. Each `rules.md` states that folder's structure and how it is handled; the templates that build it sit beside it in the same subfolder. Route every type the job touches.

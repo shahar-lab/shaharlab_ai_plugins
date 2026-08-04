@@ -2,6 +2,64 @@
 
 ## [Unreleased]
 
+- **Malka reads `project-rules.md` §0 at Step 1 — she had been routing and planning without the tree.**
+  Step 2 asks her to name the folders a job touches in dependency order, which is a pure topology
+  decision, and Step 1 asks her to confirm the target folder; neither had any read behind it. Her four
+  references never included the constitution, and the `00`/`01` rows in `knowledge-index.md` are marked
+  `W`/`R` — the subagents, on their own standing instruction. This regressed when
+  `agents/code-writer.md` stopped deriving the location from §0 ("your card's `FOLDER` names it") on the
+  reasoning that §0's request-to-location table is Malka's routing material: the decision moved off the
+  agent that held the table onto one that did not. §0 alone is routed to her — the tree, the
+  request-to-location table, the one-way data flow that gives the plan its order, and the naming rule.
+  §2–§4 stay off her reads deliberately: they are the Reviewer's criteria, and judging code is not her
+  job. The read is stated in `interview.md` itself, which is the interview's one home — `SKILL.md` Step 1
+  points at it rather than restating it, and its Scaffolding bullet now names the four destinations it
+  asks her to choose between. `knowledge-index.md`'s `00` table carries a note that §0 is Malka's read too,
+  unmarked because it reaches her on her own instruction rather than on a card, so restructuring §0 sends
+  the editor to `SKILL.md` Step 2 as well as to the two agent files.
+- **The exploration pass is stated once, in `interview.md`.** `SKILL.md` Step 1 had "for preprocessing
+  jobs, dispatch the exploration card before asking any data-dependent question", while
+  `interview.md`'s Preprocessing bullet independently said "explore `data/collected/` first". The
+  Preprocessing bullet now carries both halves — that it is a dispatch, that it precedes any
+  data-dependent question, and that the figures it returns are what to work from — and Step 1 is three
+  bullets: read the interview, present the summary card, halt at the gate.
+- **`FOLDER` bounds writing, not reading.** `agents/code-writer.md` had said to "read outside it only the
+  files `PROJECT STATE` names", which made that slot a permission list and would have forced a `BLOCKED`
+  round trip whenever the Writer needed the name of a model it sources or a column in `data/processed/` —
+  things it can simply open, holding §0's whole tree and `Glob`/`Grep`. The read-only-what-is-routed rule
+  belongs to `ROUTED READS` and the `coding-knowledge/` library, where over-reading costs context without
+  adding diligence; the project is not that. Writes stay confined to `FOLDER`, and `PROJECT STATE` is now
+  stated as a head start — what Malka already knows matters — rather than the limit. Wording follows in the
+  card skeleton, the `FOLDER` and `PROJECT STATE` slot prose, both agent files' slot tables, and the
+  Reviewer's card summary. The Reviewer's Layer 1 check was already writes-only and is unchanged.
+- `planning.md` takes four headings — one dispatch one folder, the plan, what you return, what you tell the
+  user — with the boundary's two directions as a **no smaller / no bigger** pair rather than a paragraph, and
+  a worked example of each thing it produces: the internal list and the sentence the user hears. `SKILL.md`
+  Step 2 is one line pointing at it, its three paragraphs of detail having belonged in the reference all along.
+- **Step 2 states what it returns**, which it had not — the only step in `SKILL.md` without a defined
+  return, where Step 1 returns an approved summary card, Step 3 two cards, and Step 4 a verdict. It returns
+  the ordered list, held in the conversation rather than written to disk, and held *as written*: Step 4
+  comes back to it after every `PASS`, and a plan re-derived mid-job can come back different. Malka tells
+  the user the plan when it runs to more than one entry — a statement, not a gate, since Step 1's approval
+  is the only one, and worth making because a wrong plan costs a dispatch cycle per entry and the user is
+  the one who knows whether `data/processed/` is already current.
+- **Planning moves out of `dispatch.md` into its own `references/planning.md`.** It had been that file's §1,
+  which meant Step 2 opened the card format in order to reach the planning rule — handing Malka a slot
+  skeleton at the one moment she should be deciding what the jobs *are*. Deciding the jobs and instantiating
+  one of them are different acts, and the structure was inviting the second before the first had finished.
+  `planning.md` carries the one-dispatch-one-folder rule, both directions of that boundary, the chain across
+  folders, and the plan's one-line-per-job shape; `dispatch.md` renumbers to four sections — Writer §1,
+  Reviewer §2, loop §3, troubleshooting §4 — and opens by stating it runs once per entry in the plan.
+  `SKILL.md` Step 2 now reads `planning.md` and says to settle the plan before opening `dispatch.md`; its
+  reference table and the repo's `.claude/CLAUDE.md` list the new file; §4's symptom table sends a
+  cross-folder write to `planning.md` to revise the plan rather than citing a section that moved.
+- **Step 2 is "Specify the Jobs" — one paragraph, and it starts from the approved specification.** It had
+  been three bullets about naming folders, which described the mechanism rather than the work. Malka now
+  turns the specification into a list of jobs, each written as what it produces plus the one folder it
+  writes into, ordered by §0's one-way data flow. The worked two-line list showing that shape sits in
+  `dispatch.md` §1, where the rule and the other worked examples live, rather than in the procedure. Step 2
+  opens `dispatch.md` at §1 and Step 3 builds from §2–§3 of the file already open, so the read is
+  instructed once instead of trailing each step as a citation.
 - **Planning the dispatches is its own step, and routing is now per dispatch.** `SKILL.md` Step 2 had
   Malka "select the files this job needs — the stage or stages involved", which is job-level routing;
   one-folder-per-dispatch had already made routing per-dispatch, and `knowledge-index.md` had caught up

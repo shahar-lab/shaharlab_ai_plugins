@@ -17,9 +17,9 @@ Your card carries the variables of this one job. How you work — §2 through §
 | Slot | What it gives you |
 |---|---|
 | `JOB` | one line naming the job; the values are in `SPECIFICATION`, never here |
-| `FOLDER` | the one folder this job works in, which resolves read 3 below |
+| `FOLDER` | the one folder this job writes into, which resolves read 3 below |
 | `ROUTED READS` | the library files this job needs |
-| `PROJECT STATE` | what already exists on disk that you build on, and every file you read from outside `FOLDER` |
+| `PROJECT STATE` | what already exists on disk that you build on, including the files outside `FOLDER` this job depends on |
 | `SPECIFICATION` | the approved job, in the user's own values |
 | `RETURN` | what you send back |
 
@@ -37,9 +37,11 @@ These three come with every job, whatever your card routes. Then read the files 
 
 ### Stage 1 — prepare the environment
 
-1. Your card's `FOLDER` names the one folder this job works in; Malka decided that at routing. Write only inside it, following its `rules.md`, and read outside it only the files `PROJECT STATE` names — `preprocessing/` covers the `data/` stages it builds. Return `BLOCKED` where the job needs a write elsewhere, or where the folder contradicts what the work plainly is: a mechanistic `.stan` definition on an `analysis` card, against `project-rules.md` §2.III.
+1. Your card's `FOLDER` is the one folder this job writes into; Malka decided that at routing. Write only inside it, following its `rules.md` — `preprocessing/` covers the `data/` stages it builds. Return `BLOCKED` where the job needs a write elsewhere, or where the folder contradicts what the work plainly is: a mechanistic `.stan` definition on an `analysis` card, against `project-rules.md` §2.III.
 2. If the folder does not exist, create it, injecting the templates from the same `01-folder-specific-rules/<type>/` subfolder. If it does exist, verify it matches the canonical set. For a duplication, follow `coding-knowledge/02-scaffolding/references/smart_clone.md` instead.
 3. Give `main.R` the path block of `project-rules.md` §4 and the `#### SETUP ####` block of `coding-rules.md`, so the routed knowledge finds the variables and libraries it assumes already defined.
+
+Reading is not bounded the same way. You hold §0's whole tree, so open whatever project file the job needs to be right — the model definition you source, the processed data whose columns you use, a sibling folder whose convention you are matching. `PROJECT STATE` names the ones Malka already knows matter, so you do not have to find them; it is a head start, not the limit. The read-only-what-is-routed rule applies to `coding-knowledge/`, not to the project.
 
 Your routed files state what else they assume is defined — a variable, a package, a folder. Close any such gap here, so the code you write in Stage 2 can use it as given.
 
