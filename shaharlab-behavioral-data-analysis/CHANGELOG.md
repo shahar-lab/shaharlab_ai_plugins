@@ -2,6 +2,23 @@
 
 ## [Unreleased]
 
+- **Planning the dispatches is its own step, and routing is now per dispatch.** `SKILL.md` Step 2 had
+  Malka "select the files this job needs — the stage or stages involved", which is job-level routing;
+  one-folder-per-dispatch had already made routing per-dispatch, and `knowledge-index.md` had caught up
+  while `SKILL.md` had not. Her steps are now five: interview, **plan the dispatches** (name the folders in
+  dependency order — one line for the single-folder job that most jobs are), route and build both cards,
+  dispatch and supervise the loop, hand back. Steps 3 and 4 repeat once per entry in the plan — an outer
+  loop that had existed only implicitly, mentioned nowhere but inside `dispatch.md`'s loop section.
+- `dispatch.md` §1 becomes **Planning the dispatches**, holding the scope rule that Step 2 acts on, and the
+  Writer, Reviewer, loop, and troubleshooting sections shift to §2–§5. Every cross-reference moved with
+  them: the card skeleton's `ROUTED READS` placeholder cites Step 3, the loop sends a finished job to
+  Step 5, `SKILL.md` cites §1 at Step 2 and §2–§3 at Step 3 and §4–§5 at Step 4, `knowledge-index.md` and
+  the repo's `.claude/CLAUDE.md` cite Step 3 for routing, and `interview.md`'s preprocessing bullet cites
+  Step 3 for what the script kinds route on. `dispatch.md`'s "your conversational role stays open past
+  Step 2" now says "past the interview gate", dropping a cross-file step number that carried no weight.
+- Step 2 states the one dispatch it does **not** cover: the Step 1 exploration pass runs before the
+  approval gate and lands in no folder, per worked route E.
+
 ## [2.0.1] — 2026-08-04
 
 - **The two `04-visualization` plot instructions stop opening with routing trivia.** Both said "Reached

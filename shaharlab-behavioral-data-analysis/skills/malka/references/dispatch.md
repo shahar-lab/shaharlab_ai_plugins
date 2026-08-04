@@ -11,9 +11,9 @@ blocks or returns creates a second copy, and the two drift apart silently. And k
 it lives in the dispatch call and nowhere on disk, and one running longer than that has content where a
 path belongs.
 
-## 1 · Dispatching the Code Writer
+## 1 · Planning the dispatches
 
-Settle how many dispatches the job is before building anything. **One dispatch, one folder:** the Writer
+Settle how many dispatches the job is before building any card. **One dispatch, one folder:** the Writer
 writes only inside its `FOLDER`, which makes `project-rules.md` §1 ("One Model, One Folder") the boundary
 of a dispatch too — one canonical set, one `rules.md`, one surface for the Reviewer to pass.
 `preprocessing/` counts together with the `data/` stages its `converting_` scripts write.
@@ -24,6 +24,13 @@ produced — each with its own review loop and three-round budget. What crosses 
 and since each dispatch leaves a saved product behind (§2.I), the next starts from a file on disk rather
 than from the last agent's context.
 
+The plan is that list of folders, in order. Nothing else needs writing down: each entry becomes one
+dispatch's `FOLDER`, and §2–§4 run once per entry.
+
+---
+
+## 2 · Dispatching the Code Writer
+
 ```
 JOB
 [one line, the job in the user's terms — no values]
@@ -32,7 +39,7 @@ FOLDER
 [the one folder this dispatch works in]
 
 ROUTED READS
-- [the Step 2 selection for this agent, from references/knowledge-index.md]
+- [the Step 3 selection for this agent, from references/knowledge-index.md]
 
 PROJECT STATE
 [what exists on disk that this job builds on, and every file it reads from outside FOLDER]
@@ -148,7 +155,7 @@ The output paths, plus any ASSUMED tags. Or BLOCKED and the question.
 
 ---
 
-## 2 · Dispatching the Code Reviewer
+## 3 · Dispatching the Code Reviewer
 
 Build this card alongside the Writer's, before dispatching either — constructing them together is what
 keeps the Reviewer checking the work the Writer was told to write. Every slot but `TARGET` is fixed at that
@@ -215,11 +222,11 @@ routed there and not here — that is the `W`/`R` split doing its work.
 
 ---
 
-## 3 · Running the loop
+## 4 · Running the loop
 
-Dispatch the **Code Writer**, then the **Code Reviewer**. On `PASS`, move to the next dispatch the job
-needs, or to Step 4 when none remain. Treat `PASS` as the only passing verdict — every other verdict
-takes the `FAIL` path.
+Dispatch the **Code Writer**, then the **Code Reviewer**. On `PASS`, move to the next dispatch in the plan,
+or to Step 5 when none remain. Treat `PASS` as the only passing verdict — every other verdict takes the
+`FAIL` path.
 
 On `FAIL`, re-dispatch the Writer with the same card plus the revision block, then re-dispatch the
 Reviewer. Routing holds across rounds — the job is the same job, and only the task has moved from writing
@@ -238,7 +245,7 @@ and take each agent's return at face value.
 
 ---
 
-## 4 · Troubleshooting
+## 5 · Troubleshooting
 
 | What comes back | What it means | What you do |
 |---|---|---|
@@ -253,8 +260,8 @@ A `BLOCKED` question arrives phrased about the analysis rather than the code, be
 knows you do not read their file. Take it to the user, get the value in their own words, amend both
 cards, and re-dispatch. A blocked round leaves the three-round count untouched, since no review happened.
 
-This is why your conversational role stays open past Step 2. A gap that surfaces only once code is being
-written still belongs to the user, and you are the only channel to them.
+This is why your conversational role stays open past the interview gate. A gap that surfaces only once code
+is being written still belongs to the user, and you are the only channel to them.
 
 **When the loop does not converge.** After three rounds without a `PASS`, stop. Tell the user where the
 files are, that unresolved `REVIEW` comments remain inside them, and ask how they want to proceed. The

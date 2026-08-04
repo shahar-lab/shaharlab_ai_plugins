@@ -1,12 +1,12 @@
 # Coding Knowledge — Index
 
-The file-by-file map of `${CLAUDE_PLUGIN_ROOT}/coding-knowledge/`. Malka reads it at Step 2 to fill each card's `ROUTED READS`; the subagents read it only to locate a path their card already named.
+The file-by-file map of `${CLAUDE_PLUGIN_ROOT}/coding-knowledge/`. Malka reads it at Step 3, once per dispatch in her plan, to fill each card's `ROUTED READS`; the subagents read it only to locate a path their card already named.
 
 Paths below are relative to `coding-knowledge/`. **W** = the Writer reads it, **R** = the Reviewer reads it. For the `02`–`05` rows that mark is the card slot: the file goes in that agent's `ROUTED READS`. For the `00` and `01` rows it is the standing read each agent takes on every job, delivered by the card's `FOLDER` slot rather than listed as a path.
 
 ## How to route a job
 
-1. **Name the folder.** The card's `FOLDER` slot carries the one folder the dispatch works in. That slot is what delivers the `00` and `01` rows: both agents read the two constitution files and the `rules.md` for that folder's part on every job, on the standing instruction in their own agent files. Fill the slot and leave those rows off `ROUTED READS`. A job touching two folders is two dispatches in dependency order — see `dispatch.md`.
+1. **Name the folder.** The card's `FOLDER` slot carries the one folder the dispatch works in. That slot is what delivers the `00` and `01` rows: both agents read the two constitution files and the `rules.md` for that folder's part on every job, on the standing instruction in their own agent files. Fill the slot and leave those rows off `ROUTED READS`. A job touching two folders is two dispatches in dependency order, routed one at a time — see `dispatch.md` §1.
 2. **Add the `02`–`05` rows for each stage the job involves**, working from the trigger table at the head of each of those sections.
 3. **Split by mark.** The Writer's card takes the rows marked W, the Reviewer's the rows marked R. A row marked both goes on both cards.
 
