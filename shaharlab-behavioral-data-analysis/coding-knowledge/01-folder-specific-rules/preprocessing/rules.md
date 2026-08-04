@@ -1,0 +1,71 @@
+# The `preprocessing/` folder and the `data/` stages it builds
+
+`preprocessing/` holds the code that moves data between stages. `data/` holds the data at the
+three stages that code produces. They are described together because neither makes sense alone.
+
+```text
+Project_Root/
+├── data/
+│   ├── collected/    ── converting_data_collected_to_raw.R ─▶  (untouched, exactly as it came off the task)
+│   ├── raw/          ── converting_data_raw_to_processed.R ─▶  (collected minus junk columns and non-real rows)
+│   └── processed/                                              (raw minus excluded observations)
+│
+└── preprocessing/
+    ├── code/         converting_ · examining_ · summary_ scripts (see "Naming the scripts")
+    ├── output/       one Markdown report per examining_ and summary_ script
+    └── main.R        sources the scripts in pipeline order
+```
+
+## What each data stage means
+
+| Stage | Contains | Shared publicly |
+|---|---|---|
+| `collected/` | the files exactly as they arrived — read from it, leave it as it is | no |
+| `raw/` | `collected` restructured to a tidy standard format with every column properly typed, minus empty/irrelevant columns and non-real rows (researcher test runs) — every real observation still present | yes |
+| `processed/` | `raw` after the observation exclusions reported in the manuscript | yes |
+
+The dividing line: `raw/` drops things that were never data. `processed/` drops things that were
+data but are excluded by a stated criterion. Every exclusion between `raw/` and `processed/` is a
+number that appears in the manuscript.
+
+## Naming the scripts
+
+Every script in `preprocessing/code/` begins with one of three prefixes, and each prefix names the
+one job that script does:
+
+| Prefix | The script does this | Example | Writes to |
+|---|---|---|---|
+| `converting_` | moves data from one stage to the next and saves it | `converting_data_collected_to_raw.R`, `converting_data_raw_to_processed.R` | `data/raw/`, `data/processed/` |
+| `examining_` | inspects one data stage and reports what is in it | `examining_data_raw.R`, `examining_data_processed.R` | `preprocessing/output/` |
+| `summary_` | reports for the researcher and for the manuscript | `summary_exclusions.R`, `summary_manuscript_paragraph.R` | `preprocessing/output/` |
+
+These three cover the whole of preprocessing. Work that fits none of them is an analysis, so it
+belongs in `analysis/[NAME]/` reading from `data/processed/`.
+
+Name the rest of each file after what it acts on, in `snake_case`: the stages a `converting_`
+script moves between, the stage an `examining_` script reads, the report a `summary_` script
+writes. Each `examining_` and `summary_` script writes one Markdown file to
+`preprocessing/output/` carrying its own name, so a report and the script that built it are found
+from each other.
+
+## How the folder is handled
+
+- `converting_` scripts write to `data/raw/` and `data/processed/`; `data/collected/` is read-only.
+- Each stage is rebuilt by rerunning `preprocessing/main.R` — the `data/` folders are outputs, not
+  hand-curated stores.
+- Analyses and simulations read from `data/processed/` by path and copy nothing into their own
+  folders.
+- Every cutoff used in an exclusion is held in a named variable in `main.R`, set from the user's
+  approved plan, so the same value drives the filter and the report that quotes it.
+- Scripts run in `main.R`'s order and inherit its environment, so a `summary_` script reads the
+  named datasets the `converting_` script before it left behind.
+
+## Building it
+
+Create `preprocessing/` once per project: `code/`, `output/`, and a `main.R` adapted from
+`template_main.R` beside this file, whose paths point at `preprocessing/code`,
+`preprocessing/output`, and the three `data/` stages.
+
+Full craft detail for writing each kind of script lives in
+`${CLAUDE_PLUGIN_ROOT}/coding-knowledge/03-preprocessing/references/`, one `how-to-` file per
+kind.

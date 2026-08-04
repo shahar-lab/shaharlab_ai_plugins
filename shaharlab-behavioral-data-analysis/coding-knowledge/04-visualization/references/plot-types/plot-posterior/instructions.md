@@ -1,10 +1,7 @@
 # Posterior Plot Instructions
 
-Reached from `visualization`'s routing table in
-`${CLAUDE_PLUGIN_ROOT}/skills/malka/references/knowledge-index.md`. This is a reference file, not a
-skill — that routing table owns the procedure, the environment to confirm, and the global
-theme and export rules. This file owns only the rules specific to posterior plots. See
-`example.R` in this folder for a complete, runnable single-posterior example.
+This file owns the rules specific to posterior plots; the global theme and export rules live in
+`../../standards/`. See `example.R` in this folder for a complete, runnable single-posterior example.
 
 ## Posterior Distribution Plotting Rules
 

@@ -1,6 +1,43 @@
 # Shahar Lab: Global Project Rules & Architectural Philosophy
 
-This file is the global memory bank for the lab's AI architecture. All AI agents, hooks, and skills must adhere to these non-negotiable rules. The canonical folder tree lives in `${CLAUDE_PLUGIN_ROOT}/coding-knowledge/01-scaffolding/references/folder_structure.md`.
+This file is the global memory bank for the lab's AI architecture. All AI agents, hooks, and skills must adhere to these non-negotiable rules. It is the canonical folder tree and the single source of truth for lab topology.
+
+## 0. Project Outlook: the whole tree at a glance
+
+A lab project has five top-level parts. Each has its own rules file in `01-folder-specific-rules/`; read the one matching what is being built.
+
+```text
+Project_Root/
+├── data/            raw material, three stages          → 01-folder-specific-rules/preprocessing/
+├── preprocessing/   code that moves data between stages → 01-folder-specific-rules/preprocessing/
+├── models/          reusable model definitions          → 01-folder-specific-rules/models/
+├── analysis/        empirical analyses of real data     → 01-folder-specific-rules/analysis/
+└── simulation/      analyses of model-generated data    → 01-folder-specific-rules/simulations/
+```
+
+**Data flows one way.** `data/collected/` → `data/raw/` → `data/processed/`, built by `preprocessing/`. `analysis/` reads from `data/processed/` and writes only inside its own folder. `simulation/` generates its data from a `models/` definition into its own `artifacts/`, and reads nothing from `data/`.
+
+```text
+data/collected/  →  [preprocessing/]  →  data/raw/  →  [preprocessing/]  →  data/processed/
+                                                                                   ↓
+                                                                      analysis/ reads from here
+
+models/[MODEL_NAME]/  →  generated into  →  simulation/[NAME]/artifacts/
+```
+
+**Scaffolding a new folder.** Each type's `rules.md` states its structure and carries the templates that build it, in the same subfolder. Read that `rules.md`, create the folders it shows, inject the templates beside it, then replace `<folder_name>` with the real name and set the headers to the user's model name or formula — the parent segment is already correct in each template.
+
+| Request | Location | Rules + templates |
+|---|---|---|
+| New analysis | `analysis/[NAME]/` | `01-folder-specific-rules/analysis/` |
+| New simulation study | `simulation/[NAME]/` | `01-folder-specific-rules/simulations/` |
+| New model definition | `models/[MODEL_NAME]/` | `01-folder-specific-rules/models/` |
+| Preprocessing setup | `preprocessing/` | `01-folder-specific-rules/preprocessing/` |
+| Duplicate / clone a folder | same parent as the source | `02-scaffolding/references/smart_clone.md` |
+
+**Naming.** Use `snake_case` for every folder and file: `model_stay_by_reward`, `param_recovery`, `converting_data_raw_to_processed.R`. Take the name from the approved specification. Keep names free of spaces and of formula notation (`~`, `+`, `|`, `/`) so paths and shell commands resolve.
+
+Scripts under `preprocessing/code/` carry one of three prefixes on top of that — `converting_`, `examining_`, or `summary_`, one per job the script does. `01-folder-specific-rules/preprocessing/rules.md` states the set.
 
 ## 1. Core Architectural Paradigm: "One Model, One Folder"
 Every analytical task must be housed in its own isolated subfolder: empirical analyses (e.g. brms regressions) under `analysis/`, synthetic simulation studies (e.g. parameter recovery) under the top-level `simulation/` directory. Both use the identical canonical folder set (§3).
@@ -9,9 +46,11 @@ Every analytical task must be housed in its own isolated subfolder: empirical an
 
 ### I. The Artifacts Rule
 - **No Data Duplication:** Data must NEVER be copied into local analysis/simulation folders.
-- **Reading:** `main.R` reads clean data directly from the top-level `data/processed/` directory by default; the user may direct an analysis to another stage (e.g. `data/raw/`).
+- **Reading:** an `analysis/` folder's `main.R` reads clean data directly from the top-level `data/processed/` directory by default; the user may direct it to another stage (e.g. `data/raw/`). A `simulation/` folder generates its data instead of reading a stage.
 - **Writing:** The `artifacts/` folder within an analysis/simulation directory is exclusively reserved for generated or derived files (e.g. .rds model fits, MCMC draws, matrices, simulated datasets).
 - **Visualization:** The `output/` folder is exclusively reserved for human-facing outputs (plots, figures, and tables).
+- **Every script saves its product:** each script sourced from `main.R` ends by writing what it produced — a data frame or model fit to `artifacts_dir`, a figure or table to `output_dir`.
+- **Every script loads what it needs:** a script depending on an earlier step reads that step's file from `artifacts_dir` at its top, so each script runs on its own in a fresh session and `main.R` can be resumed from any `source()` line.
 
 ### II. The Orchestration Rule
 - **No Numbered Scripts:** Do not number files in the `code/` directory (e.g., avoid `01_...`). Numbering breaks when intermediate exploratory steps are added.
@@ -41,23 +80,14 @@ project_root <- here::here()
 artifacts_dir <- file.path(project_root, "<parent>", "<folder_name>", "artifacts")
 output_dir    <- file.path(project_root, "<parent>", "<folder_name>", "output")
 code_dir      <- file.path(project_root, "<parent>", "<folder_name>", "code")
+data_path     <- file.path(project_root, "data", "processed")   # folders that read a stored stage
 ```
 
 **Rules:**
 - `project_root` must use `here::here()` to find the repository root dynamically.
 - All three directory variables (`artifacts_dir`, `output_dir`, `code_dir`) must be present and correctly reference the folder.
+- A folder that reads a stored stage also defines `data_path` — `data/processed/` by default, or the stage the user directed it to (§2.I). A simulation generating its own data leaves it out.
 - All `source()` calls must use these variables: `source(file.path(code_dir, "script.R"))` — never hardcode paths.
 - The parent and folder name in the paths must match the actual directory (e.g., if the analysis lives in `analysis/anxiety_exam_gender_interaction/`, the paths must say `"analysis", "anxiety_exam_gender_interaction"`).
 
 **Why:** This contract ensures cloud runners, validation scripts, and future AI agents can locate and archive outputs consistently, and guarantees analyses run identically across machines.
-
-## 5. Visualization Mandate: the `visualization` domain's posterior instructions
-All parameter summary plots (posterior distributions, credible intervals, parameter estimates) **must** follow `${CLAUDE_PLUGIN_ROOT}/coding-knowledge/03-visualization/references/plot-types/plot-posterior/instructions.md` (reached via Malka's routing in `${CLAUDE_PLUGIN_ROOT}/skills/malka/references/knowledge-index.md`'s `03-visualization/` section). This ensures:
-- Consistent, publication-ready visualization across all analyses
-- Centralized styling and aesthetic management
-- Reproducible plot generation with audit trails
-
-**No raw ggplot code for posteriors.** The `visualization` knowledge handles all posterior visualization.
-
-## 6. Operational Mandate
-AI agents must prioritize brevity and modularity. If a script exceeds 80 lines, the agent must proactively suggest splitting it into smaller, focused modules orchestrated by `main.R`.

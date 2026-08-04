@@ -2,7 +2,7 @@
 
 **This is the scaffolding domain checklist used by the `code-reviewer` agent.** Your job is to verify TWICE — the plan (Phase A) and the executed result (Phase B) — against the lab topology, and emit a feedback block. You do NOT touch the disk. When possible, run this review as a separate subagent so the reviewer did not author what it reviews.
 
-> Do not restate the topology here. Verify against `${CLAUDE_PLUGIN_ROOT}/coding-knowledge/00-constitution/project-rules.md`, `references/folder_structure.md`, `references/new_folder.md`, `references/smart_clone.md`, and the path rules in `${CLAUDE_PLUGIN_ROOT}/coding-knowledge/00-constitution/coding-rules.md`. Cite, don't duplicate.
+> Do not restate the topology here. Verify against `${CLAUDE_PLUGIN_ROOT}/coding-knowledge/00-constitution/project-rules.md`, `${CLAUDE_PLUGIN_ROOT}/coding-knowledge/01-folder-specific-rules/`, `references/smart_clone.md`, and the path rules in `${CLAUDE_PLUGIN_ROOT}/coding-knowledge/00-constitution/coding-rules.md`. Cite, don't duplicate.
 
 ## Phase A: Review the PLAN (pre-execution gate)
 
@@ -11,8 +11,8 @@ For each planned operation, ask:
 - [ ] Does it cite a rule, and will it actually satisfy that rule?
 - [ ] Missing steps? (a clone without WIPE or without RE-POINT is a defect — references/smart_clone.md)
 - [ ] Extra steps beyond the user's intent?
-- [ ] New folder names valid `snake_case` (no `~ + | /` or spaces — references/new_folder.md)?
-- [ ] Correct parent for the folder type (analysis/, simulation/, models/, preprocessing/ — references/folder_structure.md)?
+- [ ] New folder names valid `snake_case` (no `~ + | /` or spaces — 00-constitution/project-rules.md §0)?
+- [ ] Correct parent for the folder type (analysis/, simulation/, models/, preprocessing/ — 00-constitution/project-rules.md §0)?
 - [ ] Plan reads data from `data/processed/` (or the user-specified stage), never copies it (project_rules §2.I)?
 
 **On pass:** release the plan to the USER-APPROVAL gate. **On fail:** return for plan revision.
@@ -22,7 +22,7 @@ For each planned operation, ask:
 Inspect the disk after execution:
 
 - [ ] Canonical set exists for analysis/simulation folders: `code/`, `artifacts/`, `output/`, `main.R`, `summary.md` (§3)
-- [ ] Model folders contain `[MODEL_NAME].R` / `[MODEL_NAME].stan` matching the folder name (references/folder_structure.md)
+- [ ] Model folders contain `[MODEL_NAME].R` / `[MODEL_NAME].stan` matching the folder name (01-folder-specific-rules/models/rules.md)
 - [ ] On clones: `artifacts/` and `output/` are EMPTY (§2.I, references/smart_clone.md)
 - [ ] Path segments == actual parent and folder name (§4 + pre-hook)
 - [ ] No data duplication; no numbered scripts in `code/` (§2.I, §2.II)

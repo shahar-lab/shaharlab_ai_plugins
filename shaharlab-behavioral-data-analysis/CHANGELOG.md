@@ -2,6 +2,266 @@
 
 ## [Unreleased]
 
+## [2.0.1] — 2026-08-04
+
+- **The two `04-visualization` plot instructions stop opening with routing trivia.** Both said "Reached
+  from `visualization`'s routing table in `…/knowledge-index.md`. This is a reference file, not a skill" —
+  a craft file telling the Writer how it was routed, which the Writer cannot act on, and naming a
+  `visualization` skill that no longer exists. Their one useful claim was misattributed: the routing table
+  does not own "the global theme and export rules", `references/standards/` does. Each header is now two
+  lines — what the file owns, where the global standards live, and its `example.R`.
+- **`dispatch.md`'s guidelines section is dissolved into the slots it governs; the file is four sections.**
+  A guideline separated from the slot it governs gets read once and is not consulted while that slot is
+  being filled, and four of the five were about something in the Writer's or Reviewer's section. Each moved
+  to where it is acted on: *one dispatch, one folder* opens §1 as the scope decision that precedes any card;
+  *point, don't paste* is a clause in `ROUTED READS`, the slot that lists the paths; *build both cards
+  before dispatching either* opens §2, where the Reviewer's card is derived. The two that govern no single
+  slot — leave standing behaviour to the agent files, keep the card to a screen — are stated once in the
+  file's opening paragraphs alongside the empty-context claim they follow from. Sections renumber: Writer §1,
+  Reviewer §2, loop §3, troubleshooting §4, with `SKILL.md` Step 3 and §4's symptom table following.
+- **`dispatch.md` §2 now says when the Reviewer's card can actually be finished.** "Build both cards before
+  dispatching either" sat beside a `TARGET` slot defined as "the paths the Writer returned", which Malka
+  cannot know until the Writer runs. §2 states it: every slot but `TARGET` is fixed when the pair is built,
+  and `TARGET` fills in from the return.
+- **`dispatch.md` §1 was "Dispatch guidelines" — seven numbered guidelines, each with its context.** The
+  section had held three one-line bullets and a four-paragraph `### One folder per dispatch` subsection,
+  which were the same kind of statement at two different weights. All seven now take one shape: guidelines
+  1 bounds how much work a dispatch covers, 2–5 bound what goes into the card (build both first; point
+  don't paste; leave standing behaviour to the agent files; keep it to a screen). Scope is **one**
+  guideline, not three: "cover as much of that folder as the job needs" and "a job that crosses folders is
+  a chain of dispatches" are the two directions of "one dispatch, one folder" rather than rules of their
+  own, and stating them separately had duplicated the three-round budget in both. Numbering makes them
+  citable — §5's troubleshooting table sends a cross-folder write to guideline 1, and "build both cards
+  before dispatching either" moves out of the file's opening line into guideline 2. `SKILL.md` Step 2 stops
+  restating the scoping rule and points at §1 instead.
+- **`dispatch.md`'s worked cards are now numbered examples under a "Cards examples" subtitle.** The three
+  `### Worked card — …` headings became `#### Example 1–3 — …` sub-subtitles grouped under a `### Cards
+  examples` heading in §2 and §3, and the §3 example titles itself by the example it reviews rather than
+  by "the analysis dispatch above". The table of contents cites the example numbers.
+- **§0 no longer claims that `simulation/` reads from `data/processed/`.** Its data-flow diagram said
+  "`analysis/` · `simulation/` read from here" while
+  `01-folder-specific-rules/simulations/rules.md` states that a simulation generates its data from a
+  `models/` definition and reads nothing from `data/` — the specific rule is the correct one. The
+  diagram now shows the analysis path and the generation path separately, and §2.I's Reading bullet
+  scopes the `data/processed/` default to `analysis/`.
+- **The agent files cite the constitution instead of restating it.** `agents/code-reviewer.md` opened
+  with "Cite rules, never restate them" and then restated five of them in Layer 1 — the path block, the
+  read-from-`data/processed/` rule, the library placement, the artifact split, and the no-numbered-
+  scripts rule. Layer 1 is now five pointers (`project-rules.md` §2, §3–§4, the folder's `rules.md`,
+  `coding-rules.md`, and the card's `FOLDER`), so a change to a rule cannot leave the reviewer checking
+  a stale copy. Layer 2 drops its enumeration of `coding-rules.md`, and `agents/code-writer.md` Stage 1
+  cites §4's path block and `coding-rules.md`'s `#### SETUP ####` block rather than listing their
+  contents. The "Always read first" glosses in both agent files shrink to a few words each, since they
+  had been restating `knowledge-index.md`'s **What it governs** column for files the agent opens on the
+  next line. The imperative and the paths stay where they are — the agent files load before the card,
+  so a read stated there survives a card that forgot it, which is why `ROUTED READS` omits these three.
+- **`data_path` is now stated where the other paths are.** `coding-rules.md` already told sourced
+  scripts to load data "via the `data_path` variable passed from `main.R`", but no rule required it and
+  no template defined it — the variable was named only inside `agents/code-writer.md`. §4 now carries
+  it, conditionally: a folder that reads a stored stage defines it, and a simulation generating its own
+  data leaves it out, per `01-folder-specific-rules/simulations/rules.md`. `analysis/rules.md` and
+  `analysis/template_main.R` gained the line, and the template's data-read example now goes through
+  `data_path` instead of rebuilding the path from `project_root`.
+- **Both agent files take the same numbered outline as `dispatch.md`**, so knowing one teaches the other:
+  §1 your card, §2 what you always read, §3 the work, then protocol. The Writer's §3 gathers the two
+  build stages and the specification-gap rules under one **Building** section — they had been top-level
+  siblings of the return protocol — and the Reviewer's §3 gathers the three layers. Four of the
+  Reviewer's former top-level sections were 2–3 lines each and now sit where they belong: `ASSUMED` tags
+  beside the `REVIEW` tag format in §4, "on a later round" and "when you cannot judge" inside §5's
+  verdicts. Neither file takes a contents list — at 90 and 76 lines the numbered headings are the
+  outline, where `dispatch.md` earns one at 268.
+- **The Reviewer's example finding cited a section that does not exist.** Its tag format showed
+  `# REVIEW[coding-rules §3.2]`, and `coding-rules.md` has no numbered sections at all — the format
+  example taught a citation scheme with nothing behind it. For the hardcoded path it shows, the real
+  citation is `project-rules §4`.
+- **`dispatch.md` is outlined by what Malka does, not by concept**: five numbered sections — how dispatch
+  works, dispatching the Writer, dispatching the Reviewer, running the loop, troubleshooting. The slots
+  are defined once, in the Writer's section, and the Reviewer's section carries only the four-move delta,
+  so an agent-oriented outline costs no restatement. One paragraph opens the file — what a card is, and what
+  the file covers — since Malka reads it end to end and the numbered headings are the outline. The "build both cards before
+  dispatching" rule lives here rather than in `SKILL.md` Step 2, which now only points at the
+  file; and the three card properties keep their rules while dropping the rationale for a rule that
+  §2's `ROUTED READS` states operationally. §1 now opens with the claim its three rules follow from — a
+  subagent starts with an empty context, its agent file arrives first and the card second, so a card is a
+  context Malka assembles and every rule is about what to leave out. `SKILL.md` Step 3 cites §4 and §5 by
+  number rather than pointing at a section title.
+  Troubleshooting gains a symptom table mapping each `BLOCKED` return to its cause and its fix; the two
+  failure paths were previously trailing subsections.
+- **The card is six slots, and `dispatch.md` now carries two worked examples.** `JOB`, `FOLDER`,
+  `ROUTED READS`, `PROJECT STATE`, `SPECIFICATION`, `RETURN`, ordered by when the agent uses them, with
+  `SPECIFICATION` in the card's tail where attention is highest. Three slots left:
+  - `ENVIRONMENT` was a per-dispatch summary of §4's path block, `coding-rules.md`'s `#### SETUP ####`
+    block, and each routed file's own assumptions — content both agents already hold in full, restated
+    by Malka in the one place paraphrase can lose it. `knowledge-index.md` now states the invariant it
+    rested on: a routed file names the variables and packages it assumes.
+  - `TARGET` moved to the Reviewer's card alone. It read "the paths the Writer returned", which cannot
+    be true of the Writer's own round-1 card, and filling it meant Malka naming files that the folder's
+    `rules.md` already governs — a position from which she could contradict them. Where the *user*
+    named a script to revise, `PROJECT STATE` carries it.
+  - `TASK` became `JOB`: it was constant ("write the code") where the agent file already says so. It
+    now names the job in the user's terms and **carries no values**, so it cannot disagree with
+    `SPECIFICATION` — the one failure this rename could otherwise have introduced.
+- **The two cards differ in exactly `TARGET` and `ROUTED READS`**, plus the verb in `JOB` and the values
+  in `RETURN`; `FOLDER`, `PROJECT STATE`, and `SPECIFICATION` are copied unchanged. `dispatch.md` states
+  it as a four-move derivation from the Writer's card, so a mis-built pair is visible before dispatch.
+  `PROJECT STATE` is no longer trimmed for the Reviewer — Layer 1 checks the data source, which it can
+  only do if it was told the stage.
+- **The revision block names every file carrying findings.** It read "Your previous attempt is at
+  `[path]`", singular, while a single dispatch can write six preprocessing scripts. With `TARGET` off
+  the Writer's card this block is the only place it learns which files to reopen.
+- **`ROUTED READS` carries decisions, not consequences.** `dispatch.md` states why the two constitution
+  files and the folder's `rules.md` stay off it: `FOLDER` determines them, and a read the agent file
+  states survives a card that forgot it.
+- **One dispatch covers as much of one folder as the job needs** — a fit, its diagnostics, and its plot
+  are one dispatch, not three. Stated so that "one folder per dispatch" is read as a ceiling on scope
+  rather than an instruction to split within a folder. `skills/malka/SKILL.md` Step 2 names the rule.
+- **One folder per Writer dispatch.** The card's `FOLDER TYPES` slot became `FOLDER`: one folder, and
+  the Writer writes only inside it, making §1's "One Model, One Folder" the boundary of a dispatch as
+  well as of the filesystem. `preprocessing/` counts with the `data/` stages it builds, since the
+  `converting_` scripts write them. A job touching two folders is now two dispatches in dependency
+  order, each with its own review loop and three-round budget; what crosses between them travels in
+  `PROJECT STATE`, named as paths with the columns and objects the Writer should expect.
+  `dispatch.md` gains a "One folder per dispatch" section and loses roughly a third of its prose;
+  `agents/code-writer.md` blocks on a write outside `FOLDER`, and `agents/code-reviewer.md` checks
+  Layer 1 against it. Every `FOLDER TYPES` mention in `knowledge-index.md` — the routing steps and all
+  five worked routes — now reads `FOLDER`, and none of the routed reads changed.
+- **`TARGET` is the file *or files* a dispatch writes.** It read "one path" while worked route A had a
+  single dispatch writing six preprocessing scripts, and the Reviewer's `PASS` condition spoke of "the
+  file". Both now say what they meant: `PASS` requires no `REVIEW` tag in any target file.
+- `agents/code-writer.md` no longer restates the 50–80 line rule in Stage 2 — `coding-rules.md` carries
+  it as read 2 on every job.
+- The repo's `.claude/CLAUDE.md` named two Malka references that no longer exist,
+  `guidelines-execution-card.md` and `guidelines-dispatch-subagents.md`; both are `dispatch.md`.
+- **The constitution now states only what the subagents act on; the decisions moved to Malka.**
+  `project-rules.md` §5 (the Visualization Mandate) and `coding-rules.md`'s "Mandatory Plotting Rule"
+  both ordered the Writer to read `04-visualization/.../plot-posterior/instructions.md`, which
+  `agents/code-writer.md` forbids reading unless the card routed it. Both are removed; the rule
+  reaches the agents where it can act — `knowledge-index.md`'s `04` trigger table routes it, and
+  `01-folder-specific-rules/analysis/rules.md` states it as a binding read on any analysis job.
+- **`project-rules.md` §6 (the Operational Mandate) is removed and its rule restated as an action.**
+  "The agent must proactively suggest splitting" addressed nobody — a subagent has no channel to the
+  user. The length rule now sits in `coding-rules.md` under "Core R coding guidelines": write each
+  script as one step of 50–80 lines, sourced from `main.R`, splitting a longer one into two named
+  steps. That is also where `agents/code-reviewer.md` already cited it from.
+- **Naming the folder is the interview's job, not the Writer's.** §0's "Ask the user for a name"
+  becomes "Take the name from the approved specification", and `interview.md`'s Scaffolding bullet
+  now asks for a `snake_case` name whenever the user has not given one.
+- **The Writer consumes the routing decision instead of re-deriving it.** Stage 1 step 1 of
+  `agents/code-writer.md` read "Determine where the work lives per `project-rules.md` §0" while the
+  card's `FOLDER TYPES` slot already stated it — two authorities for one decision, in a context that
+  cannot ask which wins. It now builds where the card says, and returns `BLOCKED` when the card's
+  type contradicts what the work plainly is (a `.stan` definition on an `analysis` card, against
+  §2.III). §0 keeps the tree and the boundaries as invariants; deciding the location is Malka's.
+- **Each script now ends by saving its product and starts by loading what it needs.** Two bullets in
+  `00-constitution/project-rules.md` §2.I (the Artifacts Rule) state the contract: a sourced script
+  writes its data frame or fit to `artifacts_dir` and its figure or table to `output_dir`, and reads
+  an earlier step's product back from `artifacts_dir` instead of relying on an object left in the
+  environment. `00-constitution/coding-rules.md` carries the R-level form under "Using paths in
+  sourced scripts", with a `# reads: … · writes: …` opening line per script. Effect: `main.R` can be
+  resumed from any `source()` line in a fresh session. Both files already route to the Writer and the
+  Reviewer, so no `knowledge-index.md` change.
+- `coding-knowledge/01-folder-specific-rules/data/` → `01-folder-specific-rules/preprocessing/`.
+  The subfolder is named for the project part that holds the code, and its `rules.md` is retitled
+  "The `preprocessing/` folder and the `data/` stages it builds". Every path naming it is updated:
+  `project-rules.md` §0 (tree and scaffolding table), `knowledge-index.md`, both agent files,
+  `guidelines-execution-card.md`'s `BINDING READS`, and the repo's own `.claude/CLAUDE.md`.
+- **`preprocessing/code/` scripts now carry one of three prefixes**, stated in
+  `01-folder-specific-rules/preprocessing/rules.md` under "Naming the scripts": `converting_` moves
+  data between stages and saves it, `examining_` inspects one stage and reports what is in it,
+  `summary_` reports for the researcher and the manuscript. The three cover the whole of
+  preprocessing; work fitting none of them is an analysis. Because it lives in a `rules.md`, the
+  rule reaches both agents as a binding read rather than a routed one.
+- **The pipeline is re-cut along those three prefixes**, so each script does one job.
+  `build_raw.R` → `converting_data_collected_to_raw.R` (restructure, type, drop what was never
+  data); `build_processed.R` → `converting_data_raw_to_processed.R` (the two-phase exclusions);
+  the description tables move out of both into `examining_data_raw.R` and
+  `examining_data_processed.R`; the exclusion cascade moves into `summary_exclusions.R`; and
+  `manuscript_paragraph.R` → `summary_manuscript_paragraph.R`. `converting_` scripts now write data
+  only, and the reports are written by the `examining_`/`summary_` scripts that carry their names.
+- `coding-knowledge/03-preprocessing/references/writing-code.md`: removed, split into one `how-to-`
+  file per script kind — `how-to-convert-collected-to-raw.md`, `how-to-convert-raw-to-processed.md`,
+  `how-to-examine.md`, `how-to-summarise-exclusions.md`. Each owns the craft for the scripts it
+  names and cites the one worked example that shows its output, so Malka routes by which scripts the
+  job writes instead of handing over the whole pipeline every time.
+- `coding-knowledge/03-preprocessing/`: the three loose `.md` files move back under `references/`,
+  matching every other multi-file domain and the repo's own document rule.
+- `coding-knowledge/03-preprocessing/assets/template_main.R`: removed. It duplicated
+  `01-folder-specific-rules/preprocessing/template_main.R` byte for byte; the surviving copy sits
+  with the folder rules, so rules and boilerplate stay one routed read. That template now sources
+  all six pipeline scripts in order, loads `knitr`, and states what each step writes.
+- `coding-knowledge/03-preprocessing/assets/`: `example-collected-to-raw-report.md` →
+  `example-examining-report.md`, `example-raw-to-processed-report.md` →
+  `example-summary-exclusions.md`, each re-cut to show one script's output.
+- `coding-knowledge/03-preprocessing/references/review-checklist.md`: opens with the script each
+  review phase lands on; Phase 1 checks the three prefixes and one-job-per-script; Phase 6's
+  deliverables list is the five new output files.
+- `coding-knowledge/03-preprocessing/references/exploration.md`: states its boundary against
+  `how-to-examine.md` — this is the one-off console pass over `data/collected/` that feeds the
+  interview, while `examining_` scripts are the examination that reruns with every build.
+- The preprocessing examples drop `::` in favour of bare calls with the library loaded in `main.R`,
+  per `00-constitution/coding-rules.md`. `here::here()` stays, as `project-rules.md` §4 mandates it
+  verbatim.
+- `skills/malka/references/knowledge-index.md`: the `03` section gains a "the job writes → route
+  the Writer to" table, so a job that only revises exclusions routes two files rather than the whole
+  domain, and a note that `template_main.R` lives with the folder rules.
+- `skills/malka/references/interview.md`: the preprocessing gap-list settles which of the three
+  script kinds the job writes, since that is what Step 2 routes on.
+- `skills/malka/references/user-request-summary.md`: the preprocessing example card saves to
+  `data/processed/` rather than a `data/data_filtered/` that no rule defines.
+- `coding-knowledge/02-scaffolding/references/review-checklist.md`: the models check cited
+  `01-folder-specific-rules/models-folder.md`, which does not exist; it now cites
+  `01-folder-specific-rules/models/rules.md`.
+- `README.md` (both): the layout and domain tables list `01-folder-specific-rules/`, which was
+  missing, and describe `03-preprocessing/` by its three script kinds.
+- `coding-knowledge/00-constitution/coding-rules.md`: adds a Core R coding guideline to avoid `::`,
+  adding any missing package's `library()` call to `main.R`'s setup header (or the script top, if
+  there is no `main.R`) instead.
+- Lab topology moves out of the scaffolding domain and is rewritten, split by project part across
+  `00-constitution/project-rules.md` §0 and the new `01-folder-specific-rules/`. The old
+  `01-scaffolding/references/folder_structure.md` is removed.
+- `coding-knowledge/00-constitution/project-rules.md`: gains a `§0 Project Outlook` — the whole
+  tree at a glance, which `folder-specific-rules/` subfolder covers each part, the one-way
+  `collected → raw → processed` data flow, and `snake_case` naming. This file is now the single
+  source of truth for topology.
+- `coding-knowledge/01-folder-specific-rules/`: new domain, one subfolder per top-level project
+  part — `data/`, `analysis/`, `models/`, `simulations/`. Each holds a `rules.md` stating that
+  folder's structure, what every file and subfolder is for, and how it is handled at runtime,
+  together with the templates that build it, so rules and boilerplate are one routed read. It sits
+  at the top level of `coding-knowledge/` rather than inside `00-constitution/`, so the numeric
+  prefix states when a domain is read: `00` on every job, `01` by folder type, `02`+ by craft.
+- **Domains renumbered** to make room: `01-scaffolding` → `02-scaffolding`, `02-preprocessing` →
+  `03-preprocessing`, `03-visualization` → `04-visualization`, `04-bayesian-regression` →
+  `05-bayesian-regression`. Every path naming them is updated across both agents, Malka's
+  references, and the knowledge files.
+- `coding-knowledge/01-scaffolding/assets/`: removed. `template_main.R` and `template_summary.md`
+  now sit in `folder-specific-rules/analysis/` and `folder-specific-rules/simulations/` with the
+  `<parent>` segment pre-filled per type; `template_model.R` and `template_model.stan` sit in
+  `folder-specific-rules/models/`; `folder-specific-rules/data/template_main.R` is the
+  preprocessing orchestrator. `01-scaffolding/` now holds `references/` how-to only
+  (`new_folder.md`, `smart_clone.md`, `review-checklist.md`).
+- `coding-knowledge/01-scaffolding/references/new_folder.md`: removed. Every section restated what
+  the per-folder `rules.md` files and `project-rules.md` §0 now say. Its one unique part — the
+  request → location → templates routing table, including the clone row — moves into
+  `project-rules.md` §0 as "Scaffolding a new folder". `01-scaffolding/` now holds only what the
+  constitution does not cover: `smart_clone.md` and `review-checklist.md`.
+- `skills/malka/references/knowledge-index.md`: rewritten as a file-by-file routing table. One row
+  per file on disk, with `W`/`R` columns stating which card each path belongs in, so filling
+  `ROUTED READS` is reading down a column rather than inferring from prose. The ASCII tree and the
+  paragraph-long per-file summaries are gone — each file's subject is now one line, and the file
+  itself is the only place its content lives. Adds a four-step "How to route a job" opening, keeps
+  the per-request routing tables for visualization, and closes with the maintenance rule that every
+  row is a file and every file is a row.
+- `skills/malka/references/guidelines-execution-card.md`: `BINDING READS` now includes
+  `folder-specific-rules/<type>/rules.md` for every folder type the job touches, so the per-folder
+  rules are guaranteed rather than left to routing.
+- `agents/code-writer.md`, `agents/code-reviewer.md`: "Always read first" gains the same
+  per-folder `rules.md`. The Writer's Stage 1 now reads that file when it determines the folder
+  type and injects templates from the matching subfolder; the Reviewer's Layer 1 checks the
+  folder against it.
+- `coding-knowledge/01-scaffolding/references/review-checklist.md`,
+  `coding-knowledge/02-preprocessing/references/writing-code.md`: pointers to
+  `folder_structure.md` now resolve to `project-rules.md` §0 or the matching `rules.md`.
+
 ## [2.0.0] — 2026-07-30
 
 **Headline (breaking):** Malka is now a skill (`skills/malka/`) that indexes a `coding-knowledge/`

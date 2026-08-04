@@ -1,6 +1,8 @@
-# Example: `collected-to-raw-report.md` content
+# Example: `examining_data_raw.md` content
 
-Illustrative — every value on the real report is computed from `df` and `collected`.
+Illustrative — every value on the real report is computed by `examining_data_raw.R` from the data
+it reads. `examining_data_processed.md` carries the same tables computed on `data/processed/`,
+without the Rows table.
 
 ## Rows
 

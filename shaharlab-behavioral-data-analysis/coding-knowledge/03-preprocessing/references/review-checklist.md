@@ -2,6 +2,20 @@
 
 **This is the review pass (Code Reviewer role).** Your job is to verify that the Architect's preprocessing code is correct, catches all errors, and delivers analysis-ready data.
 
+## Which script each phase lands on
+
+`preprocessing/code/` holds three kinds of script, named by prefix
+(`01-folder-specific-rules/preprocessing/rules.md`). Review each phase below against the script
+that does that job:
+
+| Phase | Script |
+|---|---|
+| 2 · Type conversions | `converting_data_collected_to_raw.R` |
+| 3 · Filtering logic | `converting_data_raw_to_processed.R` |
+| 4 · Transformations & derived variables | whichever `converting_` script creates them |
+| 5 · Validation output | the `examining_` scripts and their reports |
+| 1, 6 · Structure and readiness | the whole folder, `main.R` included |
+
 ## Your Core Competencies
 
 1. **Read Preprocessing Code** — Understand intent and logic flow
@@ -14,6 +28,12 @@
 
 ### ✅ PHASE 1: Code Structure & Clarity
 
+- [ ] Does every script in `preprocessing/code/` begin with `converting_`, `examining_`, or
+      `summary_` (`01-folder-specific-rules/preprocessing/rules.md`, "Naming the scripts")?
+- [ ] Does each script do only the job its prefix names — `converting_` saves data to `data/`,
+      `examining_` and `summary_` write their reports to `preprocessing/output/`?
+- [ ] Does `main.R` source them in pipeline order, so reading it top to bottom is the full
+      account of the preprocessing?
 - [ ] Does the code use `project_root <- here::here()`?
 - [ ] Are all file paths constructed with `file.path()`?
 - [ ] Is the code organized with clear section comments (Step 1, Step 2, etc.)?
@@ -101,7 +121,18 @@ visit_date <- as.Date(visit_date, format = "%Y-%m-%d")
    - Is this data loss acceptable?
    - Are there unexpected interactions between criteria?
 
-5. **Verify complete.cases():**
+5. **For an online study, verify the window-exit count** (`handling-leaving-window.md`):
+   - Does the count return **exits** rather than flagged trials — i.e. does it count the trials
+     where `window_status == "left"` and the previous trial was `ok`, rather than every `left`
+     trial? A count of `sum(window_status == "left")` used as the number of exits is a finding.
+   - Is the data `arrange()`d by participant and trial order before the `lag()`, and
+     `group_by(subject_id)` in force, so "the previous trial" is this participant's previous trial?
+   - Does `lag()` carry `default = FALSE`, so a participant already away on trial 1 has that exit
+     counted?
+   - Does the filter compare against `window_exit_max` from `main.R`, and does
+     `summary_exclusions.md` quote that same variable?
+
+6. **Verify complete.cases():**
    - If the Architect uses `complete.cases(var1, var2, var3)`, does it match the analysis plan?
    - Is it too restrictive? (removing rows with ANY missing in those three)
    - Is it too lenient? (ignoring missing in other important variables)
@@ -241,13 +272,18 @@ Before approving, ask:
    - Data files saved in `data/raw/` and `data/processed/`; reports in `preprocessing/output/`?
    - Does running `preprocessing/main.R` alone rebuild everything from `data/collected/`?
    - Was `data/collected/` left untouched?
-   - Are all deliverables present: `collected-to-raw-report.md` (rows, numeric columns,
-     categorical columns, sample overview, per-condition, per-participant),
-     `raw-to-processed-report.md` (participant-exclusion table, then trial-exclusion table,
-     final count, then the same description tables on the processed data), processed data,
-     and manuscript paragraph `.md`, all with computed (not hand-typed) numbers?
-   - Do the two reports use the same description blocks against their own stage's data, so
-     their tables line up column-for-column and can be read side by side?
+   - Are all deliverables present, all with computed (not hand-typed) numbers?
+     - `data/raw/data_raw.RDS` and `data/processed/data_processed.RDS`
+     - `examining_data_raw.md` — rows kept/dropped, numeric columns, categorical columns,
+       sample overview, per-design-cell, per-participant
+     - `examining_data_processed.md` — the same description tables on the processed data
+     - `summary_exclusions.md` — participant-exclusion table, then trial-exclusion table,
+       then the final count
+     - `summary_manuscript_paragraph.md`
+   - Do the two `examining_` reports use the same description blocks against their own stage's
+     data, so their tables line up column-for-column and can be read side by side?
+   - Does each report carry the name of the script that wrote it, so the two are found from
+     each other?
    - Was every exclusion criterion (RT cutoffs, thresholds) explicitly given by the user, not invented by the architect?
    - Can downstream analysis code load the processed data without modification?
 
@@ -278,7 +314,7 @@ REVIEW INCOMPLETE: ISSUES FOUND ❌
 Issue 1: Silent NA creation in score conversion
 - Line 15: score <- as.numeric(score)
 - Problem: If score contains "NA" strings, they silently become NAs
-- Fix: Explicitly handle before conversion (see `writing-code.md`)
+- Fix: Explicitly handle before conversion (see `how-to-convert-collected-to-raw.md`)
 
 Issue 2: Over-filtering on missing values
 - Line 28: filter(complete.cases(age, gender, score, region))
@@ -305,7 +341,7 @@ Action: the Architect, please revise and resubmit. Reply with updated code.
 ## Quick Checklist (Printable)
 
 ```
-☐ PHASE 1: Code structure is clear and uses project_root
+☐ PHASE 1: Script prefixes are converting_/examining_/summary_, one job each; uses project_root
 ☐ PHASE 2: Type conversions are explicit and handle edge cases
 ☐ PHASE 3: Filtering logic is sound and row loss is documented
 ☐ PHASE 4: Derived variables are correct and validated

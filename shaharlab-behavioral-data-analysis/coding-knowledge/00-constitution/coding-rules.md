@@ -15,11 +15,13 @@ Follow these guidelines when writing R code:
 * Use clear, descriptive object names.
 * Follow the style and structure of the existing R code in this repository before introducing new patterns.
 * Keep scripts focused on the task they are meant to perform.
+* Write each script as one step of 50–80 lines, sourced from `main.R`; split a longer script into two named steps.
 * Use only the minimum number of headers needed to make the code easy to navigate.
 * Comment only when the code is not readable from the object names and structure.
 * Avoid explaining code that is already clear.
 * Align `<-` and `=` within related blocks when this improves readability.
 * Use the base R pipe `|>` rather than `%>%`, unless the existing code uses `%>%` or a package requires it.
+* Avoid `::`. Call functions directly, and add any missing package's `library()` call to `main.R`'s `#### SETUP ####` header (or the top of the script, if there is no `main.R`).
 
 
 ## what you should not do and avoid when writing in R 
@@ -65,15 +67,6 @@ library(ggdist)
 library(bayesplot)
 ```
 
-## Mandatory Plotting Rule: `visualization` knowledge for Posteriors
-
-**For all posterior distribution plots (parameter summaries, credible intervals, etc.):**
-- You MUST follow `coding-knowledge/03-visualization/references/plot-types/plot-posterior/instructions.md` (Malka routes builds there via `skills/malka/references/knowledge-index.md`'s `03-visualization/` section)
-- Build every posterior visualization from that file's rules and its `example.R`
-- This applies to all brms model parameter plots, MCMC diagnostics, and posterior summaries
-
-The `visualization` knowledge handles all posterior-related visualizations.
-
 ## how to use headers in R
 
 Use this format for main headers:
@@ -111,6 +104,16 @@ In sourced scripts under `code/`:
 * Load data via the `data_path` variable passed from `main.R`.
 * Save derived objects to `artifacts_dir` (e.g. `file.path(artifacts_dir, "fit.rds")`).
 * Save plots/tables to `output_dir` (e.g. `file.path(output_dir, "plot.png")`).
+
+Each script ends with the save of what it produced, and reads any earlier step's product back
+from `artifacts_dir` at its top (e.g. `df <- readRDS(file.path(artifacts_dir, "df_trials.rds"))`)
+rather than relying on an object left in the environment by a previous `source()`. This keeps every
+script runnable on its own in a fresh session — see project-rules.md §2.I. Open each script with a
+one-line note of its two ends, so reading `main.R` shows where the pipeline can be resumed:
+
+```r
+# reads: data/processed/df_trials.rds · writes: artifacts/df_stay.rds
+```
 
 ## Calling external tools (Python, shell)
 

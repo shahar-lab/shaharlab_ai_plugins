@@ -1,7 +1,7 @@
 # Malka — Summary Card Examples
 
 Reference for the plain-English "summary card" Malka presents at the end of the
-interview, once every applicable field of `execution-card.md`'s writer card is filled. Each card names the domain in plain language, states the folder it acts
+interview, once every applicable slot of `dispatch.md`'s writer card is filled. Each card names the domain in plain language, states the folder it acts
 on and the concrete choice the user made, and ends with the same two-item checklist so the
 interactive terminal UI picks it up. No file paths, technical fields, or AI-to-AI brief
 language belong in the card — those stay in the execution templates the user never sees.
@@ -21,8 +21,8 @@ check.
 
 📋 Summary: Pre-processing
 
-For `preprocessing/`, we will filter out trials where RT < 200ms and save the clean output
-directly to `data/data_filtered/`.
+For `preprocessing/`, we will filter out trials where RT < 200ms, save the clean output to
+`data/processed/`, and report the exclusion counts.
 
 - [ ] Confirm & Execute
 - [ ] Revise

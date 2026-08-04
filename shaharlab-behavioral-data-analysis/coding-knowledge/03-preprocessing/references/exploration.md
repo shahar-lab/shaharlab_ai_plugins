@@ -4,6 +4,11 @@
 
 Before designing any preprocessing pipeline, you must understand the raw data thoroughly. This guide walks you through systematic exploration.
 
+This is the one-off pass that runs *before any pipeline code exists*, straight over
+`data/collected/` in the console. It produces the profile that feeds Malka's interview, and it is
+not a script in `preprocessing/code/`. The examination that lives *in* the pipeline and reruns with
+every build is `how-to-examine.md`'s `examining_` scripts.
+
 ## Step 1: Load and Inspect Structure
 
 ```r
@@ -250,4 +255,4 @@ cor(raw_data[, c("num1", "num2")], use="pairwise")  # Correlation
 
 ## Next Step: Interview
 
-Once exploration is complete, take the findings back to Malka's `interview_guide.md` — the clarifying questions for the user and the Preprocessing Plan approval gate happen in its preprocessing section, before any code is written. This pass informs the plan; `writing-code.md`'s "Describing the data" blocks put the same look at the data into the reports the pipeline produces, so it reruns with every build.
+Once exploration is complete, take the findings back to Malka's `interview.md` — the clarifying questions for the user and the Preprocessing Plan approval gate happen in its preprocessing section, before any code is written. This pass informs the plan; `how-to-examine.md`'s five description blocks put the same look at the data into the `examining_` scripts the pipeline runs, so it reruns with every build.

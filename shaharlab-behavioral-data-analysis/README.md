@@ -16,32 +16,38 @@ routes to the right one.
 
 | Skill | Use it when you… |
 |---|---|
-| `malka` | have any non-trivial lab analysis task. Interviews you herself (from her own `references/interview.md`), clears any approval gate, then dispatches the code-writer and code-reviewer using `references/guidelines-execution-card.md` and `references/guidelines-dispatch-subagents.md`. The reliable entry point. |
+| `malka` | have any non-trivial lab analysis task. Interviews you herself (from her own `references/interview.md`), clears any approval gate, then dispatches the code-writer and code-reviewer using `references/dispatch.md`. The reliable entry point. |
 | `code-walkthrough` | want R code explained statement by statement to learn or verify it — always runs in the main thread, never as a subagent. |
 
 ## Knowledge
 
-Malka's index lives in `skills/malka/SKILL.md` plus five reference files, each with one job:
-`references/interview.md` (what to ask per domain and which gate blocks),
-`references/knowledge-index.md` (the file-by-file map of `coding-knowledge/`),
-`references/guidelines-execution-card.md` (the card format each subagent receives),
-`references/guidelines-dispatch-subagents.md` (how the build/review rounds run), and
-`references/user-request-summary.md` (the plain-English confirmation card).
+Malka's index lives in `skills/malka/SKILL.md` plus four reference files, each answering one
+question: `references/interview.md` (what to ask per domain and which gate blocks),
+`references/user-request-summary.md` (the plain-English confirmation card),
+`references/knowledge-index.md` (the file-by-file map of `coding-knowledge/`, which file goes on
+whose card, and worked routes for the common jobs), and `references/dispatch.md` (the card slots,
+then how the build/review rounds run).
+
+How each subagent *behaves* — the reads it always takes, how it reports, what it returns — lives in
+its own agent file rather than in the card, so a card carries only what varies from job to job.
 
 `coding-knowledge/` is not a skills folder — nothing under it has a `SKILL.md`, triggers on its
 own, or runs independently. Each subfolder is the reference material for one domain, which
-Malka points the subagents at through the execution card:
+Malka points the subagents at through the card:
 
 | Domain | Malka reads it for… |
 |---|---|
 | `coding-knowledge/00-constitution/` | the project rules and R coding rules every build reads, whatever the domain |
-| `coding-knowledge/04-bayesian-regression/` | fitting/checking a Bayesian/brms regression (sampling, priors, diagnostics, reporting) |
-| `coding-knowledge/02-preprocessing/` | cleaning, reshaping, excluding, scoring, or validating behavioral data — `data/raw` + `data/processed`, Markdown data-dictionary/summary/exclusion reports, a manuscript-ready exclusions paragraph |
-| `coding-knowledge/03-visualization/` | creating or revising any lab figure — color, panel-tagging, plot-type, and export standards |
-| `coding-knowledge/01-scaffolding/` | starting a new analysis/simulation/model folder under the "one model, one folder" topology (or smart-cloning an existing one) |
+| `coding-knowledge/01-folder-specific-rules/` | the structure and file naming of the folder type the work lands in — `preprocessing/`, `analysis/`, `models/`, `simulations/` — with the templates that build it |
+| `coding-knowledge/05-bayesian-regression/` | fitting/checking a Bayesian/brms regression (sampling, priors, diagnostics, reporting) |
+| `coding-knowledge/03-preprocessing/` | cleaning, reshaping, excluding, examining, or reporting behavioral data — one `how-to-` file per script kind (`converting_`, `examining_`, `summary_`), building `data/raw` + `data/processed`, the Markdown examination and exclusion reports, and a manuscript-ready exclusions paragraph |
+| `coding-knowledge/04-visualization/` | creating or revising any lab figure — color, panel-tagging, plot-type, and export standards |
+| `coding-knowledge/02-scaffolding/` | starting a new analysis/simulation/model folder under the "one model, one folder" topology (or smart-cloning an existing one) |
 
-Each folder has the same shape: `references/` (the standards, checklists, and cheatsheets
+Most folders have the same shape: `references/` (the standards, checklists, and cheatsheets
 the subagents read while they work) and, where a domain needs boilerplate, `assets/`.
+`01-folder-specific-rules/` is the exception — one subfolder per folder type, each holding a
+`rules.md` and the templates that build that folder.
 
 ## Agents
 

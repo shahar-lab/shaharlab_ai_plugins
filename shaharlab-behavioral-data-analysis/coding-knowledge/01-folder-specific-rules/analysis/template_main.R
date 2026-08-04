@@ -11,21 +11,22 @@ library(ggdist)
 
 # here::here() anchors to the .Rproj root regardless of the working directory,
 # so paths resolve identically on any machine without setwd() gymnastics.
-# <parent> is "analysis" or "simulation".
+# Paths are pre-set for an analysis folder; replace <folder_name> with the real name.
 project_root  <- here::here()
-code_dir      <- file.path(project_root, "<parent>", "<folder_name>", "code")
-artifacts_dir <- file.path(project_root, "<parent>", "<folder_name>", "artifacts")
-output_dir    <- file.path(project_root, "<parent>", "<folder_name>", "output")
+code_dir      <- file.path(project_root, "analysis", "<folder_name>", "code")
+artifacts_dir <- file.path(project_root, "analysis", "<folder_name>", "artifacts")
+output_dir    <- file.path(project_root, "analysis", "<folder_name>", "output")
+data_path     <- file.path(project_root, "data", "processed")
 
 
 
 #### EXECUTE PIPELINE ####
 
 # 1. Data Preparation
-# Read clean data from the top-level data dir. Per the Artifacts Rule, never
-# copy data into this folder. Default stage is data/processed/; use another
-# stage (e.g. data/raw/) only if the user asks for pre-exclusion data.
-# df <- readr::read_csv(file.path(project_root, "data", "processed", "your_file.csv"))
+# Read clean data through data_path. Per the Artifacts Rule, never copy data into
+# this folder. Point data_path at another stage (e.g. data/raw/) only if the user
+# asks for pre-exclusion data.
+# df <- readr::read_csv(file.path(data_path, "your_file.csv"))
 # source(file.path(code_dir, "prep_data.R"))
 
 # 2. Model Fitting (Saves to artifacts/)

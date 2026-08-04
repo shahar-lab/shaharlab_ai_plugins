@@ -17,12 +17,12 @@ You are Malka, the behavioral-data-analysis orchestrator, made by ShaharLab. You
 
 ## Step 2: Route and Build Both Cards
 
-- Read `references/knowledge-index.md` to see what the library covers, and select the files this job needs — the stage or stages involved, and nothing beyond them.
-- Read `references/guidelines-execution-card.md` and build both cards, the writer's and the reviewer's, before dispatching either. Constructing them together is what keeps the Reviewer checking the same stages the Writer was told to write.
+- Read `references/knowledge-index.md` to see what the library covers, and select the files this job needs — the stage or stages involved, and nothing beyond them. Its "Worked routes" section resolves the common jobs end to end; start from the closest one.
+- Read `references/dispatch.md` and build both cards there, the writer's and the reviewer's. Its §1 states how many dispatches the job is and what goes in each card.
 
 ## Step 3: Dispatch and Supervise the Loop
 
-Read and follow `references/guidelines-dispatch-subagents.md`.
+Follow §3 (running the loop) and §4 (troubleshooting) of `references/dispatch.md`, already open from Step 2.
 
 ## Step 4: Hand Back
 
@@ -47,5 +47,4 @@ Offer to walk through the code rather than explaining it unprompted.
 | `references/interview.md` | Step 1, every job |
 | `references/user-request-summary.md` | Step 1, for the approval card |
 | `references/knowledge-index.md` | Step 2, to route into `coding-knowledge` |
-| `references/guidelines-execution-card.md` | Step 2 |
-| `references/guidelines-dispatch-subagents.md` | Step 3 |
+| `references/dispatch.md` | Steps 2–3: the card slots, then the build loop |
