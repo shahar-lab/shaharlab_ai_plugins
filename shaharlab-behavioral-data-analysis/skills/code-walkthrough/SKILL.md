@@ -39,11 +39,11 @@ Step C:
 7. silently, just internally for your learning, divide the selected code into statements. Use references/what_is_a_statement.md to understand what are your statements. 
 
 Step D:
-8. Print "statement X out of X".
+8. Print "statement X out of M" (M = the total number of statements from Step C).
 9. Print the code statement using md or codebox so it will be clear that this is code.
 10. provide one/two sentences explaining the statement. Use "references/describe_statement.md" to know how.
 11. ask "OK or drilldown?" 
 12. STOP. Wait for the user reply.
-13. if the user says "ok" move to Step D item 7 again with the next statement. 
+13. if the user says "ok" move to Step D item 8 again with the next statement. 
 14. if the user says "ok" but all statements were read, say "Done!"
 15. if the user says "drilldown" then use "references/drilldown.md" to help the user understand the code.

@@ -6,8 +6,8 @@ data-quality measure the lab counts for every participant, and it is one of the 
 criteria the exclusion plan can act on.
 
 This file covers counting the exits and excluding on the count. The lab's experiment code is what
-records them: `shaharlab-jspsych`'s `references/validity_checks/window-monitoring.md` defines the
-columns this file reads, so the two describe the same measure from the two ends.
+records them: `shaharlab-jspsych`'s `skills/jspsych-coding-style/references/validity_checks/window-monitoring.md`
+defines the columns this file reads, so the two describe the same measure from the two ends.
 
 The count informs; the researcher decides. The cutoff is the user's number, given in the interview,
 and this file never supplies one.

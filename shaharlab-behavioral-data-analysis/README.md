@@ -21,9 +21,10 @@ routes to the right one.
 
 ## Knowledge
 
-Malka's index lives in `skills/malka/SKILL.md` plus four reference files, each answering one
+Malka's index lives in `skills/malka/SKILL.md` plus five reference files, each answering one
 question: `references/interview.md` (what to ask per domain and which gate blocks),
 `references/user-request-summary.md` (the plain-English confirmation card),
+`references/planning.md` (how many dispatches a job is, and which folder each writes into),
 `references/knowledge-index.md` (the file-by-file map of `coding-knowledge/`, which file goes on
 whose card, and worked routes for the common jobs), and `references/dispatch.md` (the card slots,
 then how the build/review rounds run).

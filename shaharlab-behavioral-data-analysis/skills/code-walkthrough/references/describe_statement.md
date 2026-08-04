@@ -25,7 +25,7 @@ Every statement message must follow this **exact order**. Do not reorder or skip
 4. **One or two sentences** — Brief, plain language after the code block.
 5. **Use names from the code** — Reference actual variables, columns, functions, and values.
 6. **Wait** — Do not send the next statement until the user replies.
-   - **"ok"** → next statement in a new message (Step D item 6 again)
+   - **"ok"** → next statement in a new message (Step D item 8 again)
    - **"drilldown"** → follow [drilldown.md](drilldown.md), then ask **"OK or drilldown?"** again on the same statement
 
 ## Template

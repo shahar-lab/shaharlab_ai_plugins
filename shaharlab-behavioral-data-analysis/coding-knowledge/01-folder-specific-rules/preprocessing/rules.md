@@ -53,8 +53,9 @@ from each other.
 - `converting_` scripts write to `data/raw/` and `data/processed/`; `data/collected/` is read-only.
 - Each stage is rebuilt by rerunning `preprocessing/main.R` — the `data/` folders are outputs, not
   hand-curated stores.
-- Analyses and simulations read from `data/processed/` by path and copy nothing into their own
-  folders.
+- `analysis/` reads from `data/processed/` by path and copies nothing into its own folders.
+  `simulation/` generates its own data instead and reads nothing from `data/`, per
+  `01-folder-specific-rules/simulations/rules.md`.
 - Every cutoff used in an exclusion is held in a named variable in `main.R`, set from the user's
   approved plan, so the same value drives the filter and the report that quotes it.
 - Scripts run in `main.R`'s order and inherit its environment, so a `summary_` script reads the

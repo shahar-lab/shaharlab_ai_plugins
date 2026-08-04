@@ -7,7 +7,7 @@ Use this file to choose colors for scatter plots, multiple posteriors, and any o
 | Plot Type | Color Required | Default Palette |
 |-----------|---|---|
 | Single posterior (no user request) | No | gray80 |
-| Single posterior (user requests color) | Yes | See "Single Color" below |
+| Single posterior (user requests color) | Yes | One color from Okabe-Ito |
 | Multiple posteriors | Yes | Okabe-Ito or Paul Tol |
 | Scatter plot | Yes | Okabe-Ito (point + line) |
 | Multi-panel composite | No (colors inherited from panels) | — |

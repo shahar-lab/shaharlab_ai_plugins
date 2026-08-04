@@ -2,6 +2,33 @@
 
 ## [Unreleased]
 
+## [2.0.2] — 2026-08-04
+
+- Repaired six stale cross-references and content contradictions found by a full
+  consistency audit: `knowledge-index.md` cited `dispatch.md §1` for the cross-folder
+  rule that now lives in `planning.md`; `README.md` undercounted Malka's references as
+  four instead of five (missing `planning.md`); `handling-leaving-window.md`'s pointer
+  into `shaharlab-jspsych` was missing the `skills/jspsych-coding-style/` path segment;
+  `COLOR_STANDARD.md` pointed at a nonexistent "Single Color" section (now points at
+  Okabe-Ito); `review-checklist.md`'s worked example saved output to a nonexistent
+  `artifacts/data_clean.RDS` instead of `data/processed/data_processed.RDS`.
+- **`simulation/`'s data-flow contradiction, fixed at every place it appeared.**
+  `preprocessing/rules.md` still claimed simulations read from `data/processed/` — the
+  exact claim `project-rules.md` §0 was corrected on in `[2.0.1]` — and
+  `simulations/template_main.R`'s "Data Preparation" step was an unadapted copy of
+  `analysis/`'s, reading from `data/processed/` instead of generating data.
+  `simulations/rules.md` also called its `main.R` path block "Identical to `analysis/`"
+  when it is that block minus `data_path`. All three now agree with
+  `simulations/rules.md`'s own rule: a simulation generates its data and reads nothing
+  from `data/`.
+- **`code-walkthrough`'s Step D numbering, corrected.** `SKILL.md` told the agent to
+  print "statement X out of X" (both placeholders the same letter) where
+  `describe_statement.md`/`what_is_a_statement.md` define and use `M` as the total; its
+  own loop-back sent the agent to "Step D item 7", which is a Step C item, and
+  `describe_statement.md` separately looped back to a "Step D item 6" that doesn't
+  exist — both now point at item 8, where Step D actually begins. `drilldown.md`'s
+  return prompt was lowercase ("ok or drilldown?") where every other file uses the
+  capitalized form; now consistent.
 - **Malka reads `project-rules.md` §0 at Step 1 — she had been routing and planning without the tree.**
   Step 2 asks her to name the folders a job touches in dependency order, which is a pure topology
   decision, and Step 1 asks her to confirm the target folder; neither had any read behind it. Her four

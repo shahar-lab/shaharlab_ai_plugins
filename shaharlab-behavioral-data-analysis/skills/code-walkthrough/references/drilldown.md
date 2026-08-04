@@ -19,7 +19,7 @@ A "statement" is a complete logical unit that can span multiple physical lines.
 
 4. **Help them decide** — Is this statement doing what they expect? Is it correct?
 5. **Be concise** — No unnecessary words
-6. **Return to the step** — When finished, ask **"ok or drilldown?"** again on the same statement. Only move to the next statement after the user replies **"ok"**.
+6. **Return to the step** — When finished, ask **"OK or drilldown?"** again on the same statement. Only move to the next statement after the user replies **"ok"**.
 
 ## Example Drilldown
 

@@ -301,7 +301,7 @@ Summary:
 - Filtering logic is sound and removes expected rows
 - 6 rows removed (within plan); 0 missing values remain
 - New variables correctly constructed
-- Output saved to artifacts/data_clean.RDS
+- Output saved to data/processed/data_processed.RDS
 
 Status: Data is analysis-ready.
 ```

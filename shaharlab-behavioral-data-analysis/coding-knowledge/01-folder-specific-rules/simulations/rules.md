@@ -37,7 +37,8 @@ dataset into this folder's own `artifacts/` and nothing is read from `data/`.
 
 ## The `main.R` path block
 
-Identical to `analysis/`, with `simulation` as the parent:
+Same as `analysis/`'s block, with `simulation` as the parent and no `data_path` — nothing is read
+from `data/`:
 
 ```r
 project_root  <- here::here()

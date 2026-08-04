@@ -21,12 +21,10 @@ output_dir    <- file.path(project_root, "simulation", "<folder_name>", "output"
 
 #### EXECUTE PIPELINE ####
 
-# 1. Data Preparation
-# Read clean data from the top-level data dir. Per the Artifacts Rule, never
-# copy data into this folder. Default stage is data/processed/; use another
-# stage (e.g. data/raw/) only if the user asks for pre-exclusion data.
-# df <- readr::read_csv(file.path(project_root, "data", "processed", "your_file.csv"))
-# source(file.path(code_dir, "prep_data.R"))
+# 1. Data Generation (Saves to artifacts/)
+# Generate the dataset from a models/ definition and known parameters; nothing
+# is read from data/ — a simulation's input is generated, not collected.
+# source(file.path(code_dir, "generate_data.R"))
 
 # 2. Model Fitting (Saves to artifacts/)
 # source(file.path(code_dir, "fit_model.R"))
