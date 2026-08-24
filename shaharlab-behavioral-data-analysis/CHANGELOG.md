@@ -2,6 +2,21 @@
 
 ## [Unreleased]
 
+- Root `README.md`: added a one-time read-allowlist step, since routed reads of
+  `references/` and `coding-knowledge/` land in the plugin directory outside the user's
+  project and prompt for approval one file at a time. Documents the rule for both the
+  marketplace and `--plugin-dir` installs, and records that Claude Code offers no
+  plugin-level permissions field for the plugin to ship this itself.
+
+- `plot-scatter/instructions.md`: tick marks are now 3 to 5 per axis, preferring 4, with a
+  tick at each end of the scale and labels as full integers where possible (up to two
+  decimals otherwise) — replacing the fixed four-tick rule.
+
+- `02_diagnostics.md`: the summary table, trankplot, and pairs plot now run on the model's
+  population-level parameters only. A hierarchical model's group-level `r_<group>[...]` draws (the
+  per-individual/per-group varying effects) are dropped first via a `posterior::subset_draws()`
+  filter; a non-hierarchical model has no `r_` parameters, so the same filter leaves it unaffected.
+
 ## [2.0.2] — 2026-08-04
 
 - Repaired six stale cross-references and content contradictions found by a full

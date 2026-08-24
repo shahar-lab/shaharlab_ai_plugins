@@ -21,7 +21,7 @@ If the x and y variables are on the same scale, the x-axis and y-axis must use e
 
 ## Tick Marks
 
-Use exactly four tick marks on each axis unless the user specifically asks for another number. When x and y use shared same-scale limits, use the same four tick values on both axes. Prefer `seq(limits[1], limits[2], length.out = 4)` or a similarly explicit break calculation.
+Use 3 to 5 tick marks on each axis, preferring 4 unless the user specifies otherwise. When x and y use shared same-scale limits, use the same tick values on both axes. Always include a tick at the start and end of the scale. Format tick labels as full integers where possible; if decimals are necessary, use up to two decimal places (e.g., 0.25, 1.50) for clarity. Compute breaks explicitly with `seq(limits[1], limits[2], length.out = n)` or by specifying round numbers that naturally span the range.
 
 ## Required Layers
 

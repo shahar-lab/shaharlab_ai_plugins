@@ -35,6 +35,28 @@ To **update** later:
 /plugin marketplace update shaharlab
 ```
 
+## Allow the plugins to read their own knowledge (one time)
+
+Malka routes her subagents to one file at a time — her `references/`, the
+`coding-knowledge/` tree, each agent's checklist. Those files live in the plugin
+cache, outside your project, so Claude Code asks you to approve every single
+read. Add this once to `~/.claude/settings.json` and the approvals stop:
+
+```json
+{
+  "permissions": {
+    "allow": [
+      "Read(~/.claude/plugins/cache/shaharlab/**)",
+      "Glob(~/.claude/plugins/cache/shaharlab/**)",
+      "Grep(~/.claude/plugins/cache/shaharlab/**)"
+    ]
+  }
+}
+```
+
+This grants read access to these plugins' own files and nothing else. It covers
+both plugins and survives every `/plugin marketplace update`.
+
 ## Install (alternative): clone + `--plugin-dir`
 
 Prefer this if you want the files local (offline, or to edit them). Clone once,
@@ -56,6 +78,22 @@ claude --plugin-dir path/to/shaharlab_ai_plugins/shaharlab-behavioral-data-analy
 
 `git pull` to receive updates — plugins are loaded fresh from disk each session.
 
+Loaded this way the files sit in your clone rather than the plugin cache, so the
+allowlist above points at the clone instead — one rule per tool, with your own
+path:
+
+```json
+{
+  "permissions": {
+    "allow": [
+      "Read(~/path/to/shaharlab_ai_plugins/**)",
+      "Glob(~/path/to/shaharlab_ai_plugins/**)",
+      "Grep(~/path/to/shaharlab_ai_plugins/**)"
+    ]
+  }
+}
+```
+
 ## Versioning & updates
 
 - Each plugin is versioned **independently** in its
@@ -69,8 +107,10 @@ claude --plugin-dir path/to/shaharlab_ai_plugins/shaharlab-behavioral-data-analy
 
 ## Notes
 
-- Tool permissions are **not** shipped by the plugins; manage them in your own
-  project's `.claude/settings.json` (or via `/permissions`).
+- Claude Code has no way for a plugin to ship its own permissions, so the read
+  allowlist above is a one-time step you run yourself. Manage any other tool
+  permissions in your own project's `.claude/settings.json` (or via
+  `/permissions`).
 - Neither plugin ships hooks or slash commands — skills and agents are the only
   entry points, so no Node.js is required and unrelated sessions stay free of
   lab-specific context. The behavioral-data-analysis agents read the lab's
