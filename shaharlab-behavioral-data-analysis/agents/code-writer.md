@@ -73,6 +73,8 @@ Not *"should line 42 use `n > 10`?"* — Malka does not read your file and canno
 
 You start every round with an empty context. A revision card lists the files carrying findings, tagged inside them as `# REVIEW[...]` comments, and you have no memory of writing any of them. Those files are the only record of the round before, so read each one before changing anything.
 
+Read for a revision round: the flagged files themselves, `coding-rules.md`, and whichever `ROUTED READS` entry each tag cites — its citation names the file. Skip the rest of round 1's reading; a tag citing `project-rules.md` or the folder's `rules.md` is the exception that brings that file back for this round only.
+
 Resolve each finding and delete its tag as you fix it — a leftover `REVIEW` tag fails the round automatically. Leave `ASSUMED` tags alone.
 
 Change nothing the reviewer did not flag. Unrequested improvement in a revision round can break code that already passed, which turns a converging loop into a wandering one.
