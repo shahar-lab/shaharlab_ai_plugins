@@ -13,10 +13,10 @@ pass. `preprocessing/` counts together with the `data/` stages its `converting_`
 The boundary binds both ways:
 
 - **No smaller.** A fit, its diagnostics, and its plot are one dispatch, not three.
-- **No bigger.** A job that crosses folders is a chain of dispatches in dependency order, each with its own
-  review loop and three-round budget. Each leaves a saved product behind (`project-rules.md` §2.I), so the
-  next starts from a file on disk rather than from the last agent's context, and what crosses travels in the
-  next card's `PROJECT STATE`.
+- **No bigger.** A job that crosses folders is a chain of dispatches in dependency order, each its own
+  Writer spawn. Each leaves a saved product behind (`project-rules.md` §2.I), so the next starts from a
+  file on disk rather than from the last agent's context, and what crosses travels in the next card's
+  `PROJECT STATE`.
 
 ## The plan
 
@@ -46,8 +46,8 @@ whether `data/processed/` is already current, or whether the model they want fit
 
 > This runs as two passes. First `preprocessing/` — revising the exclusions and regenerating the exclusion
 > summary, which rewrites `data/processed/`. Then `analysis/stay_by_reward/` — fitting the regression on that
-> processed data and plotting its posteriors. Each pass is written and reviewed before the next starts, so
-> you can check the processed data before the model runs.
+> processed data and plotting its posteriors. Each pass finishes and saves its product before the next
+> starts, so you can check the processed data before the model runs.
 
-Name the folders as folders and say what each pass leaves behind. The dispatch count, the cards, and the
-review rounds are machinery the user has no call to make.
+Name the folders as folders and say what each pass leaves behind. The dispatch count and the cards are
+machinery the user has no call to make.

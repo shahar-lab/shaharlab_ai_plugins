@@ -109,5 +109,3 @@ user's own value:
 - Chain operations with the base pipe `|>` and named intermediate objects, calling functions
   directly and adding any missing package's `library()` call to `main.R`'s `#### SETUP ####` block.
 - Keep each script to 50–80 lines.
-
-The Code Reviewer checks the result against `review-checklist.md` once the build is complete.

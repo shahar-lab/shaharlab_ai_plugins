@@ -2,15 +2,16 @@
 
 ## [Unreleased]
 
-- `agents/code-writer.md` §4: a revision round now reads only the flagged files, `coding-rules.md`,
-  and the specific `ROUTED READS` entry each `# REVIEW[...]` tag cites, instead of every always-read
-  file plus the full routed set again. A tag citing `project-rules.md` or the folder's `rules.md`
-  still brings that file back for the round. Cuts the cost of a small revision round to roughly what
-  the fix actually needs.
-- `03-preprocessing/references/review-checklist.md`: cut from 13.6k to 6.9k characters, about half.
-  Dropped the tutorial-style "Example red flags" code blocks and the duplicated closing checklist in
-  favor of the plugin's usual citation style; every phase and check is preserved. Loads on every
-  preprocessing Reviewer card, every round, so the saving compounds across a job.
+- **Removed the Code Reviewer.** Malka now dispatches only `code-writer`, once per folder, with no
+  PASS/FAIL loop and no revision rounds. The Reviewer's independent check was the main cost driver on
+  every job — two full agent spawns per dispatch, up to three review rounds each re-reading the whole
+  routed set, on jobs of every size regardless of how much actually needed checking. `code-writer.md`
+  gains a Stage 3 self-check against the same rules, routed files, and specification the Reviewer used
+  to gate on, so a job with real stakes is worth reading before it ships — nothing downstream checks it
+  now. Deleted `agents/code-reviewer.md` and both `review-checklist.md` files (`02-scaffolding/`,
+  `03-preprocessing/`); rewrote `knowledge-index.md` as a Writer-only routing table (dropped the `W`/`R`
+  split), `dispatch.md` (one card, one dispatch, no loop), `planning.md`, `interview.md`, and `SKILL.md`
+  to match. This is a workflow and invocation change — cut as a MAJOR version.
 
 - Root `README.md`: added a one-time read-allowlist step, since routed reads of
   `references/` and `coding-knowledge/` land in the plugin directory outside the user's

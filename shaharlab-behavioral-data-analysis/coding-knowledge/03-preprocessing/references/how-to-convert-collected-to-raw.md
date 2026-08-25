@@ -90,5 +90,3 @@ outcome <- tolower(outcome) %in% c("true", "yes", "y", "1")
 |---|---|
 | `examining_data_raw.R` | `how-to-examine.md` |
 | `converting_data_raw_to_processed.R` | `how-to-convert-raw-to-processed.md` |
-
-The Code Reviewer checks the result against `review-checklist.md` once the build is complete.

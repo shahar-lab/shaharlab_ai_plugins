@@ -1,20 +1,19 @@
-# Dispatch — the Cards and the Build Loop
+# Dispatch — the Card and the Build
 
-A card is the prompt string you pass when you spawn a subagent; it carries the variables of one job. The
-subagent starts with an empty context — its agent file arrives first, your card second, and whatever the
-card points at, third — so the card is the context you assemble, and most of what follows is about what to
-leave out of it.
+A card is the prompt string you pass when you spawn the Code Writer; it carries the variables of one job.
+The subagent starts with an empty context — its agent file arrives first, your card second, and whatever
+the card points at, third — so the card is the context you assemble, and most of what follows is about
+what to leave out of it.
 
-Two rules span every card. Leave standing behaviour to `agents/code-writer.md` and
-`agents/code-reviewer.md`, which reach the agent before your card does; a card that restates how an agent
-blocks or returns creates a second copy, and the two drift apart silently. And keep the card to a screen —
-it lives in the dispatch call and nowhere on disk, and one running longer than that has content where a
-path belongs.
+Two rules span every card. Leave standing behaviour to `agents/code-writer.md`, which reaches the agent
+before your card does; a card that restates how it blocks or returns creates a second copy, and the two
+drift apart silently. And keep the card to a screen — it lives in the dispatch call and nowhere on disk,
+and one running longer than that has content where a path belongs.
 
 This file runs once per entry in the plan `references/planning.md` produced at Step 2 — that file decides
 how many dispatches the job is and which folder each one writes into.
 
-## 1 · Dispatching the Code Writer
+## 1 · Building the card
 
 ```
 JOB
@@ -39,10 +38,10 @@ The output paths, plus any ASSUMED tags. Or BLOCKED and the question.
 **`JOB`** names the job and carries no values — "revise the exclusion criteria", never the numbers.
 Values live in `SPECIFICATION` alone, so the two can never disagree.
 
-**`FOLDER`** is this entry's folder from the plan, and it bounds **writing** only — both agents hold §0's
-whole tree and read across the project as the work requires. It also resolves the one variable in the reads
-both agents take on every job: each agent file instructs it to read the two constitution files plus its
-folder's `01-folder-specific-rules/<type>/rules.md`, which §0's tree maps.
+**`FOLDER`** is this entry's folder from the plan, and it bounds **writing** only — the Writer holds §0's
+whole tree and reads across the project as the work requires. It also resolves the one variable in the
+reads the Writer takes on every job: its agent file instructs it to read the two constitution files plus
+its folder's `01-folder-specific-rules/<type>/rules.md`, which §0's tree maps.
 
 **`ROUTED READS`** is what you *decided* — the craft files for the stages this job involves, derived from
 `references/knowledge-index.md` alone. List paths and let the subagent open them itself: a few hundred
@@ -58,8 +57,9 @@ This is a head start, not a permission list: it saves the agent from discovering
 matters, and it stays silent about the rest of the project, which the agent may read anyway. Leave the slot
 out when the job starts from an empty folder and depends on nothing outside it.
 
-**`SPECIFICATION`** is the approved job in the user's own values. The checklists catch convention
-violations; only this catches code that is clean and does the wrong thing.
+**`SPECIFICATION`** is the approved job in the user's own values, in full — the Writer's only source for
+every threshold, formula, and setting the job needs. Nothing downstream checks the code against it, so
+a value missing here is a value the Writer has to guess or block on.
 
 **`RETURN`** lists the returns you will act on, and carries `BLOCKED` on every card. An agent given a way
 to say the specification is silent will use it; an agent given none picks a default instead.
@@ -107,7 +107,7 @@ The two scripts sit in `PROJECT STATE` because the *user* named them, not becaus
 
 #### Example 2 — the analysis dispatch that follows a preprocessing dispatch
 
-Second dispatch of a two-folder job. Preprocessing passed review and left its product on disk.
+Second dispatch of a two-folder job. Preprocessing finished and left its product on disk.
 
 ```
 JOB
@@ -143,114 +143,32 @@ The output paths, plus any ASSUMED tags. Or BLOCKED and the question.
 
 ---
 
-## 2 · Dispatching the Code Reviewer
+## 2 · Dispatching
 
-Build this card alongside the Writer's, before dispatching either — constructing them together is what
-keeps the Reviewer checking the work the Writer was told to write. Every slot but `TARGET` is fixed at that
-point; `TARGET` fills in from what the Writer returns.
+Spawn the Writer with the card from §1. It returns the output paths plus any `ASSUMED` tags, or
+`BLOCKED` and a question.
 
-It is the Writer's card with four moves applied. `FOLDER`, `PROJECT STATE`, and `SPECIFICATION` are copied
-unchanged.
+On a clean return, run this file again for the next entry in the plan, or move to Step 5 when none
+remain. Carry every `ASSUMED` tag it reported forward to Step 5 — the user is the only check on the
+Writer's work, and those tags are the record of every decision nobody made explicitly.
 
-| Move | From | To |
-|---|---|---|
-| add `TARGET` | — | the paths the Writer returned |
-| swap `ROUTED READS` | the index's `W` rows | its `R` rows |
-| change `JOB`'s verb | *fit / write / revise* | *review* |
-| change `RETURN` | output paths + `ASSUMED` tags | `PASS` / `FAIL` |
-
-`TARGET` is the Reviewer's alone. The Writer derives its filenames from its folder's naming rules, so
-naming them for it would put you in a position to contradict those rules; the Reviewer has to be told
-which files to open.
-
-The `W`/`R` split is not a formality: the Writer gets instruction files and `assets/` examples to
-imitate, the Reviewer gets `review-checklist.md` to gate with. A Reviewer handed the Writer's `example.R`
-starts reviewing against a reference implementation instead of the rules. Where a stage ships no
-checklist, `references/knowledge-index.md` names what stands in for it.
-
-Copying `PROJECT STATE` and `SPECIFICATION` verbatim costs a few tokens; trimming either is a judgement
-that can cost a finding.
-
-### Cards examples
-
-#### Example 3 — the Reviewer for the analysis dispatch of Example 2
-
-```
-JOB
-Review the stay-by-reward regression and its posterior figure.
-
-FOLDER
-analysis/stay_by_reward/
-
-TARGET
-analysis/stay_by_reward/main.R
-analysis/stay_by_reward/code/fit_model.R
-analysis/stay_by_reward/code/check_diagnostics.R
-analysis/stay_by_reward/code/plot_posteriors.R
-
-ROUTED READS
-- coding-knowledge/05-bayesian-regression/01_sampling_and_priors.md
-- coding-knowledge/05-bayesian-regression/02_diagnostics.md
-- coding-knowledge/04-visualization/references/plot-types/plot-posterior/instructions.md
-- coding-knowledge/04-visualization/references/standards/EXPORT_STANDARD.md
-- coding-knowledge/02-scaffolding/references/review-checklist.md
-
-PROJECT STATE
-[copied from the Writer's card]
-
-SPECIFICATION
-[copied from the Writer's card]
-
-RETURN
-PASS or FAIL. Or BLOCKED and what is missing.
-```
-
-The scaffolding checklist is routed here and not to the Writer, and the two `plot-posterior` examples are
-routed there and not here — that is the `W`/`R` split doing its work.
+On `BLOCKED`, see the troubleshooting table below. Take the question to the user, amend the card with
+their answer, and re-dispatch.
 
 ---
 
-## 3 · Running the loop
-
-Dispatch the **Code Writer**, then the **Code Reviewer**. On `PASS`, run this file again for the next entry
-in the plan, or move to Step 5 when none remain. Treat `PASS` as the only passing verdict — every other verdict takes the
-`FAIL` path.
-
-On `FAIL`, re-dispatch the Writer with the same card plus the revision block, then re-dispatch the
-Reviewer. Routing holds across rounds — the job is the same job, and only the task has moved from writing
-to fixing.
-
-```
-REVISION — ROUND [N]
-Your previous attempt is in [folder]. The reviewer tagged findings as # REVIEW[...]
-comments in these files:
-  [one path per line]
-```
-
-Run at most **three review rounds per dispatch**. Through all of them you relay control rather than
-content: the findings are tagged inside the code where the Writer reads them, so leave the files closed
-and take each agent's return at face value.
-
----
-
-## 4 · Troubleshooting
+## 3 · Troubleshooting
 
 | What comes back | What it means | What you do |
 |---|---|---|
-| Writer `BLOCKED`, naming a file it needs | you under-routed `ROUTED READS` | add the file, re-dispatch |
-| Writer `BLOCKED`, no defensible default | the specification is silent | get the value from the user, amend both cards |
-| Writer `BLOCKED`, needs a write outside `FOLDER` | the job crosses folders | revise the plan into a chain of dispatches, per `planning.md` |
-| Writer `BLOCKED`, `FOLDER` contradicts the work | the route is wrong | re-route on §0's tree and §2.III |
-| Reviewer `BLOCKED`, nothing to check against | the specification is silent | get the value from the user, amend both cards |
-| `FAIL` after three rounds | usually a Step 1 gap | stop; see below |
+| `BLOCKED`, naming a file it needs | you under-routed `ROUTED READS` | add the file, re-dispatch |
+| `BLOCKED`, no defensible default | the specification is silent | get the value from the user, amend the card |
+| `BLOCKED`, needs a write outside `FOLDER` | the job crosses folders | revise the plan into a chain of dispatches, per `planning.md` |
+| `BLOCKED`, `FOLDER` contradicts the work | the route is wrong | re-route on §0's tree and §2.III |
 
-A `BLOCKED` question arrives phrased about the analysis rather than the code, because neither agent
-knows you do not read their file. Take it to the user, get the value in their own words, amend both
-cards, and re-dispatch. A blocked round leaves the three-round count untouched, since no review happened.
+A `BLOCKED` question arrives phrased about the analysis rather than the code, because the Writer knows
+you do not read its file. Take it to the user, get the value in their own words, amend the card, and
+re-dispatch.
 
-This is why your conversational role stays open past the interview gate. A gap that surfaces only once code
-is being written still belongs to the user, and you are the only channel to them.
-
-**When the loop does not converge.** After three rounds without a `PASS`, stop. Tell the user where the
-files are, that unresolved `REVIEW` comments remain inside them, and ask how they want to proceed. The
-usual cause is a specification gap from Step 1, which they can close and you cannot.
+This is why your conversational role stays open past the interview gate. A gap that surfaces only once
+code is being written still belongs to the user, and you are the only channel to them.

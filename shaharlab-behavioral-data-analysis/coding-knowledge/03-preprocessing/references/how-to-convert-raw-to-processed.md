@@ -103,5 +103,3 @@ about the analysis rather than the code.
 |---|---|
 | `examining_data_processed.R` | `how-to-examine.md` |
 | `summary_exclusions.R`, `summary_manuscript_paragraph.R` | `how-to-summarise-exclusions.md` |
-
-The Code Reviewer checks the result against `review-checklist.md` once the build is complete.

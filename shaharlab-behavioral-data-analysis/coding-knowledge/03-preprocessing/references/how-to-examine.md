@@ -178,5 +178,3 @@ See `../assets/example-examining-report.md` for a worked example of the rendered
   directly and adding any missing package's `library()` call to `main.R`'s `#### SETUP ####` block.
 - Keep the script to 50–80 lines. Where the five blocks plus assembly run longer, split the
   assembly into a second `examining_` script named for the part it reports.
-
-The Code Reviewer checks the result against `review-checklist.md` once the build is complete.

@@ -6,7 +6,7 @@ Version-controlled Claude Code plugins for the Shahar Lab (Tel Aviv University).
 
 | Plugin | What it gives you |
 |---|---|
-| [`shaharlab-behavioral-data-analysis`](shaharlab-behavioral-data-analysis/) | Behavioral data analysis in R: brms Bayesian regression, data preprocessing, lab visualization standards, "one model, one folder" project scaffolding, R code walkthroughs, and the Malka orchestrator workflow that directs `code-writer` and `code-reviewer` over an indexed `coding-knowledge/` tree. Lab rules are read on demand by the agents, not injected into every session. |
+| [`shaharlab-behavioral-data-analysis`](shaharlab-behavioral-data-analysis/) | Behavioral data analysis in R: brms Bayesian regression, data preprocessing, lab visualization standards, "one model, one folder" project scaffolding, R code walkthroughs, and the Malka orchestrator workflow that directs `code-writer` over an indexed `coding-knowledge/` tree. Lab rules are read on demand by the agent, not injected into every session. |
 | [`shaharlab-jspsych`](shaharlab-jspsych/) | Online experiment development: the `lab-online-exp-orchestrator` interview/blueprint/dispatch workflow, jsPsych coding style (incl. Likert scales and window/attention monitoring), and manuscript method-section excerpts — built and reviewed by its own `code-architect` / `code-reviewer` pair. |
 
 Each plugin's own README lists its skills and agents.
@@ -25,9 +25,9 @@ type.
 
 Then just use the skills — e.g. `/shaharlab-behavioral-data-analysis:malka`
 or `/shaharlab-jspsych:lab-online-exp-orchestrator`. Each plugin's agents
-(`code-writer` / `code-reviewer` for data analysis, `code-architect` /
-`code-reviewer` for jsPsych) become available as subagent types, dispatched by
-the skills rather than invoked directly.
+(`code-writer` for data analysis, `code-architect` / `code-reviewer` for
+jsPsych) become available as subagent types, dispatched by the skills rather
+than invoked directly.
 
 To **update** later:
 
@@ -129,7 +129,7 @@ shaharlab-behavioral-data-analysis/
 ├── coding-knowledge/  00-constitution, 01-folder-specific-rules, 02-scaffolding,
 │                      03-preprocessing, 04-visualization, 05-bayesian-regression
 │                      (not skills — indexed by malka, read by the agents)
-└── agents/    code-writer, code-reviewer
+└── agents/    code-writer
 
 shaharlab-jspsych/
 ├── .claude-plugin/plugin.json
