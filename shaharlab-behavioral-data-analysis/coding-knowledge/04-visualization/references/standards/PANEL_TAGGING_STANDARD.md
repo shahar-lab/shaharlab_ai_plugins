@@ -4,7 +4,7 @@ This file owns two rules for the lab: how multi-panel figures are **assembled**,
 
 ## Assembly Library
 
-**Use `patchwork` only.** Never `gridExtra`, never `cowplot`. All composite figures are assembled with patchwork's `|` and `/` operators, which is also what makes the tagging below work.
+**Assemble every composite figure with `patchwork`**, using its `|` and `/` operators — that is what makes the tagging below work, and it is the one assembly package the lab's figures use.
 
 ## When to Apply Panel Tags
 

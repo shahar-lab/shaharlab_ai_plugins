@@ -1,20 +1,14 @@
 # Planning — the runs and jobs the request breaks into
 
-Read this at Step 2, once the user has approved the Summary Card. An approved request is not yet a count
-of jobs: one description can hold several model fits, and each fit is its own folder. Settle the whole
-plan before opening `writer-card.md` — deciding what the jobs are and instantiating one of them are
-different acts, and the card format in front of you invites the second before the first has finished.
+You know need to make a plan that will settle how  the user-request will be executed. This plan translated the user-request into a set of runs and jobs.
 
-## The plan has three levels
+## The plan has two levels
 
-```
-request  →  run  →  job
-```
+* A **plan** is the ordered list of runs.
 
-- A **job** is one folder. One job is one card, one dispatch, one Writer. This holds on every plan.
-- A **run** is the set of jobs executed at the same time. Runs go out in order, and the jobs inside one
+- A **run**  - which is the set of jobs executed at the same time. Runs go out in order, and the jobs inside one
   are dispatched together.
-- The **plan** is the ordered list of runs.
+- A **job** is one folder. One job is one card, one dispatch, one Writer. This holds on every plan.
 
 A single-job request is one run holding one job, which is what most requests are. Runs start earning
 their keep once a request holds several jobs.

@@ -2,14 +2,14 @@
 
 The file-by-file map of `${CLAUDE_PLUGIN_ROOT}/coding-knowledge/`. Malka reads it at Step 3, once per job in her plan, to fill the Writer Card's `ROUTED READS`; the Writer reads it only to locate a path its card already named.
 
-Paths below are relative to `coding-knowledge/`. Every `02`–`06` row is a `ROUTED READS` candidate for the Writer Card. The `00` and `01` rows are its standing read on every job, delivered by the card's `FOLDER` slot rather than listed as a path.
+Paths below are relative to `coding-knowledge/`. Every `02`–`07` row is a `ROUTED READS` candidate for the Writer Card. The `00` and `01` rows are its standing read on every job, delivered by the card's `FOLDER` slot rather than listed as a path.
 
-**This table routes the Writer alone.** The Code Reviewer takes the two constitution files and each folder's `rules.md` on its own standing instruction, reads the approved specification and the files the run produced, and takes no routed craft reads at all — its card has no `ROUTED READS` slot, per `references/reviewer-card.md`. That absence is what holds it to one spawn per run. A `02`–`06` path appearing on a Reviewer Card, or a who-reads-it column appearing in this file, has rebuilt the wider reviewing role that `45d2c1b` removed.
+**This table routes the Writer alone.** The Code Reviewer takes the two constitution files and each folder's `rules.md` on its own standing instruction, reads the approved specification and the files the run produced, and takes no routed craft reads at all — its card has no `ROUTED READS` slot, per `references/reviewer-card.md`. That absence is what holds it to one spawn per run. A `02`–`07` path appearing on a Reviewer Card, or a who-reads-it column appearing in this file, has rebuilt the wider reviewing role that `45d2c1b` removed.
 
 ## How to route a job
 
 1. **Name the folder.** The card's `FOLDER` slot carries the one folder the dispatch works in. That slot is what delivers the `00` and `01` rows: the Writer reads the two constitution files and the `rules.md` for that folder's part on every job, on the standing instruction in its own agent file. Fill the slot and leave those rows off `ROUTED READS`. Work touching two folders is two jobs, each routed for its own folder — see `planning.md`, which also places them in runs.
-2. **Add the `02`–`06` rows for each stage the job involves**, working from the trigger table at the head of each of those sections.
+2. **Add the `02`–`07` rows for each stage the job involves**, working from the trigger table at the head of each of those sections.
 
 Route the stages the job involves and nothing beyond them. `assets/` rows are examples the Writer imitates — route one for each deliverable the job produces.
 
@@ -22,7 +22,7 @@ Route the stages the job involves and nothing beyond them. `assets/` rows are ex
 | `00-constitution/project-rules.md` | §0 the project tree, the scaffolding routing table, naming; then the one-model-one-folder paradigm, the Artifacts/Orchestration/Boundaries rules, the canonical set, the `main.R` path mandate, and §5 the reserved set of values that come from the researcher |
 | `00-constitution/coding-rules.md` | R style: base pipe, naming, headers, `main.R` vs sourced-script split, preferred libraries, calling external tools |
 
-**Malka reads `project-rules.md` §0 as well**, at Step 1 via `interview.md`, to place the work and specify the jobs. It reaches her on her own instruction rather than on a card — restructuring §0 changes what she plans from, so check `SKILL.md` Step 2 alongside this row.
+**Malka reads `project-rules.md` §0 and §5 as well**, at Step 1 via `interview.md`, to place the work and to leave the interview with every reserved value set. It reaches her on her own instruction rather than on a card — restructuring §0 changes what she plans from, so check `SKILL.md` Step 2 alongside this row.
 
 ## 01 · Folder-Specific Rules — routed by where the work lands
 
@@ -56,7 +56,7 @@ Building a new folder routes through `00-constitution/project-rules.md` §0 and 
 `preprocessing/code/` holds three kinds of script, named by prefix — `converting_` moves data
 between stages, `examining_` inspects one stage, `summary_` reports for the researcher and the
 manuscript. **The prefixes themselves are a binding read, not a routed one:** they are stated in
-`01-folder-specific-rules/preprocessing/rules.md`, which is already on both cards for any job
+`01-folder-specific-rules/preprocessing/rules.md`, which the Writer already reads on any job
 landing in `preprocessing/`. This domain holds one `how-to-` file per script kind, so route by which
 scripts the job writes.
 
@@ -66,9 +66,11 @@ scripts the job writes.
 | `converting_data_raw_to_processed.R` | `how-to-convert-raw-to-processed.md` |
 | any `examining_` script | `how-to-examine.md` |
 | `summary_exclusions.R` or `summary_manuscript_paragraph.R` | `how-to-summarise-exclusions.md` |
+| any `converting_` script | `conversion-and-filter-traps.md`, alongside the `how-to-` file above |
 
-A first full pipeline writes all six scripts, so it routes all four. A job that only revises the
-exclusions routes the raw→processed and the summarise files, and nothing else.
+A first full pipeline writes all six scripts, so it routes all four `how-to-` files plus the traps.
+A job that only revises the exclusions routes the raw→processed file, the traps, and the summarise
+file, and nothing else.
 
 **Then check for leaving the window.** `handling-leaving-window.md` is a measure that threads through
 four of the six scripts rather than belonging to one, so it is routed on the data, not on the script.
@@ -88,11 +90,11 @@ column to count, and the file says to leave the criterion out rather than substi
 
 | Path | What it covers |
 |---|---|
-| `03-preprocessing/references/exploration.md` | First contact with collected data, before any pipeline code exists; produces the profile that feeds the interview |
 | `03-preprocessing/references/how-to-convert-collected-to-raw.md` | `converting_data_collected_to_raw.R`: restructure, type every column, drop what was never data, save `data/raw/`; the type-coercion patterns |
 | `03-preprocessing/references/how-to-convert-raw-to-processed.md` | `converting_data_raw_to_processed.R`: the two-phase exclusion pattern, one named surviving dataset per criterion, save `data/processed/` |
 | `03-preprocessing/references/how-to-examine.md` | The `examining_` scripts: the five description blocks, report assembly, and how the raw and processed reports line up |
 | `03-preprocessing/references/how-to-summarise-exclusions.md` | The two `summary_` scripts: the per-phase exclusion cascade tables and the manuscript "Data treatment" paragraph |
+| `03-preprocessing/references/conversion-and-filter-traps.md` | The R traps a pipeline invites: type coercion, `%in%` versus chained `!=`, `scale()`/`cut()`, and the counts to print so a silent loss is visible |
 | `03-preprocessing/references/handling-leaving-window.md` | Online studies: the `window_status` column, counting one exit per *sequence* of `left` trials, the `window_exit_max` cutoff, and the participant-phase exclusion — routed on the data, per the note above |
 | `03-preprocessing/assets/example-examining-report.md` | Worked mockup of an `examining_` report |
 | `03-preprocessing/assets/example-summary-exclusions.md` | Worked mockup of `summary_exclusions.md` |
@@ -161,6 +163,21 @@ standards.
 | `06-parameter-recovery/references/how-to-read-recovery.md` | The six recovery checks in order, the criteria the user supplies, and what a poor result points at |
 | `06-parameter-recovery/assets/example_main.R` | The worked recovery `main.R` — three stage headers, ten numbered scripts |
 
+## 07 · Model Definitions — writing the `.R`/`.stan` pair in `models/`
+
+Route this domain whenever the job writes or revises a `models/[model_name]/` definition. `FOLDER`
+names a folder under `models/`, per `project-rules.md` §2.III — fitting and evaluating that definition
+happen in `analysis/` or `simulation/` and are a different job.
+
+| The job | Route the Writer to |
+|---|---|
+| writes or revises a `models/` definition | `how-to-write-a-model-definition.md` |
+| writes one that a recovery study will generate from and fit back | that file, plus `06-parameter-recovery/references/how-to-build-a-recovery-pipeline.md` for the three agreements the pair has to satisfy |
+
+| Path | What it covers |
+|---|---|
+| `07-model-definitions/references/how-to-write-a-model-definition.md` | The generating `.R` and fitting `.stan` as one pair: what each block holds, non-centred varying effects, the scale and choice-rule agreements between the two files, and what changing a definition does to the folders that load it |
+
 ## Worked routes
 
 Six common jobs, routed end to end. Each shows what the card actually carries, so a route can be
@@ -179,7 +196,7 @@ report deliverables are produced, so both `assets/` examples route.
 
 | `ROUTED READS` | Reads |
 |---|---|
-| `03-preprocessing/references/how-to-convert-collected-to-raw.md`, `how-to-convert-raw-to-processed.md`, `how-to-examine.md`, `how-to-summarise-exclusions.md`, `handling-leaving-window.md`, `03-preprocessing/assets/example-examining-report.md`, `example-summary-exclusions.md` | 3 + 7 |
+| `03-preprocessing/references/how-to-convert-collected-to-raw.md`, `how-to-convert-raw-to-processed.md`, `how-to-examine.md`, `how-to-summarise-exclusions.md`, `conversion-and-filter-traps.md`, `handling-leaving-window.md`, `03-preprocessing/assets/example-examining-report.md`, `example-summary-exclusions.md` | 3 + 8 |
 
 ### B · Revising the exclusion criteria on an existing pipeline, study run in person
 
@@ -190,7 +207,7 @@ count, so `handling-leaving-window.md` routes only if the user asks for it.
 
 | `ROUTED READS` | Reads |
 |---|---|
-| `03-preprocessing/references/how-to-convert-raw-to-processed.md`, `how-to-summarise-exclusions.md`, `03-preprocessing/assets/example-summary-exclusions.md` | 3 + 3 |
+| `03-preprocessing/references/how-to-convert-raw-to-processed.md`, `conversion-and-filter-traps.md`, `how-to-summarise-exclusions.md`, `03-preprocessing/assets/example-summary-exclusions.md` | 3 + 4 |
 
 ### C · brms regression in a new analysis folder, with a posterior plot
 
@@ -214,14 +231,15 @@ panel-tagging standard on the card, and the scatter instructions make color mand
 
 ### E · The Exploration Pass, dispatched at Step 1
 
-The one card that goes out before the approval gate, and the one Writer Card with no `FOLDER`:
-`exploration.md` states that this pass runs over `data/collected/` before any pipeline code exists, so
-it lands in no project part and takes no `01` read. It routes one file and returns the profile the
-interview works from.
+**Not a Writer dispatch and not routed from this index.** The Exploration Pass goes to the **Data
+Explorer**, a separate agent that runs R over `data/collected/` and returns a profile rather than
+writing anything. `coding-knowledge/03-preprocessing/references/exploration.md` is its own standing
+read, stated in `agents/data-explorer.md`, so it appears in no `ROUTED READS` and no row of this file's
+`03` table. Its card carries the data path and the study context — see `interview.md`.
 
 | `ROUTED READS` | Reads |
 |---|---|
-| `03-preprocessing/references/exploration.md` | 1 |
+| none — the Data Explorer routes nothing | 0 |
 
 ### F · First parameter-recovery study for a model already in `models/`
 
@@ -236,7 +254,18 @@ job however many fits it runs, per `simulations/rules.md`. Both `06` references 
 
 The `models/` definition is a read, not a write: `PROJECT STATE` names its path and the Writer sources
 it. When that definition does not exist yet, it is a `models/` job in an earlier run — see
-`planning.md`.
+`planning.md`, and route it as G below.
+
+### G · Writing the `models/` definition a recovery study needs
+
+`FOLDER: models/[model_name]/`. The folder type carries no canonical set — two files and nothing else,
+per `models/rules.md`, which arrives with `FOLDER` along with its two templates. The recovery reference
+routes as well, because the pair has to satisfy its three agreements for the study in the next run to
+mean anything.
+
+| `ROUTED READS` | Reads |
+|---|---|
+| `07-model-definitions/references/how-to-write-a-model-definition.md`, `06-parameter-recovery/references/how-to-build-a-recovery-pipeline.md` | 3 + 2 |
 
 ## Maintaining this index
 

@@ -76,14 +76,16 @@ ggplot(plot_df, aes(x = x, y = y)) +
   ...
 ```
 
-## What to Avoid
+## Palettes that fail, and what they fail on
 
-| Avoid | Why |
+Take every colour from the palettes above; each of these fails a reader on the property named.
+
+| This | Fails on |
 |---|---|
-| Pure red/green pairs | Red-green colorblindness (~8% of males) |
-| `rainbow()` or `heat.colors()` | Not perceptually uniform |
-| Pure hues: `#FF0000`, `#00FF00`, `#0000FF` | Inaccessible |
-| High-saturation yellow on white | Poor contrast |
+| Pure red/green pairs | Red-green colourblindness (~8% of males) |
+| `rainbow()` or `heat.colors()` | Perceptual uniformity — equal steps read as unequal |
+| Pure hues: `#FF0000`, `#00FF00`, `#0000FF` | Accessibility |
+| High-saturation yellow on white | Contrast |
 
 ## Rules for Multi-Distribution Posteriors
 

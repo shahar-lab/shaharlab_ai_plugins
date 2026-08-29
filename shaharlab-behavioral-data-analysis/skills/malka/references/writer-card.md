@@ -32,7 +32,7 @@ SPECIFICATION
 [the approved job, in the user's exact values]
 
 RETURN
-The output paths, plus any ASSUMED tags. Or BLOCKED and the question.
+The output paths, plus any ASSUMED tags and any ADDED READS. Or BLOCKED and the question.
 ```
 
 **`JOB`** names the job and carries no values — "revise the exclusion criteria", never the numbers.
@@ -67,8 +67,10 @@ Writer reads the values here and opens nothing — while the file stays the one 
 copied from. The Code Reviewer reads that same file at the end of the run, so a value mistyped onto a
 card surfaces as a `MISMATCH` rather than as code nobody questions.
 
-**`RETURN`** lists the returns you will act on, and carries `BLOCKED` on every card. An agent given a way
-to say the specification is silent will use it; an agent given none picks a default instead.
+**`RETURN`** lists the returns you will act on, and carries `BLOCKED` and `ADDED READS` on every card. An
+agent given a way to say the specification is silent will use it; an agent given none picks a default
+instead. `ADDED READS` is the same principle applied to your routing: a Writer that needed a craft file
+you left off says so, rather than writing the deliverable without it and leaving you to never find out.
 
 The Writer names the files it writes, from its folder's naming rules — you name the folder, not the
 filenames.
@@ -106,7 +108,7 @@ Both values replace what the pipeline uses now.
 Regenerate summary_exclusions.md so its cascade tables report these two phases.
 
 RETURN
-The output paths, plus any ASSUMED tags. Or BLOCKED and the question.
+The output paths, plus any ASSUMED tags and any ADDED READS. Or BLOCKED and the question.
 ```
 
 The two scripts sit in `PROJECT STATE` because the *user* named them, not because you chose filenames.
@@ -143,7 +145,7 @@ Sampling: 4 chains, 2000 iterations, half warmup.
 Figure: one posterior plot of the fixed effects, no colour.
 
 RETURN
-The output paths, plus any ASSUMED tags. Or BLOCKED and the question.
+The output paths, plus any ASSUMED tags and any ADDED READS. Or BLOCKED and the question.
 ```
 
 ---

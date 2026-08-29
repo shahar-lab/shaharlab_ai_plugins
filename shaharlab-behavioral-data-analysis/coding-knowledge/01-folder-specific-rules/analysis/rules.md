@@ -41,24 +41,18 @@ analysis/
 
 ## The `main.R` path block
 
-Every `main.R` opens with the same anchored paths, so the folder runs identically on any machine:
+`template_main.R` beside this file carries the block, already written for this folder type — inject it
+and set the folder name. `project-rules.md` §4 states the contract it satisfies and what each variable
+holds.
 
-```r
-project_root  <- here::here()
-code_dir      <- file.path(project_root, "analysis", "<folder_name>", "code")
-artifacts_dir <- file.path(project_root, "analysis", "<folder_name>", "artifacts")
-output_dir    <- file.path(project_root, "analysis", "<folder_name>", "output")
-data_path     <- file.path(project_root, "data", "processed")
-```
-
-Scripts in `code/` use these variables and define no paths of their own. Libraries and
+Scripts in `code/` use those variables and define no paths of their own. Libraries and
 `rm(list = ls())` live only in `main.R`.
 
 ## How the folder is handled
 
 - Read input data from `data/processed/` by path; the folder keeps its own copy of nothing.
 - Write only inside this folder — `artifacts/` for machine-readable, `output/` for human-facing.
-- Route every posterior plot through the `04-visualization` knowledge rather than raw ggplot.
+- A figure in this folder is built from the `04-visualization` knowledge for its plot type rather than from raw ggplot. Where the card routed no plot-type file for a figure the specification asks for, take one as an `ADDED READ`.
 - Model definitions live in `models/`; this folder fits and evaluates them.
 - **One fitted model per folder.** If the specification handed to you contains more than one model
   fit, return `BLOCKED` and say how many you counted, rather than building them together in this

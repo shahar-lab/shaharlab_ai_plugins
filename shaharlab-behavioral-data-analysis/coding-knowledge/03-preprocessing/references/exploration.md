@@ -1,258 +1,125 @@
-# Data Exploration Guide (the Architect's Starting Point)
+# The Exploration Pass — profiling collected data
 
-**Use this guide when you (the Architect) first encounter raw data.**
+The one-off pass over `data/collected/` that runs **before any pipeline code exists**, inside Malka's
+Step 1 and before the approval gate. It produces the profile her interview works from. The examination
+that lives *in* the pipeline and reruns with every build is a different thing — that is
+`how-to-examine.md`'s `examining_` scripts.
 
-Before designing any preprocessing pipeline, you must understand the raw data thoroughly. This guide walks you through systematic exploration.
+Read this as the Data Explorer. You have a shell and R; run the blocks below over the data and report
+what they return.
 
-This is the one-off pass that runs *before any pipeline code exists*, straight over
-`data/collected/` in the console. It produces the profile that feeds Malka's interview, and it is
-not a script in `preprocessing/code/`. The examination that lives *in* the pipeline and reruns with
-every build is `how-to-examine.md`'s `examining_` scripts.
+## What the profile is for
 
-## Step 1: Load and Inspect Structure
+Malka is about to ask the researcher for the numbers in `project-rules.md` §5's reserved set — a
+minimum trial count, RT bounds, a window-exit limit. Each is a decision rather than a fact, and the
+researcher makes it against their own distribution or else against nothing. **The distributions come
+first in your report**, because they are the part the interview cannot proceed without.
 
-```r
-# Load the data
-raw_data <- readRDS("path/to/raw_data.RDS")
-# OR
-raw_data <- read.csv("path/to/raw_data.csv")
-
-# Basic structure
-str(raw_data)              # Shows class and first few values of each column
-head(raw_data, 10)         # First 10 rows
-dim(raw_data)              # Dimensions: n rows × p columns
-names(raw_data)            # Column names
-```
-
-**What to note:**
-- How many rows? (sample size)
-- How many columns? (number of variables)
-- What are the column names? (Can you guess each variable's purpose?)
-- What is the current class of each column? (numeric, character, logical, factor, Date, etc.)
-
----
-
-## Step 2: Examine Each Column Individually
-
-For each column, ask:
-
-### What is this column supposed to represent?
-- Is it an ID? (should be unique)
-- Is it a demographic? (age, gender, education)
-- Is it a measured outcome? (score, count, reaction time)
-- Is it a categorical grouping? (treatment, region, category)
-- Is it a date/time? (visit date, enrollment date)
-- Is it a text response? (open-ended comment, note)
-
-### What is its current data type?
-```r
-class(raw_data$column_name)
-```
-
-**Then check:**
-- Is the type correct for the intended variable? (e.g., is an ID numeric when it should be character?)
-- If numeric, what is the range? Does it make sense?
-  ```r
-  summary(raw_data$column_name)
-  range(raw_data$column_name, na.rm = TRUE)
-  ```
-- If character/factor, what are the unique values?
-  ```r
-  unique(raw_data$column_name)
-  table(raw_data$column_name)
-  ```
-- If logical, what proportion is TRUE vs FALSE?
-  ```r
-  table(raw_data$column_name)
-  ```
-
-### Are there missing values?
-```r
-sum(is.na(raw_data$column_name))
-mean(is.na(raw_data$column_name))  # Proportion missing
-```
-
-**What to note:**
-- How many NAs? (absolute count)
-- What proportion? (percentage)
-- Is missing data expected in this column?
-- Is missing data random or systematic? (e.g., only in recent rows)
-
----
-
-## Step 3: Whole-Dataset Missing Pattern
+## 1 · Load and size
 
 ```r
-# Overall missing data summary
-colSums(is.na(raw_data))
-
-# Visualize missing pattern (counts per column)
-# Or use:
-missing_per_column <- data.frame(
-  column = names(raw_data),
-  n_missing = colSums(is.na(raw_data)),
-  pct_missing = colMeans(is.na(raw_data)) * 100
-)
-print(missing_per_column)
-
-# Check: how many rows have NO missing values?
-n_complete_rows <- sum(complete.cases(raw_data))
-cat("Complete rows (no missing):", n_complete_rows, "of", nrow(raw_data), "\n")
+df <- readRDS("<path>")            # or read.csv / read_csv, by what is there
+dim(df); names(df); str(df)
 ```
 
----
+Report the row and column counts, every column name, and the class of each.
 
-## Step 4: Look for Data Quality Issues
+## 2 · The distributions the interview needs
 
-### Impossible or Out-of-Range Values
-```r
-# Example: age should be 18-100
-summary(raw_data$age)
-# If you see negative ages or ages > 150, flag it
-
-# Example: percentage should be 0-100
-summary(raw_data$percentage)
-# If you see values > 100 or < 0, flag it
-```
-
-### String Encoding Problems
-```r
-# Check for "NA" stored as a string instead of proper NA
-raw_data$column_name[1:20]  # Inspect first 20 values
-# Do you see "NA", "NULL", "N/A", "None", "." as strings?
-
-# Check for inconsistent capitalization or spacing
-unique(raw_data$category)  # Is it "Male", "male", "MALE", or "M"?
-```
-
-### Duplicate Rows
-```r
-# Check for completely identical rows
-n_duplicated <- sum(duplicated(raw_data))
-cat("Duplicate rows:", n_duplicated, "\n")
-
-# Check for duplicate IDs (if ID column exists)
-if ("id" %in% names(raw_data)) {
-  n_dup_ids <- sum(duplicated(raw_data$id))
-  cat("Duplicate IDs:", n_dup_ids, "\n")
-}
-```
-
-### Unexpected Data Types
-```r
-# If a column SHOULD be numeric but is character:
-head(raw_data$column_name)  # Inspect values
-# Are there letters mixed in? Commas? Currency symbols?
-
-# If a column SHOULD be a date but is character:
-head(raw_data$date_col)
-# What format is it in? YYYY-MM-DD? MM/DD/YYYY? DD.MM.YYYY?
-```
-
----
-
-## Step 5: Summary Report (Before Preprocessing Plan)
-
-After exploration, compile your findings:
-
-```
-DATA EXPLORATION REPORT
-=======================
-
-Dataset: raw_data
-Dimensions: 100 rows × 8 columns
-Complete cases: 94 rows (94%)
-
-COLUMNS:
---------
-
-1. id (numeric)
-   - Unique values: 100 ✓
-   - Range: 1-100
-   - Missing: 0
-   - Verdict: OK, keep as-is
-
-2. age (numeric)
-   - Range: 22-68
-   - Missing: 0
-   - Verdict: OK, but check if we want to exclude <18 or >75
-
-3. gender (character)
-   - Unique values: "F", "M", "Other"
-   - Counts: F=52, M=45, Other=3
-   - Missing: 0
-   - Verdict: CONVERT to factor with explicit levels
-
-4. score (character) ⚠️
-   - Unique values: "0.5", "1.2", "NA", "2.5", ...
-   - Missing: 0 (BUT "NA" strings present!)
-   - Verdict: CRITICAL - handle "NA" strings before as.numeric()
-
-5. date_visit (character)
-   - Example values: "2020-01-15", "2021-03-22", ...
-   - Format: appears to be YYYY-MM-DD
-   - Missing: 0
-   - Verdict: CONVERT to Date with format = "%Y-%m-%d"
-
-6. region (character)
-   - Unique values: "North", "South", "East", "West"
-   - Counts: North=30, South=28, East=21, West=21
-   - Missing: 0
-   - Verdict: CONVERT to factor OR keep as character
-
-7. outcome (character)
-   - Unique values: "Yes", "No", "Maybe"
-   - Counts: Yes=50, No=40, Maybe=10
-   - Missing: 0
-   - Verdict: CONVERT to factor (ordered or unordered?)
-
-8. notes (character)
-   - Example: "Patient reported...", "Follow-up needed", ...
-   - Missing: 6 values
-   - Verdict: KEEP as character (text); document that 6 rows have missing notes
-
-DATA QUALITY ISSUES:
---------------------
-
-Minor:
-- 6 missing values in notes column (OK, keep them)
-
-Critical:
-- score column contains "NA" strings that must be handled before numeric conversion
-```
-
----
-
-## Exploration Command Cheat Sheet
+Work out which column identifies a participant, which identifies a trial, and which carries a response
+time. Then report, for each, the shape a cutoff would be set against — the count per participant, the
+response-time distribution, and the count of any event the study logs.
 
 ```r
-# Quick overview
-str(raw_data)
-head(raw_data)
-summary(raw_data)
+trials_per_subject <- table(df$subject)
+quantile(trials_per_subject, c(0, .01, .05, .10, .25, .50, 1))
+sort(trials_per_subject)[1:15]                     # the tail a cutoff would remove
 
-# Missingness
-colSums(is.na(raw_data))
-sum(complete.cases(raw_data))
-
-# Single column deep-dive
-unique(raw_data$col)           # Unique values
-table(raw_data$col)            # Frequency table
-range(raw_data$col, na.rm=T)   # Min-max (numeric)
-class(raw_data$col)            # Data type
-
-# Data quality checks
-sum(duplicated(raw_data))      # Duplicate rows
-sum(duplicated(raw_data$id))   # Duplicate IDs
-table(raw_data$col) |> sort(decreasing=TRUE)  # Value frequencies
-
-# Cross-variable checks
-xtabs(~ col1 + col2, raw_data)  # Cross-tabulation (categorical)
-cor(raw_data[, c("num1", "num2")], use="pairwise")  # Correlation
+quantile(df$rt, c(0, .001, .01, .05, .5, .95, .99, .999, 1), na.rm = TRUE)
+sum(df$rt < 200, na.rm = TRUE); sum(df$rt > 3000, na.rm = TRUE)
 ```
 
----
+Give the quantiles and the low tail, so the researcher sees how many participants each candidate
+cutoff would cost them. Where the column names differ, use the ones that are there and say which you
+took for what.
 
-## Next Step: Interview
+## 3 · Leaving the window, for a study run online
 
-Once exploration is complete, take the findings back to Malka's `interview.md` — the clarifying questions for the user and the Preprocessing Plan approval gate happen in its preprocessing section, before any code is written. This pass informs the plan; `how-to-examine.md`'s five description blocks put the same look at the data into the `examining_` scripts the pipeline runs, so it reruns with every build.
+Where the data carries `window_status`, `window_left_ms`, or rows marked
+`event_type == "attention_event"`, profile the exits — the researcher is about to be asked for
+`window_exit_max`.
+
+**One exit is a *sequence* of consecutive `left` trials, not one flagged trial.** Count it that way,
+since that is what the number they give will be compared against; `handling-leaving-window.md` states
+the measure the pipeline then implements.
+
+```r
+exits_per_subject <- tapply(df$window_status, df$subject, function(s) sum(rle(s == "left")$values))
+quantile(exits_per_subject, c(0, .5, .75, .9, .95, 1))
+table(exits_per_subject)
+```
+
+Where none of those columns is present, say so — that is what tells Malka to leave the window-exit
+question out rather than ask it blind.
+
+## 4 · Missingness
+
+```r
+colSums(is.na(df))
+colMeans(is.na(df)) * 100
+sum(complete.cases(df))
+```
+
+Report the count and the percentage per column, and flag any column whose missingness looks
+systematic rather than scattered.
+
+## 5 · What would break a conversion
+
+The `converting_` script that follows is written against what you report here, so name anything that
+would make it fail or fail silently:
+
+- a numeric column stored as text — check for `"NA"`, `"NULL"`, `"N/A"`, `"."`, currency symbols,
+  thousands separators
+- a factor whose levels vary in case or spacing (`"Male"`, `"male"`, `"M"`)
+- a date whose format is ambiguous, and which format it appears to be
+- duplicated rows, and duplicated participant identifiers
+- values outside a possible range for what the column represents
+- researcher test runs still present among real participants, and what marks them
+
+```r
+sapply(df, function(x) if (is.character(x)) head(unique(x), 12))
+sum(duplicated(df)); sum(duplicated(df$subject))
+```
+
+## 6 · The report
+
+Return it as text, in this order:
+
+```
+EXPLORATION PROFILE — <path>, <n> rows x <p> columns, R <version>
+
+DISTRIBUTIONS FOR THE EXCLUSION QUESTIONS
+trials per participant   n = <k> participants; quantiles 0/1/5/10/25/50/100 = ...
+                         the lowest 15: ...
+response time            quantiles ...; <n> below 200 ms, <n> above 3000 ms
+window exits             <present / absent>; per participant ...
+
+STRUCTURE
+<column>  <class>  <unique or range>  <n missing (%)>
+...
+
+WOULD BREAK A CONVERSION
+<each issue, the column it is in, and how many rows it affects>
+
+NOT MEASURED
+<anything the environment or the data prevented, and why>
+```
+
+Every line carries a number where a number exists. The `NOT MEASURED` block is what keeps the profile
+honest — a missing package, an absent column, an identifier you could not work out.
+
+## Next
+
+Malka takes this profile into `interview.md`'s preprocessing questions, where the researcher sets each
+cutoff against the distribution you reported. The Summary Card and the approval gate close Step 1 from
+there.

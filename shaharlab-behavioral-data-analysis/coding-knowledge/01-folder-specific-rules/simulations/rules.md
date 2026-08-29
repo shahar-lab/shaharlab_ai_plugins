@@ -34,23 +34,17 @@ the study: one generating design, one question about how the model behaves.
 ## What these studies are for
 
 - **Parameter recovery** — generate data from known parameters, fit the model back, and compare
-  true against recovered values (a scatter plot with the diagonal reference line, per the
-  `04-visualization` scatter routing).
+  true against recovered values. Its figure is a scatter plot with the diagonal reference line, built
+  from the `04-visualization` scatter knowledge; take that file as an `ADDED READ` where the card
+  carried no plot-type file.
 - **Model simulation** — generate behavior under a set of parameters and check it reproduces the
   qualitative pattern the task is meant to elicit.
 - **Model comparison** — generate under one model, fit several, and see which is recovered.
 
 ## The `main.R` path block
 
-Same as `analysis/`'s block, with `simulation` as the parent and no `data_path` — nothing is read
-from `data/`:
-
-```r
-project_root  <- here::here()
-code_dir      <- file.path(project_root, "simulation", "<folder_name>", "code")
-artifacts_dir <- file.path(project_root, "simulation", "<folder_name>", "artifacts")
-output_dir    <- file.path(project_root, "simulation", "<folder_name>", "output")
-```
+`template_main.R` beside this file carries it, with `simulation` as the parent and no `data_path` —
+nothing here is read from `data/`. `project-rules.md` §4 states the contract.
 
 ## Building one
 

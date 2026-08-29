@@ -62,7 +62,10 @@ built it are found from each other.
 - Every cutoff used in an exclusion is held in a named variable in `main.R`, set from the user's
   approved plan, so the same value drives the filter and the report that quotes it.
 - Scripts run in `main.R`'s order and inherit its environment, so a `summary_` script reads the
-  named datasets the `converting_` script before it left behind.
+  named datasets the `converting_` script before it left behind. This is the stated exception to
+  `coding-rules.md`'s save-and-reload rule, and it exists so every reported exclusion count is the
+  one the filter produced rather than a second measurement of it. Run this folder from `main.R`
+  rather than script by script.
 
 ## Building it
 
@@ -70,6 +73,6 @@ Create `preprocessing/` once per project: `code/`, `output/`, and a `main.R` ada
 `template_main.R` beside this file, whose paths point at `preprocessing/code`,
 `preprocessing/output`, and the three `data/` stages.
 
-Full craft detail for writing each kind of script lives in
-`${CLAUDE_PLUGIN_ROOT}/coding-knowledge/03-preprocessing/references/`, one `how-to-` file per
-kind.
+Each kind of script is written from its own `how-to-` file in
+`${CLAUDE_PLUGIN_ROOT}/coding-knowledge/03-preprocessing/references/`, one per kind. Where the card
+routed no `how-to-` file for a script the job writes, take that file as an `ADDED READ`.

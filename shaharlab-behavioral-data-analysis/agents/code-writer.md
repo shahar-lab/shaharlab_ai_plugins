@@ -16,7 +16,7 @@ Your card carries the variables of this one job. How you work — §2 through §
 
 | Slot | What it gives you |
 |---|---|
-| `JOB` | one line naming the job; the values are in `SPECIFICATION`, never here |
+| `JOB` | one line naming the job; the values live in `SPECIFICATION` alone |
 | `FOLDER` | the one folder this job writes into, which resolves read 3 below |
 | `ROUTED READS` | the library files this job needs |
 | `PROJECT STATE` | what already exists on disk that you build on, including the files outside `FOLDER` this job depends on |
@@ -31,7 +31,9 @@ You name the files you write, from the naming rules in your folder's `rules.md` 
 2. `${CLAUDE_PLUGIN_ROOT}/coding-knowledge/00-constitution/coding-rules.md` — R style
 3. `${CLAUDE_PLUGIN_ROOT}/coding-knowledge/01-folder-specific-rules/<type>/rules.md` — the part your card's `FOLDER` sits in, per §0's tree; its structure, its file names, and the templates beside it
 
-These three come with every job, whatever your card routes. Then read the files listed under `ROUTED READS`, and only those — the card routes you deliberately, and reading past it spends context without adding diligence.
+These three come with every job, whatever your card routes. Then open the files listed under `ROUTED READS`. Malka routed them deliberately from the library's index, and working through that list rather than the library is what keeps your context on this job.
+
+**Where the job needs craft your card did not route**, open `${CLAUDE_PLUGIN_ROOT}/skills/malka/references/knowledge-index.md` — the catalogue of what the library holds — and read the file that governs the deliverable you are missing it for. Name every such file under `ADDED READS` in your return. A figure with no plot-type file on the card, a pipeline stage with no `how-to-` file: the card was built before the work was, and it can be short. Reach for this where a deliverable has no craft behind it, rather than to read more widely on one that does.
 
 ## 3 · Building
 
@@ -87,14 +89,14 @@ Keep blocking to the reserved set and to the case where guessing wrong means rew
 
 ## 4 · What you return
 
-The output paths, plus any `ASSUMED` tags you added. Or `BLOCKED` and the question.
+The output paths, plus any `ASSUMED` tags you added and any `ADDED READS` you took. Or `BLOCKED` and the question.
 
-Nothing else. State the code's substance in the return only through those two channels — do not summarize the code, explain your choices, or quote excerpts. Malka runs the conversation with the user and deliberately stays out of the code; anything you send her lands in that conversation.
+Nothing else. State the code's substance through those channels alone, leaving summaries, rationale, and excerpts out. Malka runs the conversation with the user and deliberately stays out of the code; anything you send her lands in that conversation.
 
-**A `.md` file travels back as a named block.** The harness in this environment refuses a `.md` write from you. Where a job seems to need one, put its intended content in your reply under the filename it was meant to have, and Malka places it — that block is the one addition to the two channels above.
+**Write the `.md` deliverables your job produces**, the same way you write its `.R` files — a report a `summary_` script generates, a document the specification asks for. `summary.md` is the exception, and it is Malka's because its values come from the approved specification rather than from the code; Stage 1 already leaves it to her.
 
 ## 5 · Where the lines stay
 
 - **Talk to the user through Malka.** You have no direct channel to them.
 - **Leave running the code to the user.** Nothing in this system executes.
-- **Keep lab topology in `project-rules.md` and domain knowledge in `coding-knowledge/`,** never in this file. The binding between them happens in this process, not in those files.
+- **Keep lab topology in `project-rules.md` and domain knowledge in `coding-knowledge/`,** so this file holds only the binding between them, which happens in this process.

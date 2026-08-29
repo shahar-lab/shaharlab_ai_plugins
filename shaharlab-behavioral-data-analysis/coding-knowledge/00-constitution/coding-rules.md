@@ -18,20 +18,20 @@ Follow these guidelines when writing R code:
 * Write each script as one step of 50–80 lines, sourced from `main.R`; split a longer script into two named steps.
 * Use only the minimum number of headers needed to make the code easy to navigate.
 * Comment only when the code is not readable from the object names and structure.
-* Avoid explaining code that is already clear.
+* Let clear code speak for itself.
 * Align `<-` and `=` within related blocks when this improves readability.
 * Use the base R pipe `|>` rather than `%>%`, unless the existing code uses `%>%` or a package requires it.
-* Avoid `::`. Call functions directly, and add any missing package's `library()` call to `main.R`'s `#### SETUP ####` header (or the top of the script, if there is no `main.R`).
+* Call functions directly, and add any missing package's `library()` call to `main.R`'s `#### SETUP ####` header (or the top of the script, if there is no `main.R`), so `::` stays out of the body.
 
 
-## what you should not do and avoid when writing in R 
+## Reach for these only where the task calls for them
 
-Avoid over-commenting.
+Comment where the code needs it and leave the rest to the object names.
 
-* Do not to use `set.seed()` unless the user explicitly asks for reproducible random output.
-* Do not to use `tryCatch()` unless there is a clear reason to recover from an expected error.
-* Do not to use `stop()` lines unless the user explicitly asks for strict validation or the error is necessary to prevent incorrect results.
-* Do not use apply, vapply or their like unless you really have to
+* Use `set.seed()` where the user asked for reproducible random output.
+* Use `tryCatch()` where there is a clear reason to recover from an expected error.
+* Use `stop()` where the user asked for strict validation, or where the error prevents an incorrect result.
+* Reach for `apply`, `vapply` and their like where a vectorised expression or an explicit loop genuinely will not serve.
 
 
 
@@ -42,7 +42,7 @@ These are preferred guidelines, but use judgment when the task or existing code 
 * Prefer `tidyverse` and `dplyr` when they fit the task.
 * Prefer simple, explicit code over clever or compact code.
 * Prefer readable intermediate objects over long nested expressions.
-* Prefer not to write custom function() becuase they make reading much harder
+* Write the steps out in sequence; a custom `function()` earns its place only where the same block genuinely repeats.
 
 ## Writing conventions 
 * prefer to use `df` for the main data.frame when ever possible
@@ -93,8 +93,8 @@ Use only `#` for smaller subtitles:
 - Then use `#### EXECUTE PIPELINE ####` to source the scripts in `code/`
 
 **Sourced scripts (code/*.R):**
-- Do NOT include `rm(list = ls())`
-- Do NOT load libraries (they are loaded in main.R)
+- Leave `rm(list = ls())` to `main.R`
+- Leave every `library()` call to `main.R`
 - Start directly with a functional header (e.g., `#### CREATE EXAMPLE DATA ####`, `#### LOAD MODEL ####`)
 - Inherit paths and libraries from the parent environment when sourced from main.R
 
@@ -108,7 +108,15 @@ In sourced scripts under `code/`:
 Each script ends with the save of what it produced, and reads any earlier step's product back
 from `artifacts_dir` at its top (e.g. `df <- readRDS(file.path(artifacts_dir, "df_trials.rds"))`)
 rather than relying on an object left in the environment by a previous `source()`. This keeps every
-script runnable on its own in a fresh session — see project-rules.md §2.I. Open each script with a
+script runnable on its own in a fresh session — see project-rules.md §2.I.
+
+**`preprocessing/` is the stated exception.** Its `summary_` and `examining_` scripts read the named
+datasets the `converting_` script before them left in the environment — `df_collected`, the
+`after_*` frames, the excluded-ID vector — because every exclusion count they report has to be the
+one the pipeline actually produced, and a count recomputed from a saved file is a second measurement
+that can disagree with the first. That folder's scripts are therefore run in `main.R`'s order rather
+than individually; `01-folder-specific-rules/preprocessing/rules.md` states the contract, and the
+`03-preprocessing/` how-to files name the datasets each script leaves behind. Open each script with a
 one-line note of its two ends, so reading `main.R` shows where the pipeline can be resumed:
 
 ```r

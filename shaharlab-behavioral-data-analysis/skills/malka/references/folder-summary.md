@@ -4,8 +4,10 @@ Read this at Step 4, once the run is reviewed, for each dispatch that scaffolded
 `analysis/` or `simulation/` folder. Those are the two folder types that carry a notebook, so a
 dispatch into `preprocessing/` or `models/` passes this step.
 
-Writing it is yours. Every value in it comes from the Code Reviewer's **manifest** — the values as
-the delivered code sets them — rather than from the specification you approved. The two agree on a
+Writing it is yours, because its values come from the manifest and the approved specification rather
+than from the code — the Writer has neither. Every value in it comes from the Code Reviewer's
+**manifest**, the values as the delivered code sets them, rather than from the specification you
+approved. The two agree on a
 `CLEAN` run and the manifest is the one that stays true when they diverge, so a folder's notebook
 describes the analysis that is on disk rather than the one that was asked for.
 
@@ -21,8 +23,13 @@ applied, and the sampler settings. The formula, filter, and settings come from t
 hypotheses and the framing come from the specification, since those are the user's words and the code
 never carried them.
 
-Leave the findings section empty, with its standing "fill this in once the model is fitted and evaluated"
-note. Nothing in this system runs the model, so nothing here can report a finding.
+Leave the findings section empty at Step 4, with its standing "fill this in once the model is fitted and
+evaluated" note. Nothing in this system runs the model, so nothing here can report a finding yet.
+
+**It is filled at Step 6.** When the user comes back with what the analysis found, write it into that
+section in their own terms, per `references/return-trip.md` §4. Without that step the note is an
+instruction addressed to nobody, and the folder's standing record stays a statement of intent for as
+long as the folder exists.
 
 ## What it is for
 

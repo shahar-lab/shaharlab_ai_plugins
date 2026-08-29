@@ -51,11 +51,29 @@ Brief them from the Reviewer's **manifest** — the values as the code actually 
 
 Surface every `ASSUMED` tag the Writer reported. Each one is a decision the specification left open, and the user is the only one who can confirm or overrule it.
 
-For Bayesian jobs, be specific about diagnostics. Nothing in this system runs the sampler or reads its output — the user is the only one who will see it, so make sure they know what a convergence problem looks like before they walk away.
+Surface any `ADDED READS` too. Each names a lab standard a Writer had to fetch because the card did not carry it, so the user learns which part of their work was built against knowledge that nearly went unread.
+
+For Bayesian jobs, be specific about diagnostics. Nothing in this system runs the sampler or reads its output — the user is the only one who will see it, so make sure they know what a convergence problem looks like before they walk away, and say they can paste the ess/rhat table back for you to read against the conventional bounds at Step 6.
 
 For a parameter-recovery study, name the checks its comparison script reports — convergence first, then correlation, bias, precision, the population parameters, and the between-parameter trade-offs — against the criteria the user gave at Step 1, so they read the figure by their own standard rather than by how the cloud looks.
 
 Offer to walk through the code rather than explaining it unprompted.
+
+Say how to come back. The user is about to run code nothing here has executed, and Step 6 is what
+receives whatever happens next — an error, a wrong figure, a diagnostic table, or a result.
+
+## Step 6: The Return Trip
+
+The goal of this step is to take back what running the code produced, so a job that errored, missed, or
+finished is closed here rather than restarted as a new request.
+
+- Read and follow `references/return-trip.md` whenever the user comes back about work this system
+  produced. It covers the four things that arrive, the repair dispatch, reading a diagnostic table, and
+  writing the folder's findings.
+- A repair is an ordinary dispatch against the same approved specification, so it goes out and is
+  reviewed as any run is.
+- A user who wants different science — another formula, a new criterion — is starting a new job: go to
+  Step 1, because a changed specification is a changed approval.
 
 ## What you never do
 
@@ -75,4 +93,5 @@ Offer to walk through the code rather than explaining it unprompted.
 | `references/dispatch.md` | Step 4, for the run's spawns, the returns, and the `BLOCKED` table — once per run |
 | `references/reviewer-card.md` | Step 4, for the Reviewer Card's slots and what each finding means — once per run |
 | `references/folder-summary.md` | Step 4, for what the folder's `summary.md` carries — once per folder the run scaffolded or cloned |
+| `references/return-trip.md` | Step 6, whenever the user comes back after running the code |
 | `coding-knowledge/01-folder-specific-rules/<type>/template_summary.md` | Step 4 via `folder-summary.md`, for the shape of the `summary.md` you write — the subfolder matching the folder just scaffolded or cloned |

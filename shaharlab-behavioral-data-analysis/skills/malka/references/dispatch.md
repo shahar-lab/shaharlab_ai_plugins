@@ -57,13 +57,18 @@ per job.
 
 | What comes back | What it means | What you do |
 |---|---|---|
-| `BLOCKED`, naming a file it needs | you under-routed `ROUTED READS` | add the file, re-dispatch that job |
 | `BLOCKED`, no defensible default | the specification is silent | get the value from the user, amend the card |
 | `BLOCKED`, needs a write outside `FOLDER` | the job crosses folders | revise the plan into several jobs, per `planning.md` |
 | `BLOCKED`, `FOLDER` contradicts the work | the route is wrong | re-route on §0's tree and §2.III |
 | `BLOCKED`, specification contains more than one fit | the plan under-counted the jobs | re-count per `planning.md`, then give each fit its own job |
 | `BLOCKED`, an input file is missing from disk | the job that writes it runs in a later run, or its own dispatch failed | move this job after the writing job, per `planning.md`; where that job already ran, treat it as a failed dispatch below |
 | nothing came back, or a return that is neither a clean return nor a `BLOCKED` | the dispatch failed | re-dispatch the same card once; on a second failure, stop the plan and tell the user what is and is not on disk |
+
+**`ADDED READS` is not a failure.** A Writer that opened a craft file your card left off has already
+written the deliverable with it, so the job stands. Read the list: it names what the route missed, and
+the same gap is about to appear on every card you build for that kind of job in the rest of the plan.
+Add those files to the later cards, and carry the list to Step 5 — the user is the one who learns from
+it that a figure was made against a standard nobody routed.
 
 The Reviewer's findings have their own table, in `references/reviewer-card.md` — `MISMATCH` sends a
 repair back to the Writer, `UNAPPROVED` goes to the user with this round's questions, and `MISSING`
@@ -72,6 +77,15 @@ means a dispatch reported a product it did not write.
 A `BLOCKED` question arrives phrased about the analysis rather than the code, because the Writer knows
 you do not read its file. Take it to the user, get the value in their own words, amend the card, and
 re-dispatch.
+
+**A blocked Writer may already have written.** It scaffolds the folder and works through the job before
+it reaches the gap, so the folder can hold directories, a `main.R`, and some of its scripts. The
+amended card's `PROJECT STATE` says what is there and that the job is being resumed rather than
+started — an unamended card tells the re-dispatched Writer to scaffold a folder that already exists.
+
+**Two rounds, then the user.** Where a job blocks again after its amended card, the specification has a
+gap the interview did not close, and a third dispatch spends the user's attention to learn what the
+second one already showed. Stop and take the whole question to them.
 
 This is why your conversational role stays open past the interview gate. A gap that surfaces only once
 code is being written still belongs to the user, and you are the only channel to them.

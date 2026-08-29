@@ -2,6 +2,103 @@
 
 ## [Unreleased]
 
+- **The Exploration Pass now runs.** `interview.md` made it a hard precondition of every
+  data-dependent question — "work from the figures it returns" — while nothing could execute it: the
+  Code Writer's tools are `Read, Write, Edit, Glob, Grep` with no shell, so none of `exploration.md`'s
+  R ran; its return channel admits only paths and `ASSUMED` tags, so a profile had no way back; and no
+  part of it produced a figure. Malka was asking researchers for exclusion cutoffs having promised them
+  a distribution drawn from their own participants, and getting neither.
+
+  `agents/data-explorer.md` is a new read-only agent with a shell. It resolves an `Rscript`, runs the
+  profile over `data/collected/`, and returns it as text — the one dispatch here whose product is its
+  return rather than a file. `exploration.md` is rewritten as its craft: 125 lines rather than 258,
+  targeted at `data/collected/` rather than a `raw_data.RDS`, addressed to the Data Explorer rather
+  than to "the Architect" (a term belonging to the sibling jsPsych plugin), and with the dangling
+  reference to a "Preprocessing Plan approval gate" removed — no such gate exists, and `TERMS.md` says
+  the Summary Card is the only approval in this system. It leads with the distributions the interview
+  turns on, and carries a `NOT MEASURED` block so a profile states its own limits. Worked route E now
+  records that the pass routes nothing, which also settles the "one Writer Card with no `FOLDER`"
+  problem: it was never a Writer Card.
+
+- **The interview asks until the gap-list is empty.** It was capped at "Not more then 5" questions with
+  no second round, against gap-lists that run to a dozen unknowns for a first recovery study and most
+  of a dozen for a first pipeline. The cap limited the wrong quantity — questions rather than
+  interruptions — so the residue became `ASSUMED` tags the researcher first saw at handback, after the
+  code was written. The rule is now to batch related values into one exchange and keep asking, aiming
+  at about five exchanges and taking a sixth rather than leaving a reserved value unset.
+
+- **The Summary Card carries the values it approves.** It instructed that no "technical fields" belong
+  on the card, and its own Bayesian example read "and your priors" while the Writer Card said
+  `normal(0, 1)` on the fixed effects with 4 chains and 2000 iterations. With one gate and nothing
+  downstream, the only moment a human could catch a mistranscribed prior was the moment the card
+  withheld it. Every value that reaches the code now appears on the card in plain English, and the card
+  names any `data/` stage the run will overwrite together with the folders that read it — the one thing
+  on it a researcher cannot infer from their own request.
+
+- **Step 6, the return trip.** The workflow ended at handback, so a lab member whose tenth script
+  errored started a new request and re-ran the interview and the plan for work that already existed.
+  `references/return-trip.md` receives what running the code produced: the pasted console output, a
+  repair dispatch against the same approved specification (bounded at two attempts on one script), a
+  diagnostic table read against the conventional bounds, and the folder's findings written down. That
+  last one gives `summary.md`'s findings section an owner — it had a standing "fill this in once the
+  model is fitted" note addressed to nobody, and nothing in the system ever returned to it.
+
+- **`ADDED READS`.** `dispatch.md` defined a recovery for under-routing — "`BLOCKED`, naming a file it
+  needs" — that nothing could produce: the Writer was bounded to `ROUTED READS` "and only those" and
+  was never given `knowledge-index.md`, so it could not learn that a file it needed existed. The index
+  meanwhile claimed the Writer read it "to locate a path its card already named", which cards already
+  resolve. The Writer now takes the index as a catalogue when a deliverable has no craft behind it,
+  opens what governs it, and reports it as `ADDED READS`; Malka adds those files to the run's later
+  cards and surfaces them at handback. The unreachable row is gone.
+
+- **The `01` layer states requirements rather than routes.** `analysis/rules.md` ("Route every posterior
+  plot through the `04-visualization` knowledge"), `simulations/rules.md` and `preprocessing/rules.md`
+  each issued craft routes, contradicting both the Writer's read-only-what-is-routed bound and the
+  index's routing monopoly — so a Writer held one instruction to read a file and another forbidding it.
+  Each now states what the deliverable needs and points at `ADDED READS` where the card was short.
+
+- **The two rules for passing data between scripts are reconciled.** `coding-rules.md` required every
+  script to read its inputs from `artifacts_dir` "rather than relying on an object left in the
+  environment by a previous `source()`", while `preprocessing/rules.md` and four `03-preprocessing/`
+  files required exactly that inheritance. Both files reached every preprocessing card, so the Writer
+  picked one silently. The preprocessing convention is right and is now the stated exception: its
+  reported exclusion counts have to be the ones the filter produced rather than a second measurement,
+  so that folder runs from `main.R` rather than script by script. `coding-rules.md` names the exception
+  and `preprocessing/rules.md` cites it.
+
+- **The `main.R` path block has one home.** It was written out in `project-rules.md` §4,
+  `coding-rules.md`, `analysis/rules.md`, `simulations/rules.md`, and both `template_main.R` files —
+  five copies of one contract. The two `rules.md` files now inject the template and cite §4.
+
+- **`07-model-definitions` is a new domain.** `models/` was a first-class folder type with an `01`
+  rules file, a 7-line `template_model.R`, a 13-line `template_model.stan`, no craft, no routing rows
+  and no interview section — the hardest artifact the lab produces, written from an empty skeleton, and
+  a prerequisite of every recovery study. The domain covers the generating `.R` and fitting `.stan` as
+  one pair, non-centred varying effects, and the three scale-and-choice-rule agreements
+  `06-parameter-recovery` already depends on. Numbered `07` so nothing renumbers. `interview.md` gains
+  its section and `knowledge-index.md` its rows and Worked route G.
+
+- **The preprocessing R traps are back.** `45d2c1b` deleted both `review-checklist.md` files with the
+  Reviewer, and the preprocessing one held craft available nowhere else — `%in%` versus `!=` chained
+  with `&` (which removes every row), `scale()` returning a matrix, `cut()` without explicit `labels`,
+  `complete.cases()` scoped wrong, and the counts to print so a silent loss is visible. Restored as
+  `03-preprocessing/references/conversion-and-filter-traps.md`, stated as actions rather than as review
+  findings, routed on any `converting_` script.
+
+- **The `.md`-write claim is removed.** `code-writer.md` stated "the harness in this environment refuses
+  a `.md` write from you", and `folder-summary.md` built on it; no such restriction was found — the
+  agent is granted `Write`, the plugin ships no hooks, and neither the project nor the user settings
+  carries a matching rule. On that premise markdown deliverables were routed back through a return
+  channel that admits neither. The Writer now writes the `.md` files its job produces. `summary.md`
+  stays Malka's, on the real reason: its values come from the manifest and the approved specification,
+  which the Writer does not hold.
+
+- **The state-the-action rule applied to the files that break it.** `coding-rules.md` carried a section
+  titled "what you should not do and avoid when writing in R"; `smart_clone.md`, `EXPORT_STANDARD.md`,
+  `PANEL_TAGGING_STANDARD.md` and `COLOR_STANDARD.md` each framed an instruction as a prohibition.
+  Each is now the action it implies. `COLOR_STANDARD.md`'s "What to Avoid" table also had a two-column
+  body under what had become a three-column header; it is a two-column table again.
+
 - **The Code Reviewer returns, as its specification layer alone.** `45d2c1b` removed it because two
   spawns per dispatch across up to three rounds, each re-reading the whole routed craft set, was the
   dominant cost on every job. That accounting was right about the cost and wrong about what to drop

@@ -3,7 +3,7 @@
 Behavioral data analysis in R for the Shahar Lab (Tel Aviv University).
 Bundles the lab's brms Bayesian-regression workflow, data preprocessing,
 visualization standards, project scaffolding, and R code walkthroughs — plus Malka,
-the orchestrator skill that directs a code-writer subagent.
+the orchestrator skill that interviews you and directs the subagents that build and check the work.
 
 > Installation is documented once at the [repo root README](../README.md).
 > This file lists what the plugin provides.
@@ -21,14 +21,16 @@ routes to the right one.
 
 ## Knowledge
 
-Malka's index lives in `skills/malka/SKILL.md` plus six reference files, each answering one
+Malka's index lives in `skills/malka/SKILL.md` plus its reference files, each answering one
 question: `references/interview.md` (what to ask per domain and which gate blocks),
 `references/user-request-summary.md` (the plain-English confirmation card),
-`references/planning.md` (how many dispatches a job is, and which folder each writes into),
-`references/knowledge-index.md` (the file-by-file map of `coding-knowledge/`, which file goes on
-the card, and worked routes for the common jobs), `references/writer-card.md` (the card's slots
-and worked examples), and `references/dispatch.md` (the spawn, the return, and what each `BLOCKED`
-return means).
+`references/planning.md` (the runs and jobs a request breaks into, and where the approved
+specification is kept), `references/knowledge-index.md` (the file-by-file map of
+`coding-knowledge/`, which file goes on the card, and worked routes for the common jobs),
+`references/writer-card.md` and `references/reviewer-card.md` (the two card formats),
+`references/dispatch.md` (the spawn, the return, and what each `BLOCKED` return means),
+`references/folder-summary.md` (the folder's own notebook), and `references/return-trip.md`
+(what happens when you come back after running the code).
 
 How the subagent *behaves* — the reads it always takes, how it reports, what it returns — lives in
 its own agent file rather than in the card, so a card carries only what varies from job to job.
@@ -53,9 +55,10 @@ reads while it works) and, where a domain needs boilerplate, `assets/`.
 
 ## Agents
 
-Two subagent types, available once the plugin is loaded — dispatched by `malka`, not
+Three subagent types, available once the plugin is loaded — dispatched by `malka`, not
 invoked directly:
 
+- **`data-explorer`** — profiles `data/collected/` at the start of the interview by running R over it, and returns the distribution behind each exclusion question so you set your cutoffs against your own participants. The only agent here with a shell, and it writes nothing.
 - **`code-writer`** — prepares the folder/environment, writes the code for whichever domain Malka names in the Writer Card, then checks its own work against the same rules and the approved specification before returning. One spawn per job.
 - **`code-reviewer`** — reads the finished files against the approved specification and reports what the code actually sets, plus any value that contradicts the specification, any product that never reached disk, and any threshold the Writer chose that was the user's to set. Read-only, one spawn per run, and it routes no craft knowledge — the library the Writer reads stays out of its context, which is what keeps it cheap enough to run every time.
 
