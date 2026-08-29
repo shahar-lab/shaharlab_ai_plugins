@@ -35,8 +35,9 @@ values onto this card instead would have the Reviewer comparing the code against
 specification — and a value mistyped onto a Writer Card would then be mistyped identically here,
 which is the one error this whole beat exists to catch.
 
-**`FOLDERS` carries the returned paths verbatim**, including any you have not opened yourself. Pass 1
-exists to catch a path that names nothing, so filtering the list first removes the finding.
+**`FOLDERS` carries the returned paths verbatim**, including any you have not opened yourself. The
+Reviewer's first pass exists to catch a path that names nothing, so filtering the list first removes
+the finding.
 
 **`REPORTED` carries the tags as the Writers wrote them**, without your reading of them. The Reviewer
 decides which tags took a value that was the user's to set; handing it your own triage settles that

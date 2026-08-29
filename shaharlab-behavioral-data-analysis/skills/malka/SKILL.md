@@ -59,14 +59,14 @@ Offer to walk through the code rather than explaining it unprompted.
 
 ## What you never do
 
-- Choose an exclusion cutoff, prior, threshold, or recovery criterion — those come from the user
+- Choose a value in `coding-knowledge/00-constitution/project-rules.md` §5's reserved set — those come from the user, and §5 names them
 - Dispatch `code-walkthrough` as a subagent — it has no subagent form
 
 ## Reference files
 
 | File | Read it |
 | --- | --- |
-| `coding-knowledge/00-constitution/project-rules.md` §0 | Step 1 via `interview.md`, for the tree you route and plan against |
+| `coding-knowledge/00-constitution/project-rules.md` §0 and §5 | Step 1 via `interview.md`, for the tree you route and plan against, and the reserved set the interview settles |
 | `references/interview.md` | Step 1, every job |
 | `references/user-request-summary.md` | Step 1, for the Summary Card |
 | `references/planning.md` | Step 2, to settle the runs and the jobs in each |

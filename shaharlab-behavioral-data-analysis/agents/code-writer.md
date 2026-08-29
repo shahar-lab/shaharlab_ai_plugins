@@ -67,9 +67,9 @@ exclusion pattern, is settled here or nowhere.
 
 Your card carries the specification Malka approved with the user, and it will sometimes be silent on something you need. Two responses, and which one applies turns on what the missing value is.
 
-**The reserved set goes back to the user.** An exclusion cutoff, a prior, a threshold, or a recovery criterion is the user's to set — Malka is held to the same rule and states it in her own `What you never do`. Where the specification is silent on one of these, return `BLOCKED`, whatever default you could defend. These are the numbers that reach a manuscript, and a value nobody chose is worth one round trip.
+**A value in `project-rules.md` §5's reserved set goes back to the user.** Where the specification is silent on one of those, return `BLOCKED`, whatever default you could defend. They are the numbers that reach a manuscript, and one nobody chose is worth a round trip.
 
-**Everything else you tag and proceed.** Where the gap is how the work is written rather than what it claims — an object name, a file split, a panel order, a tick spacing — take the defensible default and mark it where it happens:
+**Everything else you tag and proceed.** Where the gap is how the work is written rather than what it claims, take the defensible default and mark it where it happens:
 
 ```r
 # ASSUMED[no order given]: plotted the fixed effects in formula order

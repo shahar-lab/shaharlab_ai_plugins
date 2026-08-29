@@ -21,11 +21,20 @@
   the standards, and the agent file says so rather than reporting on files it never opened.
 
   Three passes: every returned path resolves to a non-empty file; every value the specification sets
-  appears in the code as approved, with a calibration table separating an equivalent expression from a
-  real difference; and the structural rules that need no craft knowledge — contiguous two-digit
-  prefixes in `main.R`'s source order, the path block, `source()` through variables, each script saving
-  its product, the canonical set, the naming its `rules.md` states. It returns a **manifest** of the
-  values as the code sets them on every review, plus `MISMATCH`, `UNAPPROVED`, or `MISSING`, or `CLEAN`.
+  appears in the code as approved; and the standing rules its reads state. It returns a **manifest** of
+  the values as the code sets them on every review, plus `MISMATCH`, `UNAPPROVED`, or `MISSING`, or
+  `CLEAN`.
+
+  **The agent file states the method and holds no specifics.** A first draft enumerated the value
+  kinds Pass 2 walks and restated Pass 3's rules as a checklist — the two-digit prefixes, the path
+  block, `source()` through variables, the canonical set — every line of it a copy of
+  `project-rules.md` §2.II, §3 and §4, which the Reviewer already reads. It also carried a worked
+  manifest and a calibration table in lab values. All of it would have gone stale the first time a
+  domain was added or a rule moved, against the plugin's own rule that lab topology stays in
+  `project-rules.md` and domain knowledge in `coding-knowledge/`. Pass 2 now walks the specification
+  itself, so whatever the specification settles is what gets checked and a new domain needs no edit
+  here; Pass 3 checks against whatever its reads say today; and the manifest takes its categories from
+  the specification. The file is 117 lines rather than 173.
 
   `references/reviewer-card.md` is new and holds the card format, parallel to `writer-card.md`;
   `dispatch.md` moves the review and the notebook from the dispatch to the run, where the barrier
@@ -41,15 +50,19 @@
   the Reviewer takes no routed reads and that a `02`–`06` path on a Reviewer Card, or a who-reads-it
   column here, means the wider role has grown back.
 
-- **`BLOCKED` becomes the Writer's default for the reserved set.** `SKILL.md`'s `What you never do` has
-  always held Malka to leaving an exclusion cutoff, a prior, a threshold, or a recovery criterion to
-  the user, while `code-writer.md` made `ASSUMED` its default and `BLOCKED` "the grudging exception" —
-  and illustrated the tag with `ASSUMED[no criterion given]: dropped subjects with fewer than 10
-  trials`, an exclusion cutoff. The rule Malka is held to was voided one layer down, by the agent that
-  writes the number into the file. §3 now splits the two cases: the reserved set returns `BLOCKED`
-  whatever default could be defended, and `ASSUMED` covers how the work is written — an object name, a
-  file split, a panel order — with the worked example replaced to match. The Reviewer's `UNAPPROVED`
-  catches one taken anyway.
+- **The reserved set gets one home, and `BLOCKED` becomes the Writer's default for it.**
+  `project-rules.md` gains a **§5** naming the values that are the researcher's to set — an exclusion
+  cutoff, a prior, a threshold, a recovery criterion — and separating them from the values an agent may
+  take. `SKILL.md`'s `What you never do`, `code-writer.md` §3, and the Reviewer's Pass 2 all cite that
+  section rather than restating the list, so a fifth reserved value is added in one place. Malka's
+  Step 1 read grows from §0 to §0 and §5, since settling those values is what the interview is for.
+
+  The rule needed enforcing as much as it needed a home: `SKILL.md` had always held Malka to it while
+  `code-writer.md` made `ASSUMED` its default and `BLOCKED` "the grudging exception" — and illustrated
+  the tag with `ASSUMED[no criterion given]: dropped subjects with fewer than 10 trials`, an exclusion
+  cutoff. The rule Malka is held to was voided one layer down, by the agent that writes the number into
+  the file. §3 now splits the two cases, with the worked example replaced to match, and the Reviewer's
+  `UNAPPROVED` catches one taken anyway.
 
 - **The approved specification and plan are written to `.malka/current_job.md`.** `planning.md` said
   the plan "lives in the conversation and nowhere on disk … a plan re-derived mid-job can quietly come

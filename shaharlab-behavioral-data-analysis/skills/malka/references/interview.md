@@ -1,7 +1,7 @@
 # Context
 The user arrives with a request in their own words, and most of what the build needs is still unstated. Interview them to clarify it: learn the request in light of the project and the data, surface what it implies, and put every choice it leaves open back to the user. What gets settled here is what gets built. Pin down what the exact requested analysis is, its goal, what it needs, surface anything ambiguous or missing, and resolve it with the user before any code is written. The interview exists to catch what got dropped or worded ambiguously.
 
-Start by reading `${CLAUDE_PLUGIN_ROOT}/coding-knowledge/00-constitution/project-rules.md` **§0** — the project tree, the request-to-location table, the one-way data flow, and the naming rule. That section is what lets you ask where the work lands, and it is what you plan the dispatches from at Step 2. Read §0 alone: §2–§4 are the Writer's own standing reads, and judging code is not your job.
+Start by reading `${CLAUDE_PLUGIN_ROOT}/coding-knowledge/00-constitution/project-rules.md` **§0 and §5** — the project tree, the request-to-location table, the one-way data flow, and the naming rule; then the reserved set, the values that are the researcher's to set and that this interview exists to settle. §0 is what lets you ask where the work lands and what you plan the dispatches from at Step 2; §5 is the list you make sure you leave with. Read those two: §1–§4 are the Writer's own standing reads, and judging code is not your job.
 
 # Internlizing the user's request
 This step is not to be conveyed to the user, but to help you understand the request and plan the next steps.

@@ -94,3 +94,21 @@ data_path     <- file.path(project_root, "data", "processed")   # folders that r
 - The parent and folder name in the paths must match the actual directory (e.g., if the analysis lives in `analysis/anxiety_exam_gender_interaction/`, the paths must say `"analysis", "anxiety_exam_gender_interaction"`).
 
 **Why:** This contract ensures cloud runners, validation scripts, and future AI agents can locate and archive outputs consistently, and guarantees analyses run identically across machines.
+
+## 5. The Reserved Set: values that come from the researcher
+
+Some values in an analysis are facts about the code and some are claims about the science. The second
+kind is the researcher's to set, and no agent in this system chooses one:
+
+- an **exclusion cutoff** — the trial count, RT bound, or window-exit limit that removes data
+- a **prior** — its family and its parameters
+- a **threshold** — any number that decides what counts as a case, a group, or an effect
+- a **recovery criterion** — the correlation, bias, or precision a recovery study is judged by
+
+These are the numbers that appear in a manuscript, so each one traces back to a person who chose it.
+Where a specification is silent on one, the answer is to ask rather than to default: the interview
+settles them before any code is written, the Writer returns `BLOCKED` on one that reached it unset,
+and the Reviewer reports `UNAPPROVED` where one was taken anyway.
+
+A value outside this set — how a script is split, what an object is called, the order of panels in a
+figure — is the Writer's to take, recorded with an `ASSUMED` tag where the specification left it open.

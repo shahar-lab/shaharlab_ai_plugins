@@ -19,7 +19,7 @@ Route the stages the job involves and nothing beyond them. `assets/` rows are ex
 
 | Path | What it governs |
 |---|---|
-| `00-constitution/project-rules.md` | §0 the project tree, the scaffolding routing table, naming; then the one-model-one-folder paradigm, the Artifacts/Orchestration/Boundaries rules, the canonical set, the `main.R` path mandate |
+| `00-constitution/project-rules.md` | §0 the project tree, the scaffolding routing table, naming; then the one-model-one-folder paradigm, the Artifacts/Orchestration/Boundaries rules, the canonical set, the `main.R` path mandate, and §5 the reserved set of values that come from the researcher |
 | `00-constitution/coding-rules.md` | R style: base pipe, naming, headers, `main.R` vs sourced-script split, preferred libraries, calling external tools |
 
 **Malka reads `project-rules.md` §0 as well**, at Step 1 via `interview.md`, to place the work and specify the jobs. It reaches her on her own instruction rather than on a card — restructuring §0 changes what she plans from, so check `SKILL.md` Step 2 alongside this row.
