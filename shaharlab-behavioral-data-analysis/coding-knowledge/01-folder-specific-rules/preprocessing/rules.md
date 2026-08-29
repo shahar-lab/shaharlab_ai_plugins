@@ -6,8 +6,8 @@ three stages that code produces. They are described together because neither mak
 ```text
 Project_Root/
 ├── data/
-│   ├── collected/    ── converting_data_collected_to_raw.R ─▶  (untouched, exactly as it came off the task)
-│   ├── raw/          ── converting_data_raw_to_processed.R ─▶  (collected minus junk columns and non-real rows)
+│   ├── collected/    ── 01_converting_data_collected_to_raw.R ─▶  (untouched, exactly as it came off the task)
+│   ├── raw/          ── 03_converting_data_raw_to_processed.R ─▶  (collected minus junk columns and non-real rows)
 │   └── processed/                                              (raw minus excluded observations)
 │
 └── preprocessing/
@@ -30,14 +30,17 @@ number that appears in the manuscript.
 
 ## Naming the scripts
 
-Every script in `preprocessing/code/` begins with one of three prefixes, and each prefix names the
-one job that script does:
+Every script in `preprocessing/code/` opens with its two-digit position in `main.R`'s order, per
+`project-rules.md` §2.II, then one of three kind-prefixes naming the one job that script does:
 
 | Prefix | The script does this | Example | Writes to |
 |---|---|---|---|
-| `converting_` | moves data from one stage to the next and saves it | `converting_data_collected_to_raw.R`, `converting_data_raw_to_processed.R` | `data/raw/`, `data/processed/` |
-| `examining_` | inspects one data stage and reports what is in it | `examining_data_raw.R`, `examining_data_processed.R` | `preprocessing/output/` |
-| `summary_` | reports for the researcher and for the manuscript | `summary_exclusions.R`, `summary_manuscript_paragraph.R` | `preprocessing/output/` |
+| `converting_` | moves data from one stage to the next and saves it | `01_converting_data_collected_to_raw.R`, `03_converting_data_raw_to_processed.R` | `data/raw/`, `data/processed/` |
+| `examining_` | inspects one data stage and reports what is in it | `02_examining_data_raw.R`, `04_examining_data_processed.R` | `preprocessing/output/` |
+| `summary_` | reports for the researcher and for the manuscript | `05_summary_exclusions.R`, `06_summary_manuscript_paragraph.R` | `preprocessing/output/` |
+
+The `03-preprocessing/references/` how-to files name each script by its kind and subject; the number
+in front of it comes from where `main.R` sources it.
 
 These three cover the whole of preprocessing. Work that fits none of them is an analysis, so it
 belongs in `analysis/[NAME]/` reading from `data/processed/`.
@@ -45,8 +48,8 @@ belongs in `analysis/[NAME]/` reading from `data/processed/`.
 Name the rest of each file after what it acts on, in `snake_case`: the stages a `converting_`
 script moves between, the stage an `examining_` script reads, the report a `summary_` script
 writes. Each `examining_` and `summary_` script writes one Markdown file to
-`preprocessing/output/` carrying its own name, so a report and the script that built it are found
-from each other.
+`preprocessing/output/` carrying its name without the number prefix, so a report and the script that
+built it are found from each other.
 
 ## How the folder is handled
 

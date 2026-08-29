@@ -22,19 +22,22 @@ data_path     <- file.path(project_root, "data", "processed")
 
 #### EXECUTE PIPELINE ####
 
+# Each script's two-digit prefix is its position in this list; inserting a step
+# renumbers the ones after it and the source() lines here in the same edit.
+
 # 1. Data Preparation
 # Read clean data through data_path. Per the Artifacts Rule, never copy data into
 # this folder. Point data_path at another stage (e.g. data/raw/) only if the user
 # asks for pre-exclusion data.
 # df <- readr::read_csv(file.path(data_path, "your_file.csv"))
-# source(file.path(code_dir, "prep_data.R"))
+# source(file.path(code_dir, "01_prep_data.R"))
 
 # 2. Model Fitting (Saves to artifacts/)
-# source(file.path(code_dir, "fit_model.R"))
+# source(file.path(code_dir, "02_fit_model.R"))
 
 # 3. Diagnostics & Posterior Predictive Checks
-# source(file.path(code_dir, "check_ppc.R"))
+# source(file.path(code_dir, "03_check_ppc.R"))
 
 # 4. Plotting (Saves to output/)
 # Posterior plots must use the visualization knowledge's posterior routing, not raw ggplot.
-# source(file.path(code_dir, "plot_posteriors.R"))
+# source(file.path(code_dir, "04_plot_posteriors.R"))

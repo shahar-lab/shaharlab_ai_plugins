@@ -2,7 +2,7 @@
 
 When duplicating an existing `analysis/` or `simulation/` folder (e.g., to tweak a model or add a covariate), you MUST follow these safety protocols to prevent data bloat:
 
-1. **Copy the Code & Docs:** Copy the `code/` folder, the `main.R`, and the `summary.md` files from the old folder to the new destination (same parent as the source unless the user says otherwise).
+1. **Copy the Code:** Copy the `code/` folder and the `main.R` file from the old folder to the new destination (same parent as the source unless the user says otherwise). Leave `summary.md` behind — Malka writes the clone's notebook from the approved specification after your dispatch returns, the same split `01-folder-specific-rules/analysis/rules.md` states.
 2. **WIPE THE ARTIFACTS (CRITICAL):** Do NOT copy the contents of the `artifacts/` or `output/` folders. The new folder must have these folders, but they MUST be completely empty. We absolutely cannot have old `.rds` model fits contaminating the new model's directory.
 3. **Re-point the Paths (CRITICAL):** Open the cloned `main.R` and update the `code_dir`, `artifacts_dir`, and `output_dir` variables so the `<parent>/<old_folder_name>/` segment is replaced with the NEW folder name (and new parent, if it changed). A cloned script otherwise keeps reading from and writing to the SOURCE folder, contaminating it. Per project_rules §4, the path segments must match the actual directory.
-4. **Update Context:** Open the new `main.R` and `summary.md` and explicitly ask the user what the new regression formula or model name should be so you can update the headers.
+4. **Update Context:** Open the new `main.R` and set its headers to the new model name and formula, which reach you in the card's `SPECIFICATION`. Where the card is silent on either, return `BLOCKED` and ask for it there — Malka carries the question to the user, and she sets the same values in the `summary.md` she writes.

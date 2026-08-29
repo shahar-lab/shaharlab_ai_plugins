@@ -6,7 +6,7 @@ three prefixes it is named under are defined in
 `${CLAUDE_PLUGIN_ROOT}/coding-knowledge/01-folder-specific-rules/preprocessing/rules.md`.
 
 Every criterion and every cutoff in this script came from the user through Malka's interview and
-arrives in the execution card. Implement exactly the approved plan.
+arrives in the Writer Card. Implement exactly the approved plan.
 
 ## What this stage does
 
@@ -86,7 +86,7 @@ saveRDS(df_processed, file = file.path(processed_dir, "data_processed.RDS"))
 
 ## Where each cutoff comes from
 
-The execution card carries the criteria in the user's own words and their numbers. A cutoff the
+The Writer Card carries the criteria in the user's own words and their numbers. A cutoff the
 card is silent on is a decision nobody has made — take a defensible default, mark it where it
 happens, and let Malka carry it back to the user:
 

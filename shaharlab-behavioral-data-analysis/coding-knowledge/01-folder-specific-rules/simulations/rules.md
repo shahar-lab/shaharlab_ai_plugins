@@ -6,7 +6,7 @@ collected data. The folder on disk is named `simulation/` (singular). One study,
 ```text
 simulation/
 └── [study_name]/          e.g. param_recovery, model_sim, model_comparison
-    ├── code/              short, unnumbered R scripts (generate_data.R, fit_model.R, plot_recovery.R …)
+    ├── code/              short R scripts, numbered in main.R's order (01_generate_data.R, 02_fit_model.R, 03_plot_recovery.R …)
     ├── artifacts/         machine-readable derived files (generated data, fitted .rds)
     ├── output/            human-facing results (recovery scatter plots, tables)
     ├── main.R             the orchestrator — sources code/ scripts in order
@@ -25,6 +25,11 @@ The canonical set and every rule about it are identical to `analysis/` (see
 
 Because the data is generated, a simulation folder's first `code/` script writes its generated
 dataset into this folder's own `artifacts/` and nothing is read from `data/`.
+
+**The one-folder-per-fit count is an `analysis/` rule and stops there.** A study here holds as many
+fits as its design calls for — a recovery study fits the model back once per simulated dataset, and
+those hundred fits are one study in one folder. The unit that earns a folder under `simulation/` is
+the study: one generating design, one question about how the model behaves.
 
 ## What these studies are for
 
@@ -49,7 +54,10 @@ output_dir    <- file.path(project_root, "simulation", "<folder_name>", "output"
 
 ## Building one
 
-Create `code/`, `artifacts/`, `output/`; inject `template_main.R` as `main.R` and
-`template_summary.md` as `summary.md`; then replace
+Create `code/`, `artifacts/`, `output/`; inject `template_main.R` as `main.R`; then replace
 `<folder_name>` with the real name. To copy an existing
 study, use `../../02-scaffolding/references/smart_clone.md`.
+
+`summary.md` is written by Malka from the approved specification, not by the Writer building the
+folder — the same split `../analysis/rules.md` states. Scaffold the three directories and `main.R`;
+the notebook arrives separately, shaped by `template_summary.md` in this same subfolder.

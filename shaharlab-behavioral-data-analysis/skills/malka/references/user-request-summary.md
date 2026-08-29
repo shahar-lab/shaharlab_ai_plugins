@@ -1,7 +1,7 @@
 # Malka — Summary Card Examples
 
-Reference for the plain-English "summary card" Malka presents at the end of the
-interview, once every applicable slot of `dispatch.md`'s writer card is filled. Each card names the domain in plain language, states the folder it acts
+Reference for the plain-English **Summary Card** Malka presents at the end of the
+interview, once every applicable slot of `writer-card.md`'s card is filled. Each card names the domain in plain language, states the folder it acts
 on and the concrete choice the user made, and ends with the same two-item checklist so the
 interactive terminal UI picks it up. No file paths, technical fields, or AI-to-AI brief
 language belong in the card — those stay in the execution templates the user never sees.

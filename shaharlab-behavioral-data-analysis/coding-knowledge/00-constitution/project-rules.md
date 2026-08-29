@@ -35,12 +35,14 @@ models/[MODEL_NAME]/  →  generated into  →  simulation/[NAME]/artifacts/
 | Preprocessing setup | `preprocessing/` | `01-folder-specific-rules/preprocessing/` |
 | Duplicate / clone a folder | same parent as the source | `02-scaffolding/references/smart_clone.md` |
 
-**Naming.** Use `snake_case` for every folder and file: `model_stay_by_reward`, `param_recovery`, `converting_data_raw_to_processed.R`. Take the name from the approved specification. Keep names free of spaces and of formula notation (`~`, `+`, `|`, `/`) so paths and shell commands resolve.
+**Naming.** Use `snake_case` for every folder and file: `model_stay_by_reward`, `param_recovery`, `03_converting_data_raw_to_processed.R`. Take the name from the approved specification. Keep names free of spaces and of formula notation (`~`, `+`, `|`, `/`) so paths and shell commands resolve.
 
-Scripts under `preprocessing/code/` carry one of three prefixes on top of that — `converting_`, `examining_`, or `summary_`, one per job the script does. `01-folder-specific-rules/preprocessing/rules.md` states the set.
+Every script under a `code/` folder opens with its two-digit position in `main.R`'s source order, per §2.II. Scripts under `preprocessing/code/` carry one of three kind-prefixes after that number — `converting_`, `examining_`, or `summary_`, one per job the script does. `01-folder-specific-rules/preprocessing/rules.md` states the set.
 
 ## 1. Core Architectural Paradigm: "One Model, One Folder"
 Every analytical task must be housed in its own isolated subfolder: empirical analyses (e.g. brms regressions) under `analysis/`, synthetic simulation studies (e.g. parameter recovery) under the top-level `simulation/` directory. Both use the identical canonical folder set (§3).
+
+A folder that fits models holds exactly one fit. A folder that only describes data — plots, tables, summary statistics — holds the coherent set of figures that belong together. `01-folder-specific-rules/analysis/rules.md` states how the count is taken.
 
 ## 2. The Three Golden Rules of Operation
 
@@ -53,8 +55,9 @@ Every analytical task must be housed in its own isolated subfolder: empirical an
 - **Every script loads what it needs:** a script depending on an earlier step reads that step's file from `artifacts_dir` at its top, so each script runs on its own in a fresh session and `main.R` can be resumed from any `source()` line.
 
 ### II. The Orchestration Rule
-- **No Numbered Scripts:** Do not number files in the `code/` directory (e.g., avoid `01_...`). Numbering breaks when intermediate exploratory steps are added.
-- **Source of Truth:** `main.R` is the ultimate conductor. Execution order is dictated entirely by reading the `source()` calls in `main.R` from top to bottom.
+- **Numbered Scripts:** Every script in `code/` opens with a two-digit prefix stating its position in `main.R`'s source order — `01_prep_data.R`, `02_fit_model.R` — so the folder listing reads in pipeline order and a script's place is visible without opening `main.R`.
+- **Renumber in the same edit:** Inserting, removing, or reordering a step renumbers the scripts after it and rewrites the matching `source()` lines, so the prefixes stay contiguous and in order. Revising a folder's pipeline includes this renumbering; a numbered file whose prefix disagrees with `main.R` is the one failure this rule invites.
+- **Source of Truth:** `main.R` is the ultimate conductor. Execution order is dictated entirely by reading the `source()` calls in `main.R` from top to bottom, and the prefixes agree with that order.
 - **Polyglot Execution:** If a script is R, use `source()`. If Python, use `system("python code/script.py")` or `reticulate::source_python()`.
 
 ### III. The Clear Boundaries Rule
@@ -63,7 +66,7 @@ Every analytical task must be housed in its own isolated subfolder: empirical an
 
 ## 3. Standard Folder Structure (analysis/ and simulation/)
 Every `analysis/[NAME]/` and `simulation/[NAME]/` folder must contain this exact hierarchy:
-- `code/` : Short, highly targeted, unnumbered execution scripts.
+- `code/` : Short, highly targeted execution scripts, each prefixed with its position in `main.R`'s order (§2.II).
 - `artifacts/` : Derived model objects (machine-readable).
 - `output/` : Human-readable figures and tables.
 - `main.R` : The top-to-bottom execution orchestrator.

@@ -37,20 +37,22 @@ options(knitr.kable.NA = "")
 # Running this script alone rebuilds data/raw/, data/processed/, and every report in
 # preprocessing/output/ from data/collected/, reading data/collected/ as read-only.
 # Each script inherits the paths, libraries, and cutoffs set above, and the scripts
-# below it also inherit the named objects it leaves behind.
+# below it also inherit the named objects it leaves behind. Each script's two-digit
+# prefix is its position in this list; inserting a step renumbers the ones after it
+# and the source() lines here in the same edit.
 
 # 1. Convert collected data to raw (saves data_raw.RDS to data/raw/)
 # Restructure the collected data into the agreed tidy format (one row per trial),
 # type every column, and drop housekeeping rows and empty columns — keeping every
 # real observation and participant.
-# source(file.path(code_dir, "converting_data_collected_to_raw.R"))
+# source(file.path(code_dir, "01_converting_data_collected_to_raw.R"))
 
 # 2. Examine the raw data (writes examining_data_raw.md to output/)
 # Report what is in data/raw/ before any criterion runs: rows kept and dropped in
 # the conversion, the numeric and categorical column tables, the sample overview,
 # and the per-design-cell and per-participant tables that surface exclusion
 # candidates.
-# source(file.path(code_dir, "examining_data_raw.R"))
+# source(file.path(code_dir, "02_examining_data_raw.R"))
 
 # 3. Convert raw data to processed (saves data_processed.RDS to data/processed/)
 # Run the exclusions in order: participant criteria first (e.g. did not complete
@@ -58,19 +60,19 @@ options(knitr.kable.NA = "")
 # participants that remain (e.g. no response, RT bounds). Give each surviving
 # dataset its own name so the order reads off the code, and take every cutoff from
 # the SETUP variables above.
-# source(file.path(code_dir, "converting_data_raw_to_processed.R"))
+# source(file.path(code_dir, "03_converting_data_raw_to_processed.R"))
 
 # 4. Examine the processed data (writes examining_data_processed.md to output/)
 # The same description tables computed on data/processed/, so the surviving sample
 # reads side by side with examining_data_raw.md, column for column.
-# source(file.path(code_dir, "examining_data_processed.R"))
+# source(file.path(code_dir, "04_examining_data_processed.R"))
 
 # 5. Summarise the exclusions (writes summary_exclusions.md to output/)
 # One table per phase, one row per criterion in the order it ran, with omitted,
 # percent, and remaining — computed from the named datasets left behind by step 3 —
 # then the final N.
-# source(file.path(code_dir, "summary_exclusions.R"))
+# source(file.path(code_dir, "05_summary_exclusions.R"))
 
 # 6. Manuscript paragraph (writes summary_manuscript_paragraph.md to output/)
 # Single "Data treatment" paragraph; compute every number from the data.
-# source(file.path(code_dir, "summary_manuscript_paragraph.R"))
+# source(file.path(code_dir, "06_summary_manuscript_paragraph.R"))

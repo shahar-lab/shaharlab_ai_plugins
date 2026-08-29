@@ -2,6 +2,367 @@
 
 ## [Unreleased]
 
+- **The planning term `pass` is renamed `run`.** `TERMS.md` settled `pass` as "the set of jobs
+  dispatched together" back when the plan gained its three-level shape; it read too close to the
+  Reviewer's old `PASS`/`FAIL` verdict for a plugin that has since removed the Reviewer entirely, and
+  reads too close to "review pass" in ordinary English. `run` is renamed in `TERMS.md`, `planning.md`
+  (including its three worked examples' `pass 1`/`pass 2`/`pass 3` labels, now `run 1`/`run 2`/`run 3`),
+  `dispatch.md` (its §2 heading and body), `SKILL.md` (Step 2's and Step 4's titles and bullets, the
+  reference table), `writer-card.md`, `knowledge-index.md`, and `interview.md`. Several sentences that
+  paired the noun against the ordinary verb "run" — "passes run in order, and the jobs inside one pass
+  run together" — are reworded rather than mechanically substituted, since "runs run in order" repeats
+  one word for two meanings in one clause; the replacement wording ("runs go out in order, and the jobs
+  inside one run are dispatched together") is now used consistently everywhere the point recurs.
+
+  **The Exploration Pass is unchanged and deliberately so** — it names a specific Step 1 dispatch, not a
+  group of jobs, and TERMS.md previously explained the two as one word split by capitalization; since
+  the words now differ, TERMS.md's capitalization note is rewritten to state that `run` and `Exploration
+  Pass` are two distinct terms that happen to play a similar role, so an editor who greps for a stray
+  "pass" knows to route it to the right one rather than assume either. `TERMS.md`'s `run` row notes it
+  was called `pass` until this rename, matching the convention already used for **Writer Card**'s prior
+  name. This CHANGELOG's own historical entries keep saying `pass`, since they describe what was true
+  when they were written.
+
+- **Each plot type is now one file, not a subfolder.** `plot-types/plot-posterior/instructions.md` →
+  `plot-types/plot-posterior.md` (and its `example.png` → `plot-types/plot-posterior.png`, sibling
+  rather than folder-contained); `plot-types/plot-scatter/instructions.md` →
+  `plot-types/plot-scatter.md`; `plot-types/plot-dot-histogram/instructions.md` →
+  `plot-types/plot-dot-histogram.md`. A single-file plot type never needed a folder, and it no longer
+  has one now that none of the three ships an `example.R`. Every `../../standards/...` path inside the
+  three files drops one `../`, since each file sits one directory shallower; the "this folder ships no
+  `example.R`" wording is restated as "no `example.R` exists for this plot type", since `plot-types/`
+  is now shared by all three rather than owned by one. `knowledge-index.md`'s `04` request table, file
+  table, and Worked routes C and F are repointed, and `writer-card.md`'s Example 2 card follows.
+
+- **`plot-posterior/` takes the four-part skeleton, and its canvas and x-axis rules change**, both lab
+  rulings. **The canvas is now 10 × 4 in**, overriding `EXPORT_STANDARD.md`'s 10 × 8 default, because
+  height on a posterior plot is an arbitrary normalized scale that carries no information, and both
+  examples had silently inherited 10 × 8 while the file's own prose called for "wide and short" —
+  a Writer obeying every line of code still produced a figure violating the rule. `EXPORT_STANDARD.md`'s
+  "When Not to Use These Defaults" gains the paired clause: a plot type may state its own canvas, this
+  one being the example. **The x-axis is now three named cases** rather than an effect/non-effect split
+  with only the effect case specified: an effect posterior keeps its symmetric-about-zero range; a
+  bounded parameter (a probability, a learning rate) takes its full bound; anything else takes the draws
+  widened 20% at each end. **The credible interval is one interval at `.width = 0.90`**, replacing the
+  two blocks that had both claimed to be "always applied" at different widths and linewidths — one
+  `stat_pointinterval(.width = 0.95, ...)`, the other `.width = c(0.80, 0.90)` — which a Writer
+  following both would have rendered as two median points at different offsets. **The annotation is now
+  stated for both cases**: an effect posterior keeps `[median = X.XX, pd = XX.XX%]`; any other posterior
+  is `[median = X.XX]`, since pd is the share of the posterior on one side of zero and means nothing
+  without that reference. **The multi-distribution case now states median and pd apply per group**,
+  closing a gap where Example 2 previously omitted both with nothing saying whether that was
+  deliberate.
+
+  The file is now `## Purpose`, `## The rules` (bulleted, each self-contained, with a `*Why:*`
+  paragraph under the ones that need one), and `## Examples`. Fixed in the same pass: the deprecated
+  numeric-vector `legend.position = c(1, 0.95)` (ggplot2 3.5.0+) is now
+  `legend.position = "inside"` / `legend.position.inside = c(1, 0.95)`; the custom
+  `xlim_posterior <- function(draws, pad = 0.20)` is inlined as plain arithmetic per
+  `coding-rules.md`'s prefer-not-to-write-custom-functions guidance; both examples now export, where
+  neither did before; `coord_cartesian(ylim = c(0, 1.3))` is now derived (`stat_slab()` normalizes to
+  height 1, plus 0.3 headroom for the annotation) rather than stated with no reasoning behind it.
+
+  **`plot-posterior/example.R` is deleted**, absorbed as Example 1, for the same reasons as
+  `plot-scatter/example.R` above — it and the file's inline code had already drifted, and it taught
+  rule violations (`set.seed(42)`, `library()` in a sourced script, no reads/writes header) by
+  imitation. **A third example is added** — two condition means (non-effect posteriors) and their
+  difference (an effect posterior) assembled as a two-panel patchwork figure — because this is the
+  figure `example.png` in this folder depicts, and no code in the repo produced it before this pass.
+  **`example.png` itself is not yet regenerated**: rendering needs an R session with `ggdist` and
+  `patchwork`, which this environment does not have. The file and `knowledge-index.md` both flag it as
+  awaiting regeneration from Example 3 rather than claiming the correspondence is already true. Paired
+  routing repairs: `knowledge-index.md` drops the `example.R` row and restates the instructions row;
+  Worked route C falls from `3 + 6 or 7` to `3 + 5 or 6`; Worked route F falls from `3 + 10` to `3 + 9`;
+  `writer-card.md`'s Example 2 card drops the `example.R` line.
+
+- **New domain: `coding-knowledge/06-parameter-recovery/`.** A recovery study now has craft knowledge of
+  its own, taken from the lab's `shahar_lab_rl_models/simulation/alpha_beta_param_recovery` pipeline and
+  generalized past RL. `how-to-build-a-recovery-pipeline.md` states the three stages the pipeline is built
+  in — setting the environment, setting the agent population, generate and recover — with a mapping table that
+  reads those stage names for a regression, an IRT/GRM, or a Bradley-Terry model, the three
+  generating-versus-fitting agreements that make a recovery result interpretable (same population form,
+  same parameter scale, same choice rule), and the artifacts each stage leaves for the comparison.
+  `how-to-read-recovery.md` states the six checks in order — convergence, correlation, bias, precision and
+  shrinkage, the population parameters, and between-parameter trade-offs — each with the criterion held in
+  a named variable the user supplies, plus a table mapping a poor result onto which of the three causes it
+  points at. `assets/example_main.R` is the worked skeleton.
+
+  Routed from `knowledge-index.md`'s new `## 06` section (two-row trigger table, three file rows) and
+  worked route F, a first recovery study at 3 + 10 reads. `interview.md` gains the per-stage gap-list
+  bullet, including asking the user what recovery has to look like to count as successful. `SKILL.md`
+  Step 5 names the checks to report at handback, and its "What you never do" list now names the recovery
+  criterion beside the exclusion cutoff and the prior. `TERMS.md` gains recovery study, environment,
+  agent, true parameters, recovered parameters — the environment row also separating the stage from
+  `code-writer.md` §3's "prepare the environment" and from R's own environments.
+
+- **`code/` scripts are numbered by their position in `main.R`.** *(breaking: every folder's script names
+  change)* `project-rules.md` §2.II had said the opposite — "No Numbered Scripts" — on the ground that
+  numbering breaks when a step is inserted. The rule now states the numbering and the renumbering
+  together: a two-digit prefix gives each script its place in `main.R`'s source order, and inserting,
+  removing, or reordering a step renumbers the scripts after it and rewrites the matching `source()` lines
+  in the same edit. The listing then reads in pipeline order, which is what the lab wanted from the
+  recovery folder this release is modeled on.
+
+  Files: `project-rules.md` §0 naming, §2.II, §3; `analysis/rules.md` tree and `code/` row;
+  `simulations/rules.md` tree; `preprocessing/rules.md` tree and naming table, where the number goes in
+  front of the `converting_`/`examining_`/`summary_` kind-prefix and the report keeps the unnumbered name;
+  all three `template_main.R` files.
+
+- **The plan returns passes, and a pass dispatches its jobs at the same time.** *(breaking: the plan's
+  return contract changes shape)* Malka had been strictly serial — build a card, spawn one Writer, wait,
+  repeat — and nothing said so outright; it followed from `planning.md` returning a flat ordered list, and
+  from phrases like "in dependency order, routed one at a time". But serial was only ever justified for
+  jobs joined by a **data** dependency. `project-rules.md` §0 states that an `analysis/` folder "writes
+  only inside its own folder" and a `simulation/` folder "reads nothing from `data/`", and
+  `agents/code-writer.md` §1 bounds every Writer to writing inside its card's `FOLDER`, returning
+  `BLOCKED` rather than writing elsewhere. Two jobs in different folders therefore cannot collide on
+  writes, and the only possible race is reading a stage another job is still writing.
+
+  So the plan now has three levels — request → pass → job. A **pass** is the set of jobs that run at the
+  same time; passes run in order. A job joins the earliest pass where everything it reads is already on
+  disk, and exactly two reads create a wait: `data/processed/` or `data/raw/` waits on the
+  `preprocessing/` job that writes it, and a `models/` definition waits on the `models/` job that writes
+  it. A request of four jobs that used to take four serial rounds — preprocessing, a simulation, a
+  descriptive set, a regression — now runs in two passes, because the simulation depends on neither the
+  data stages nor the analyses.
+
+  **`1 job = 1 folder = 1 card = 1 Writer` is untouched**, and the reasoning for keeping it is now on the
+  record: `FOLDER` is the surface a Writer checks itself against before returning, a blocked job stays
+  independently resumable, and one Writer holding several folders is the pathway that produced the
+  six-fits-in-one-folder bug this changelog already records. Concurrency changes *when* Writers are
+  spawned, never how much any one of them holds.
+
+  **Same-shape jobs get a pilot instead of a fan-out.** Six fits of one formula share every specification
+  slot, so sending all six at once means six Writers reading the same craft stack and, on a silent prior,
+  six identical `BLOCKED` returns. The first job now takes a pass alone on the full craft route; the rest
+  follow in the next pass as clones routed to `smart_clone.md` and the folder's `rules.md`. The craft
+  library is read once, the folders come out consistent because they were copied from one that works, and
+  a specification gap surfaces while five jobs are still unspent. Jobs of *different* shapes share a pass
+  and go out together, since their failure modes have nothing in common.
+
+  Files: `planning.md` rewritten around passes — the three levels, the job-count table (fits split,
+  descriptives merge, one `simulation/` study is one job however many fits it runs), the dependency table,
+  the pilot rule, the pass-grouped plan format, and three worked examples (one job; four jobs in two
+  passes; six fits as pilot-plus-clones). `dispatch.md` gains §1, the four beats of one dispatch (card,
+  spawn, return, notebook), and §2, how a pass goes out in a single message and is awaited whole; §3 now
+  opens with batched triage — every `BLOCKED` question in a pass goes to the user in one round, and only
+  the blocked jobs re-dispatch — and gains a row for an input missing from disk, which means the job sat
+  in too early a pass. `SKILL.md`: Step 2 is renamed "Plan the Jobs and Passes" and states the
+  granularity of every later step, Step 4 is renamed "Dispatch the Pass" and spawns one Writer per job in
+  one message, Step 3 notes it runs once per job, the intro says a card per folder and several Writers at
+  once, and the reference table records per-job versus per-pass. `TERMS.md` gains **pass**,
+  rewrites **plan**, **job**, and **dispatch**, and extends the capitalization note, since a lowercase
+  pass and the **Exploration Pass** are now two different things. `knowledge-index.md` and
+  `writer-card.md` drop "one at a time" and "per entry" for "per job".
+
+- **Every `SKILL.md` step now opens by stating its goal.** Steps 2, 3, and 4 had gone straight to their
+  bullets, so Malka arrived at each one knowing the mechanics and not what she was there to achieve. Each
+  step now leads with one plain sentence: a request specified well enough to build from as it stands
+  (Step 1); how many jobs the request breaks into and which folder each writes into (2); everything the
+  Writer needs to know about its job and nothing more (3); the code written, and any gap it hit carried
+  back to the user (4); the user able to run the work and judge its output unaided (5).
+
+  Steps 1 through 4 are now that sentence plus their bullets, with no orientation prose behind it. The
+  prose those steps briefly carried restated what `dispatch.md` already owns — the Writer's empty
+  starting context (§ intro), the `ROUTED READS` and `SPECIFICATION` slots and the "a file left off is
+  knowledge the subagent works without" trade (§1), the return shape (§2), and blocked questions arriving
+  phrased about the analysis (§3) — so it was a second copy of reasoning that lives one read away. Steps
+  4b and 5 keep their prose, because neither has a reference file behind it and `SKILL.md` is the only
+  home their reasoning has. Step 4b's reason also moved from its last paragraph to its first, and that
+  last paragraph keeps only what it alone said — the contrast with the Summary Card.
+
+- **Step 4b is gone, and Malka has five steps.** Writing the folder's `summary.md` had been a lettered
+  sub-step of the dispatch, which read as though it were somehow less than a step. It is less than a step:
+  it is the fourth beat of one dispatch, which `dispatch.md` §1 already states. Promoting it to its own
+  number left the granularity stuttering — Step 3 per job, Step 4 per pass, Step 5 per job again — so it
+  is now a bullet under Step 4, where the pass's returns are handled, and Hand Back is Step 5.
+
+  Two nearer alternatives were ruled out on the way. The Writer cannot own the notebook:
+  `agents/code-writer.md` states that the harness refuses a `.md` write from it, and every value in the
+  notebook comes from the specification Malka holds, so routing it through the Writer would add a
+  translation with no source of truth on the far side. Malka cannot write it at Step 3 either, because the
+  folder does not exist until the Writer scaffolds it — and a folder holding one stray `summary.md` would
+  meet the Writer's "if it does exist, verify it matches the canonical set" branch and fail it.
+  Composing the notebook alongside the card is still the natural move, since both draw on the same
+  approved values; only the file has to wait.
+
+  `exploration.md`'s own "Step 1–5" headings are a separate numbering space — the sections of the
+  exploration script — and stay as they are.
+
+- **The `summary.md` craft moves to `references/folder-summary.md`.** Step 5 was four paragraphs deep in
+  `SKILL.md` while every other step had shrunk to a goal and a bullet, and the content it held was craft
+  a reference file should own: the shape to follow, what the notebook carries, the empty findings section
+  and why nothing here can report a finding, and the contrast with the Summary Card. The name pairs with
+  `user-request-summary.md` — one summary for the user, one for the folder. `TERMS.md`'s **`summary.md`** row settles on the new file rather than on a
+  `SKILL.md` step, and `SKILL.md`'s reference table gains a row for it, with `template_summary.md` now
+  reached through it rather than directly.
+
+- **`dispatch.md` splits: the card gets its own `references/writer-card.md`.** One file had been serving
+  two steps — Step 3 read its §1 to build the card, Step 4 read §2–§3 to spawn and to read the return —
+  and the seam showed in `SKILL.md`, which had to tell Malka to follow a file "already open from Step 3".
+  A file serving two steps also numbers badly: §1 was 127 lines and §2–§3 together were 32. The card now
+  lives in `references/writer-card.md` — what the card is, the empty-context fact, the two rules spanning
+  every card, the six slots, and both worked examples — and closes by handing off to the spawn.
+  `dispatch.md` keeps the round trip in two sections, Dispatching and Troubleshooting, renumbered §1–§2.
+  Each step's header now names its own file: "Route and Build the Writer Card" reads `writer-card.md`,
+  "Dispatch the Code Writer" reads `dispatch.md`, and neither cites a section. This continues the split
+  that moved planning out of the same file into `references/planning.md`, and partly reverses the older
+  merge of `guidelines-execution-card.md` and `guidelines-dispatch-subagents.md` — on a boundary that
+  follows the steps rather than the concepts.
+
+  Every path that named the old file moved with it: `SKILL.md` (the Step 3 and Step 4 bullets, plus two
+  rows in the reference table where there had been one), `planning.md` (settle the plan before opening
+  `writer-card.md`), `user-request-summary.md`, `README.md` (five reference files became six), and
+  `TERMS.md` — **specification**, **Writer Card**, and **`FOLDER`** now resolve to `writer-card.md`,
+  while **dispatch** and **`BLOCKED`** follow `dispatch.md`'s new §1 and §2.
+
+- **`planning.md` no longer says `PASS`.** "Step 4 comes back to it after every `PASS`" was the last
+  surviving mention of the Code Reviewer's vocabulary anywhere in the plugin; the Writer returns paths or
+  `BLOCKED`, so the line now reads "after every clean return". The same file also stopped naming a
+  reference file as the thing that runs once per entry — Steps 3 and 4 do, and `SKILL.md` owns that loop.
+
+- **`SKILL.md` owns the dispatch loop; `dispatch.md` §2 no longer restates it.** Both files had been
+  telling Malka where a clean return goes next, and the loop is over `SKILL.md`'s own steps, so `SKILL.md`
+  keeps it: a file loaded on every job outranks a routed read for step sequencing. `dispatch.md` §2 now
+  carries only what it alone knows — spawn the card, the return shape, forwarding `ASSUMED` tags to
+  Step 5, and the `BLOCKED` handoff to §3 — and points at Step 4 for the rest. Step 4's two reads also
+  became bullets, matching Steps 1 through 3, and the return to Step 4b now states the condition it
+  always had: a dispatch that scaffolded or cloned a folder. A `preprocessing/` dispatch writes no
+  `summary.md`, and the line had read as though every dispatch routed through that step.
+
+- **`plot-scatter/` takes the four-part skeleton, and two of its rules change.** Both changes are lab
+  rulings, not formatting. **The square panel is now `theme(aspect.ratio = 1)`**, with `coord_equal()`
+  reserved for a same-scale pair, where it delivers the square and one shared data unit together. The
+  file had mandated `coord_equal()` on every scatter "even when the x and y variables are not on the
+  same measurement scale" — but that call fixes one *data unit* on x to one data unit on y, so a mean-RT
+  against accuracy plot rendered as a 700-by-1 sliver rather than a square, and the rule was
+  self-defeating on exactly the pairs it named. **The equality diagonal is now conditional on a shared
+  scale**, where a point above the line means y exceeded x; on differently-scaled variables it compares
+  units with no common meaning and usually falls off-panel, so it is left off.
+
+  The file is now `## Purpose`, `## The rules` (13 rows), `## Things to know` (matched pairs from one
+  data frame, the square-panel branch, what the diagonal reads as, the Pearson label's corner anchor),
+  and `## Examples`. **A second example is added** — two measures on different scales — because the
+  file's only runnable code implemented the same-scale branch as though it were universal, so an
+  empty-context Writer plotting RT against accuracy had nothing correct to copy. The matched-pairs rule
+  is stated as constructing the pair from one data frame rather than as a length check: two vectors of
+  unequal length are recycled by R rather than rejected, and the `stopifnot()` it replaces compared two
+  columns of one data frame, which are equal in length by construction and could never fail.
+
+  **`plot-scatter/example.R` is deleted**, its figure absorbed as Example 1. It and the file's own
+  template were the same plot written twice and had already drifted — `size = 2.5` against `size = 2`, a
+  `linewidth = 0.6` on the diagonal in only one, and an export block in only one, so the template alone
+  produced a figure that was never saved. It also taught five rule violations by imitation: `library()`
+  in what becomes a sourced script, `set.seed(42)`, `output_dir <- tempdir()`, `# ---- Setup ----`
+  headers in place of `#### HEADER ####`, and no opening `# reads: … · writes: …` line. Paired routing
+  repairs: `knowledge-index.md` drops the `example.R` row, restates the instructions row, and Worked
+  route D falls from `3 + 5` to `3 + 4`.
+
+- **Added a `plot-dot-histogram` plot type** under `04-visualization/references/plot-types/`: built on
+  **ggdist**'s `geom_dots(layout = "bin")` rather than base ggplot2's `geom_dotplot()`, matching
+  `plot-posterior/`'s use of ggdist and getting a more capable Wilkinson dot-stacker. One dot per
+  observation. The x-axis takes the variable's theoretical range from the specification when one applies
+  (e.g. a Likert item's stated bounds) and falls back to a 10%-padded data range otherwise, with 4–5
+  ticks and labels rounded to at most two decimals. Bin width is left to `geom_dots()`'s own auto-select
+  (`binwidth = NA`), overridable by an explicit width from the specification. `geom_dots()` stacks in
+  normalized panel units rather than at count heights, so the y-axis is rebuilt from the built plot with
+  its **breaks in panel units and its labels in counts** — the largest count per `ggplot_build()`'s
+  per-dot `bin` id gives the tallest stack, and `max(built$y)` gives that stack's extent. Handing count
+  values straight to `breaks` would place every one of them outside the data range and draw none, which
+  is how a first cut of this file rendered an axis labelled "Count" with a lone `0` on it. The extent is
+  read from the build rather than from ggdist's internal scaling constant, so the mapping survives that
+  constant moving. Unlike
+  `plot-posterior/` and `plot-scatter/`, this folder ships no `example.R`: the `## Examples` section
+  inside `instructions.md` is the one runnable copy, assuming a `df` with column `x` and including the
+  export block. `knowledge-index.md`'s `04` request table and file table gain the new rows.
+
+  **The file introduces a four-part skeleton for plot types** — `## Purpose`, `## The rules`,
+  `## Things to know`, `## Examples` — against the siblings' run of eight short sections, which made a
+  reader scan eight signposts to reach ten facts. Eleven one-line settings (geom, layer order, bin
+  width, layers, x range, x ticks, y-axis, colour, theme, labels, export) are table rows; prose is spent
+  only on the two rules carrying a branch or a mechanism, and both sit under `Things to know` so that
+  part generalizes to whatever remarks another plot type has. `Examples` states its preconditions once
+  and numbers the code, so a second case has a home rather than being bolted onto one template.
+  `COLOR_STANDARD.md` and `EXPORT_STANDARD.md` are named on the rows that bind them instead of behind a
+  `../../standards/` folder pointer, which had also described a "theme standard" that folder does not
+  contain. Four defects fixed in the same pass: `dplyr::count()`/`::` against `coding-rules.md`'s
+  bare-call rule; `ggplot_build(p)$data[[1]]` silently reading the wrong layer once the Layers row's
+  optional density curve is added, now pinned by a "`geom_dots()` first" row; the 10% padding fallback
+  stated without its arithmetic, ambiguous between span and endpoint; and a template opening with no
+  `#### ... ####` functional header. `plot-scatter/` and `plot-posterior/` keep their current shape —
+  reshaping them turns on lab rulings that are not this entry's to make.
+
+- **One name for the card, and a capitalization convention for terms.** The Writer Card was travelling
+  under three names — `agents/code-writer.md`'s own frontmatter, `README.md`, and two `03-preprocessing/`
+  references all called it the "execution card", while `knowledge-index.md` had "Writer's card" and
+  `SKILL.md`'s reference table had "approval card" for the Summary Card. All now say **Writer Card** and
+  **Summary Card**. `dispatch.md`, which defines it, retitles §1 "Building the Writer Card" and opens by
+  naming the artifact rather than "a card". Alongside it, a convention: a term whose name is a compound —
+  Summary Card, Writer Card, Code Writer, Exploration Pass — takes a capital on each word wherever it
+  appears, so a reader sees it names a specific thing; a term that is a single ordinary word used
+  precisely (job, dispatch, fit, route, plan, folder, gate) stays lowercase, as does bare "the card" in a
+  passage already about one. `TERMS.md` states the rule and holds the list, and the repo `CLAUDE.md`
+  carries it as a standing instruction.
+
+- **Step 1 leads by placing the interview, and `interview.md` now closes.** `SKILL.md` Step 1 opens on
+  the situation Malka is actually in — the user's request is in their own words and most of what the build
+  needs is still unstated — then names the interview as what she does about it and its three moves: learn
+  the request in light of the project and the data, surface what it implies, and put every open choice
+  back to the user. It closes on the interview's aim, a request specified well enough to build from as it
+  stands, and the stake: what gets settled here is what gets built. The aim is stated as a property of the
+  request itself rather than by naming the later steps that consume it, since Malka reaches those in order
+  anyway; the step's three bullets drop to the pointer, the card, and the halt. `TERMS.md` widens **the gate** to the
+  whole checkpoint (summary card plus the halt on it) to match how `SKILL.md` now uses the word. `interview.md` gained a closing line handing back to that card and gate: its procedure had
+  ended at "ask the questions" while already referring to a summary card it never introduced, so a reader
+  following it end to end never reached the approval. The gate itself stays stated only in `SKILL.md`,
+  which is loaded on every job, rather than behind a read that has to succeed.
+
+- **Added `TERMS.md` at the plugin root**, beside `README.md` and `CHANGELOG.md`: eighteen rows naming
+  each term of the Malka workflow, what it refers to, and which file settles it — summary card vs writer
+  card vs `summary.md`, job/dispatch/folder as one 1:1:1 relation, `fit` as the unit that earns an
+  `analysis/` folder, `ASSUMED` vs `BLOCKED`. It is a maintainer's index rather than a runtime read:
+  nothing loads it on a job, and every term stays defined at the point it is used. The repo `CLAUDE.md`
+  gains the paired rule — introducing, renaming, or retiring a term updates `TERMS.md`, and a runtime
+  file names a concept with the word already there. `README.md` gains a pointer to it.
+
+- **The folder count is now a number, not a paradigm.** A six-`brm()` specification — one formula over
+  six filtered subsets — was planned as one `analysis/` folder and built as one, because all four
+  statements of "One Model, One Folder" were descriptive prose with nothing to count and no gate.
+  `analysis/rules.md` opens with a table keyed on what the folder *produces*: one folder per fitted
+  model object, one folder for a coherent descriptive set (plots, tables, summary statistics), plus the
+  trap stated outright — one formula over several filtered subsets is several fits, therefore several
+  folders. Its "How the folder is handled" list gains a `BLOCKED` return when the specification handed
+  to the Writer holds more than one fit, so the Writer counts independently of Malka's plan.
+  `planning.md` gains a required "Count the fits before naming the folders" step ahead of the plan, with
+  a fit count of zero for descriptive work so a plot folder stays whole; `interview.md`'s Bayesian bullet
+  puts the count and the per-fit folder names on the summary card; `dispatch.md` §3 gains the
+  `BLOCKED`-more-than-one-fit row; `project-rules.md` §1 gains the sentence distinguishing a fitting
+  folder from a describing one. `simulations/rules.md` states that the per-fit count stops at
+  `analysis/` — a recovery study fits the model back once per simulated dataset, and those fits are one
+  study in one folder. `planning.md`'s opening also drops a leftover mention of the removed Reviewer.
+
+- **Malka writes `summary.md`, not the Writer.** Every value in it — model name, formula, hypotheses,
+  variables, data source and filter, sampler settings — comes from the specification Malka interviewed
+  the user to produce, and the Writer only transcribed it; meanwhile the harness refuses `.md` writes
+  from a subagent, so the attempt failed on all six dispatches of the job above and Malka rewrote all
+  six by hand. `SKILL.md` gains Step 4b, writing the folder's `summary.md` from the approved
+  specification on a clean return, shaped by that folder type's own `template_summary.md`; `dispatch.md`
+  §2 routes the clean-return path through it. `code-writer.md` leaves the notebook to Malka in Stage 1
+  and, in §4, returns any `.md` a job seems to need as a named block instead of writing it.
+  `SKILL.md`'s opening paragraph stops pre-summarizing the steps and states the role and what rests on it
+  instead — the job turns on Malka understanding the request, which she turns into a writer card carrying
+  the `coding-knowledge` reads she routes to it, then dispatches a Writer to execute — before sending the
+  reader to the steps. The outline it replaced duplicated the body in different words, and drifted
+  from it: the old "four parts" never included handback, so adding Step 4b meant incrementing a count in
+  a sentence that had never indexed the steps. Step 2's cross-reference now reads "Steps 3 through 4b",
+  and Step 3 names the **writer card** to separate it from the Step 1 summary card the user approves,
+  as Step 4b now does for `summary.md`.
+  `analysis/rules.md`, `simulations/rules.md`, and `smart_clone.md` state the ownership split where they
+  scaffold or clone the folder; `knowledge-index.md` records Malka's own Step 4b read of
+  `template_summary.md`, off `ROUTED READS`. `smart_clone.md` step 4 also now takes the new model name
+  and formula from the card's `SPECIFICATION` rather than telling the Writer to ask the user, which it
+  has no channel to do.
+
 - **Removed the Code Reviewer.** Malka now dispatches only `code-writer`, once per folder, with no
   PASS/FAIL loop and no revision rounds. The Reviewer's independent check was the main cost driver on
   every job — two full agent spawns per dispatch, up to three review rounds each re-reading the whole

@@ -96,7 +96,7 @@ Leave it `NA_integer_` until the user gives the number. A pipeline that reaches 
 excludes nobody, and that shows up immediately in `summary_exclusions.md` as a criterion that removed
 zero participants — the safe direction, and a visible one.
 
-A cutoff the execution card is silent on is a decision nobody has made. Return `BLOCKED` with the
+A cutoff the Writer Card is silent on is a decision nobody has made. Return `BLOCKED` with the
 question phrased about the study, as `how-to-convert-raw-to-processed.md` sets out:
 
 > BLOCKED: no cutoff was given for how many times a participant may leave the study window.

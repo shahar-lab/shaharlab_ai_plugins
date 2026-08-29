@@ -2,12 +2,12 @@
 
 The file-by-file map of `${CLAUDE_PLUGIN_ROOT}/coding-knowledge/`. Malka reads it at Step 3, once per dispatch in her plan, to fill the card's `ROUTED READS`; the Writer reads it only to locate a path its card already named.
 
-Paths below are relative to `coding-knowledge/`. Every `02`–`05` row is a `ROUTED READS` candidate for the Writer's card. The `00` and `01` rows are its standing read on every job, delivered by the card's `FOLDER` slot rather than listed as a path.
+Paths below are relative to `coding-knowledge/`. Every `02`–`06` row is a `ROUTED READS` candidate for the Writer Card. The `00` and `01` rows are its standing read on every job, delivered by the card's `FOLDER` slot rather than listed as a path.
 
 ## How to route a job
 
-1. **Name the folder.** The card's `FOLDER` slot carries the one folder the dispatch works in. That slot is what delivers the `00` and `01` rows: the Writer reads the two constitution files and the `rules.md` for that folder's part on every job, on the standing instruction in its own agent file. Fill the slot and leave those rows off `ROUTED READS`. A job touching two folders is two dispatches in dependency order, routed one at a time — see `planning.md`.
-2. **Add the `02`–`05` rows for each stage the job involves**, working from the trigger table at the head of each of those sections.
+1. **Name the folder.** The card's `FOLDER` slot carries the one folder the dispatch works in. That slot is what delivers the `00` and `01` rows: the Writer reads the two constitution files and the `rules.md` for that folder's part on every job, on the standing instruction in its own agent file. Fill the slot and leave those rows off `ROUTED READS`. Work touching two folders is two jobs, each routed for its own folder — see `planning.md`, which also places them in runs.
+2. **Add the `02`–`06` rows for each stage the job involves**, working from the trigger table at the head of each of those sections.
 
 Route the stages the job involves and nothing beyond them. `assets/` rows are examples the Writer imitates — route one for each deliverable the job produces.
 
@@ -32,6 +32,8 @@ One subfolder per top-level project part. Each `rules.md` states that folder's s
 | `analysis/[NAME]/` | `01-folder-specific-rules/analysis/rules.md` | `template_main.R`, `template_summary.md` |
 | `models/[NAME]/` | `01-folder-specific-rules/models/rules.md` | `template_model.R`, `template_model.stan` |
 | `simulation/[NAME]/` | `01-folder-specific-rules/simulations/rules.md` | `template_main.R`, `template_summary.md` |
+
+**Malka reads `template_summary.md` as well**, at Step 4 via `references/folder-summary.md`, from the `<type>` subfolder of the folder just scaffolded — `analysis/` or `simulations/` — for the shape of the `summary.md` she writes herself from the approved specification. It reaches her on her own instruction rather than on a card, so leave it off `ROUTED READS`: the Writer scaffolds `code/`, `artifacts/`, `output/`, and `main.R`, and the notebook is hers.
 
 ## 02 · Scaffolding — starting, cloning, or repairing a folder
 
@@ -72,7 +74,7 @@ Add it to the card when any of these holds:
 
 - the study ran in a browser — Pavlovia, Prolific, MTurk, or any online sample
 - `data/collected/` carries a `window_status` / `window_left_ms` column, or rows marked
-  `event_type == "attention_event"` (the exploration pass sees this)
+  `event_type == "attention_event"` (the Exploration Pass sees this)
 - the user mentions leaving the window, tab switching, losing focus, fullscreen exits, or being away
   from the screen
 
@@ -103,17 +105,17 @@ Route on what the user asked for, then add every standard that applies.
 
 | Request | Plot rows to add |
 |---|---|
-| posterior, credible interval, effect estimate | `plot-posterior/` |
-| scatter, x vs y, correlation, parameter recovery | `plot-scatter/` |
+| posterior, credible interval, effect estimate | `plot-posterior.md` (+ `plot-posterior.png`) |
+| scatter, x vs y, correlation, parameter recovery | `plot-scatter.md` |
+| dot histogram, distribution of one variable, show individual observations | `plot-dot-histogram.md` |
 | multiple panels, composite | the panel-tagging standard |
 
 | Path | What it covers |
 |---|---|
-| `04-visualization/references/plot-types/plot-posterior/instructions.md` | ggdist rules: shape, axes, zero/median lines, nested CIs, annotation |
-| `04-visualization/references/plot-types/plot-posterior/example.R` | Runnable single- and multi-posterior code |
-| `04-visualization/references/plot-types/plot-posterior/example.png` | The rendered reference |
-| `04-visualization/references/plot-types/plot-scatter/instructions.md` | ggplot2 rules: equal axes, trend and diagonal lines, Pearson annotation, mandatory color |
-| `04-visualization/references/plot-types/plot-scatter/example.R` | Runnable scatter template |
+| `04-visualization/references/plot-types/plot-posterior.md` | ggdist rules: wide-and-short canvas, the three x-axis cases, zero/median lines, the 0.90 CI, annotation; runnable code inline under `## Examples`, no separate `example.R` |
+| `04-visualization/references/plot-types/plot-posterior.png` | The rendered reference — awaiting regeneration from that file's Example 3 |
+| `04-visualization/references/plot-types/plot-scatter.md` | ggplot2 rules: square panel, shared limits and the diagonal on a same-scale pair, trend line, Pearson annotation, mandatory color; runnable code inline under `## Examples`, no separate `example.R` |
+| `04-visualization/references/plot-types/plot-dot-histogram.md` | ggdist `geom_dots()` rules: full-range x-axis, default binning, rebuilt count y-axis; runnable code inline under `## Examples`, no separate `example.R` |
 | `04-visualization/references/standards/COLOR_STANDARD.md` | When color is required, which palettes, what to avoid — route whenever the plot uses color |
 | `04-visualization/references/standards/EXPORT_STANDARD.md` | Dual PDF+PNG export, canvas, naming — route always |
 | `04-visualization/references/standards/PANEL_TAGGING_STANDARD.md` | patchwork assembly and A/B/C tags — route for 2+ panels |
@@ -134,9 +136,32 @@ A brms regression is an empirical workflow, so its `FOLDER` slot names a folder 
 | `05-bayesian-regression/01_sampling_and_priors.md` | The `brm()` workflow: load by `data_path`, translate approved priors, sampling settings, save the `.rds` |
 | `05-bayesian-regression/02_diagnostics.md` | The post-fit script: ess/rhat table, trankplot, pairs plot, reported without interpretation |
 
+## 06 · Parameter Recovery — generating from known parameters and fitting back
+
+Route this domain whenever the job generates data from parameters it chose and fits the model back —
+whatever the model family is (RL, regression, IRT/GRM, Bradley-Terry). `FOLDER` names a folder under
+`simulation/`, per `project-rules.md` §0. A model-comparison study — generate under one model, fit
+several — runs the same pipeline and routes the same two files.
+
+| The job | Route the Writer to |
+|---|---|
+| builds or extends a recovery pipeline | `how-to-build-a-recovery-pipeline.md` and `assets/example_main.R` |
+| writes or revises the recovery comparison and its figure | `how-to-read-recovery.md` |
+
+A first recovery study routes all three. Add the `04-visualization` rows the figures call for —
+`plot-scatter/` for the recovery panels, `plot-posterior/` for the population panels,
+`plot-dot-histogram/` for the true-parameter distributions, plus the panel-tagging and export
+standards.
+
+| Path | What it covers |
+|---|---|
+| `06-parameter-recovery/references/how-to-build-a-recovery-pipeline.md` | The three pipeline stages and their scripts, the model-family mapping table, the three generating-versus-fitting agreements, and the artifacts each stage saves |
+| `06-parameter-recovery/references/how-to-read-recovery.md` | The six recovery checks in order, the criteria the user supplies, and what a poor result points at |
+| `06-parameter-recovery/assets/example_main.R` | The worked recovery `main.R` — three stage headers, ten numbered scripts |
+
 ## Worked routes
 
-Five common jobs, routed end to end. Each shows what the card actually carries, so a route can be
+Six common jobs, routed end to end. Each shows what the card actually carries, so a route can be
 checked against a worked answer instead of re-derived from the steps. Take the closest one and adjust
 for what the job differs on.
 
@@ -173,7 +198,7 @@ diagnostics, and the plot all land in this one folder, so the job is one dispatc
 
 | `ROUTED READS` | Reads |
 |---|---|
-| `05-bayesian-regression/01_sampling_and_priors.md`, `02_diagnostics.md`, `04-visualization/references/plot-types/plot-posterior/instructions.md`, `plot-posterior/example.R`, `plot-posterior/example.png`, `04-visualization/references/standards/EXPORT_STANDARD.md`, and `COLOR_STANDARD.md` when the figure uses color | 3 + 6 or 7 |
+| `05-bayesian-regression/01_sampling_and_priors.md`, `02_diagnostics.md`, `04-visualization/references/plot-types/plot-posterior.md`, `plot-posterior.png`, `04-visualization/references/standards/EXPORT_STANDARD.md`, and `COLOR_STANDARD.md` when the figure uses color | 3 + 5 or 6 |
 
 ### D · Revising an existing two-panel scatter figure
 
@@ -183,11 +208,11 @@ panel-tagging standard on the card, and the scatter instructions make color mand
 
 | `ROUTED READS` | Reads |
 |---|---|
-| `04-visualization/references/plot-types/plot-scatter/instructions.md`, `plot-scatter/example.R`, `04-visualization/references/standards/COLOR_STANDARD.md`, `EXPORT_STANDARD.md`, `PANEL_TAGGING_STANDARD.md` | 3 + 5 |
+| `04-visualization/references/plot-types/plot-scatter.md`, `04-visualization/references/standards/COLOR_STANDARD.md`, `EXPORT_STANDARD.md`, `PANEL_TAGGING_STANDARD.md` | 3 + 4 |
 
-### E · The exploration pass, dispatched at Step 1
+### E · The Exploration Pass, dispatched at Step 1
 
-The one card that goes out before the approval gate, and the one Writer card with no `FOLDER`:
+The one card that goes out before the approval gate, and the one Writer Card with no `FOLDER`:
 `exploration.md` states that this pass runs over `data/collected/` before any pipeline code exists, so
 it lands in no project part and takes no `01` read. It routes one file and returns the profile the
 interview works from.
@@ -195,6 +220,21 @@ interview works from.
 | `ROUTED READS` | Reads |
 |---|---|
 | `03-preprocessing/references/exploration.md` | 1 |
+
+### F · First parameter-recovery study for a model already in `models/`
+
+`FOLDER: simulation/[study_name]/` — generated data lands under `simulation/`, per `project-rules.md`
+§0. The folder is new, so its structure and templates arrive with `FOLDER`. The whole pipeline is one
+job however many fits it runs, per `simulations/rules.md`. Both `06` references route plus the worked
+`main.R`, and the four-panel figure puts three plot types and both assembly standards on the card.
+
+| `ROUTED READS` | Reads |
+|---|---|
+| `06-parameter-recovery/references/how-to-build-a-recovery-pipeline.md`, `how-to-read-recovery.md`, `06-parameter-recovery/assets/example_main.R`, `04-visualization/references/plot-types/plot-scatter.md`, `plot-posterior.md`, `plot-dot-histogram.md`, `04-visualization/references/standards/COLOR_STANDARD.md`, `EXPORT_STANDARD.md`, `PANEL_TAGGING_STANDARD.md` | 3 + 9 |
+
+The `models/` definition is a read, not a write: `PROJECT STATE` names its path and the Writer sources
+it. When that definition does not exist yet, it is a `models/` job in an earlier run — see
+`planning.md`.
 
 ## Maintaining this index
 

@@ -16,18 +16,19 @@ routes to the right one.
 
 | Skill | Use it when you… |
 |---|---|
-| `malka` | have any non-trivial lab analysis task. Interviews you herself (from her own `references/interview.md`), clears any approval gate, then dispatches the code-writer using `references/dispatch.md`. The reliable entry point. |
+| `malka` | have any non-trivial lab analysis task. Interviews you herself (from her own `references/interview.md`), clears any approval gate, then builds a card from `references/writer-card.md` and dispatches the code-writer on it. The reliable entry point. |
 | `code-walkthrough` | want R code explained statement by statement to learn or verify it — always runs in the main thread, never as a subagent. |
 
 ## Knowledge
 
-Malka's index lives in `skills/malka/SKILL.md` plus five reference files, each answering one
+Malka's index lives in `skills/malka/SKILL.md` plus six reference files, each answering one
 question: `references/interview.md` (what to ask per domain and which gate blocks),
 `references/user-request-summary.md` (the plain-English confirmation card),
 `references/planning.md` (how many dispatches a job is, and which folder each writes into),
 `references/knowledge-index.md` (the file-by-file map of `coding-knowledge/`, which file goes on
-the card, and worked routes for the common jobs), and `references/dispatch.md` (the card slots,
-then how the dispatch runs).
+the card, and worked routes for the common jobs), `references/writer-card.md` (the card's slots
+and worked examples), and `references/dispatch.md` (the spawn, the return, and what each `BLOCKED`
+return means).
 
 How the subagent *behaves* — the reads it always takes, how it reports, what it returns — lives in
 its own agent file rather than in the card, so a card carries only what varies from job to job.
@@ -55,7 +56,7 @@ reads while it works) and, where a domain needs boilerplate, `assets/`.
 One subagent type, available once the plugin is loaded — dispatched by `malka`, not
 invoked directly:
 
-- **`code-writer`** — prepares the folder/environment, writes the code for whichever domain Malka names in the execution card, then checks its own work against the same rules and the approved specification before returning.
+- **`code-writer`** — prepares the folder/environment, writes the code for whichever domain Malka names in the Writer Card, then checks its own work against the same rules and the approved specification before returning.
 
 There is no orchestrator agent — the orchestrator is the `malka` skill itself, so it runs in the main conversation thread where the user actually is (a subagent has no one to interview or wait on for approval). There is also no reviewer agent: the Writer is the only check on its own work, so a job with real stakes is worth reading before it ships.
 
@@ -69,6 +70,13 @@ entry points.
 - **`code-walkthrough` directly** — `/shaharlab-behavioral-data-analysis:code-walkthrough` to go straight to it without Malka.
 
 Lab rules (folder topology, R style) are **not** injected automatically into every session — the code-writer reads them on demand from `coding-knowledge/00-constitution/`, only when a lab task is actually in progress. This keeps unrelated sessions free of lab-specific context.
+
+## Terms
+
+See [`TERMS.md`](TERMS.md) for the vocabulary of the Malka workflow — Summary Card, Writer Card,
+job, dispatch, fit, `ASSUMED`, `BLOCKED`, and the rest, plus the capitalization convention that
+separates a compound term's name from an ordinary word. It is a maintainer's index, read before
+naming a concept in a runtime file so one concept keeps one word; nothing reads it at runtime.
 
 ## What changed
 
