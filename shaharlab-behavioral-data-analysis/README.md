@@ -53,12 +53,15 @@ reads while it works) and, where a domain needs boilerplate, `assets/`.
 
 ## Agents
 
-One subagent type, available once the plugin is loaded — dispatched by `malka`, not
+Two subagent types, available once the plugin is loaded — dispatched by `malka`, not
 invoked directly:
 
-- **`code-writer`** — prepares the folder/environment, writes the code for whichever domain Malka names in the Writer Card, then checks its own work against the same rules and the approved specification before returning.
+- **`code-writer`** — prepares the folder/environment, writes the code for whichever domain Malka names in the Writer Card, then checks its own work against the same rules and the approved specification before returning. One spawn per job.
+- **`code-reviewer`** — reads the finished files against the approved specification and reports what the code actually sets, plus any value that contradicts the specification, any product that never reached disk, and any threshold the Writer chose that was the user's to set. Read-only, one spawn per run, and it routes no craft knowledge — the library the Writer reads stays out of its context, which is what keeps it cheap enough to run every time.
 
-There is no orchestrator agent — the orchestrator is the `malka` skill itself, so it runs in the main conversation thread where the user actually is (a subagent has no one to interview or wait on for approval). There is also no reviewer agent: the Writer is the only check on its own work, so a job with real stakes is worth reading before it ships.
+There is no orchestrator agent — the orchestrator is the `malka` skill itself, so it runs in the main conversation thread where the user actually is (a subagent has no one to interview or wait on for approval).
+
+The Reviewer checks that the code says what was approved; whether the craft is right stays with the Writer, which read the standards. Nothing here runs the code, so a job with real stakes is still worth reading before it ships.
 
 ## How to invoke
 

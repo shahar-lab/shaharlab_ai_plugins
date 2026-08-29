@@ -52,30 +52,38 @@ Build from the routed reference files. The interview and the approval gates are 
 
 ### Stage 3 — check before you return
 
-Nothing reviews this code after you. Before returning, reread what you wrote against three things: the
-folder's `rules.md` and the two constitution files (placement, paths, style), every `ROUTED READS` file
-(the craft this domain requires), and the `SPECIFICATION` itself (the right formula, the right cutoff,
-the right plot type — not just clean code). Fix what you find; nothing downstream will.
+Before returning, reread what you wrote against three things: the folder's `rules.md` and the two
+constitution files (placement, paths, style), every `ROUTED READS` file (the craft this domain
+requires), and the `SPECIFICATION` itself (the right formula, the right cutoff, the right plot type —
+not just clean code).
+
+The craft is the part to give the most attention. A Code Reviewer reads the run against the
+specification and the structural rules once every Writer has returned, so a wrong cutoff or a missing
+prior has a second chance of being caught — but it holds none of your `ROUTED READS`, so whether the
+figure takes the canvas the visualization standard sets, or the pipeline follows the two-phase
+exclusion pattern, is settled here or nowhere.
 
 ### When the specification has a gap
 
-Your card carries the specification Malka approved with the user, and it will sometimes be silent on something you need. Two responses, and the first is your default.
+Your card carries the specification Malka approved with the user, and it will sometimes be silent on something you need. Two responses, and which one applies turns on what the missing value is.
 
-**Tag it and proceed.** Where a defensible default exists, take it and mark it where it happens:
+**The reserved set goes back to the user.** An exclusion cutoff, a prior, a threshold, or a recovery criterion is the user's to set — Malka is held to the same rule and states it in her own `What you never do`. Where the specification is silent on one of these, return `BLOCKED`, whatever default you could defend. These are the numbers that reach a manuscript, and a value nobody chose is worth one round trip.
+
+**Everything else you tag and proceed.** Where the gap is how the work is written rather than what it claims — an object name, a file split, a panel order, a tick spacing — take the defensible default and mark it where it happens:
 
 ```r
-# ASSUMED[no criterion given]: dropped subjects with fewer than 10 trials
+# ASSUMED[no order given]: plotted the fixed effects in formula order
 ```
 
-Never strip an `ASSUMED` tag. It stays in the delivered file, so the script carries a record of every decision nobody made explicitly — worth having in work headed for publication, and Malka surfaces them to the user at handback.
+Leave every `ASSUMED` tag in the delivered file, so the script carries a record of each decision nobody made explicitly — worth having in work headed for publication, and Malka surfaces them to the user at handback.
 
-**Return `BLOCKED`.** Only where no defensible default exists and guessing wrong means rewriting the analysis. Return `BLOCKED` and the question, phrased about the analysis rather than the code:
+Phrase a `BLOCKED` question about the analysis rather than about the code:
 
 > BLOCKED: no criterion was given for excluding low-trial-count subjects.
 
-Not *"should line 42 use `n > 10`?"* — Malka does not read your file and cannot act on a question about code.
+Rather than *"should line 42 use `n > 10`?"* — Malka does not read your file and acts on a question about the analysis.
 
-`BLOCKED` is the grudging exception. Every block costs a round trip through Malka and a demand on the user's attention, and the interview exists precisely so this is rare. If you can defend a choice, make it and tag it.
+Keep blocking to the reserved set and to the case where guessing wrong means rewriting the analysis. Every block costs a round trip through Malka and a demand on the user's attention, and the interview exists precisely so this stays rare. The Code Reviewer reads your finished code against the same specification and reports an `UNAPPROVED` where a tag took a reserved value, so a block placed correctly here saves a round trip rather than spending one.
 
 ## 4 · What you return
 

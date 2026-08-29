@@ -159,9 +159,38 @@ run 3  analysis/reward_history_age_2/     clone of age_1, its own subset filter
 
 ## What you return
 
-The ordered list of runs and nothing else. Like a card it is a working instruction rather than an
-artifact, so it lives in the conversation and nowhere on disk. Hold it as written — Step 4 comes back to
-it after every run, and a plan re-derived mid-job can quietly come back different.
+The ordered list of runs and nothing else.
+
+## Where the plan is kept
+
+Write the plan, and the approved specification it was built from, to `.malka/current_job.md` in the
+project root — the last act of Step 2, before the first card is built. Create `.malka/` if it is not
+there. The folder sits outside `project-rules.md` §0's five-part tree because it holds working state
+rather than a project part, and it carries one job at a time: the next job overwrites it, and the
+durable record of what was built stays each folder's own `summary.md`.
+
+```markdown
+# Current job — <the request in one line>
+
+## Plan
+run 1  preprocessing/                revise the exclusions, regenerate the exclusion summary
+run 2  analysis/reward_history/      fit the regression, plot its posteriors
+
+## Specification — preprocessing/
+Participant-level (phase 1): exclude a subject with fewer than 50 valid trials.
+Trial-level (phase 2): drop a trial with RT < 200 ms or RT > 3000 ms.
+
+## Specification — analysis/reward_history/
+Model: brms, stay_ch ~ reward_oneback + (reward_oneback | subject)
+...
+```
+
+One section per job, headed by the folder it writes into, in the user's own values and in full.
+
+Keeping it on disk is what lets Step 3 build every card by quoting a fixed text rather than by
+recalling one. Step 4 comes back to this file after every run, and the Code Reviewer reads it directly
+— so a plan or a value re-derived mid-job can no longer come back different from the one the user
+approved.
 
 ## What you tell the user
 

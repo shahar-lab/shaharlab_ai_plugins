@@ -58,9 +58,9 @@ other, so the fit finds the likelihood ridge rather than the point on it.
 
 Four panels, per the pattern the lab works from: the two population posteriors on top, the two
 true-versus-recovered scatters below. Each panel is a routed plot type under
-`04-visualization/references/plot-types/` — `plot-posterior/` for the population panels,
-`plot-scatter/` for the recovery panels (same-scale pair, identity diagonal, Pearson annotation), and
-`plot-dot-histogram/` for the true-parameter distributions back in the population stage. The
+`04-visualization/references/plot-types/` — `plot-posterior.md` for the population panels,
+`plot-scatter.md` for the recovery panels (same-scale pair, identity diagonal, Pearson annotation), and
+`plot-dot-histogram.md` for the true-parameter distributions back in the population stage. The
 assembly follows `04-visualization/references/standards/PANEL_TAGGING_STANDARD.md` and
 `EXPORT_STANDARD.md`.
 

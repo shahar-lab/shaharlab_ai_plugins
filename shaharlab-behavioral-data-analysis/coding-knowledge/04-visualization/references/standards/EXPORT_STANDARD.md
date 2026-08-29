@@ -70,7 +70,7 @@ ggsave(
 ## When Not to Use These Defaults
 
 - **Width/Height:** Modify only if the user explicitly requests "wider" or "smaller", or if a plot
-  type's own instructions state a canvas — `plot-posterior/instructions.md` sets 10 × 4 in, because
+  type's own instructions state a canvas — `plot-posterior.md` sets 10 × 4 in, because
   height there carries no information and the default 10 × 8 wastes it.
 - **DPI:** Never modify (300 is publication standard)
 - **Background:** Never modify (white is lab standard)

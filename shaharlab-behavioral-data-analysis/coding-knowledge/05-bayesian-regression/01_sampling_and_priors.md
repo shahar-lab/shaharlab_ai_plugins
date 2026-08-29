@@ -7,7 +7,7 @@ This document outlines how to structure the R script that defines the priors, ru
 ## Standard Workflow
 
 1. **Load dependencies:** `brms`, `here`, and `readr`.
-2. **Load data:** Read the data from the `data_path` supplied by the caller (or use a `df` already in scope). Do not copy data into the local folder.
+2. **Load data:** Read the data from inside the `data_path` directory `main.R` defines — `data_path` names a `data/` stage, so the file comes from `file.path(data_path, "<file>")` — or use a `df` already in scope. Read it by path and leave the data where it is.
 3. **Define Priors:** Translate the user-approved priors into a `brms::prior()` vector.
 4. **Fit the Model:** Run `brm()`. Standardize on 4 chains, 2000 iter, 1000 warmup. Use the `cmdstanr` backend if available.
 5. **Save Artifact:** Save the fitted model `.rds` object to the local `artifacts/` folder.
@@ -24,8 +24,8 @@ library(here)
 library(readr)
 
 # 1. Load Data
-# data_path is supplied by the caller
-df <- read_csv(data_path)  # data_path supplied by the caller
+# data_path is the data/ stage directory defined in main.R
+df <- read_csv(file.path(data_path, "df_trials.csv"))
 
 # 2. Define User-Approved Priors
 # Use exactly what the user approved during the interview.
@@ -64,7 +64,7 @@ library(brms)
 library(here)
 library(readr)
 
-df <- read_csv(data_path)  # data_path supplied by the caller
+df <- read_csv(file.path(data_path, "df_trials.csv"))
 
 my_priors <- c(
   prior(normal(0, 5), class = "Intercept"),

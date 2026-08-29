@@ -58,8 +58,14 @@ matters, and it stays silent about the rest of the project, which the agent may 
 out when the job starts from an empty folder and depends on nothing outside it.
 
 **`SPECIFICATION`** is the approved job in the user's own values, in full — the Writer's only source for
-every threshold, formula, and setting the job needs. Nothing downstream checks the code against it, so
-a value missing here is a value the Writer has to guess or block on.
+every threshold, formula, and setting the job needs. A value missing here is a value the Writer has to
+guess or block on.
+
+Quote it from this job's section of `.malka/current_job.md`, which `planning.md` had you write at
+Step 2, rather than composing it again from the conversation. The card stays self-contained — the
+Writer reads the values here and opens nothing — while the file stays the one text every card is
+copied from. The Code Reviewer reads that same file at the end of the run, so a value mistyped onto a
+card surfaces as a `MISMATCH` rather than as code nobody questions.
 
 **`RETURN`** lists the returns you will act on, and carries `BLOCKED` on every card. An agent given a way
 to say the specification is silent will use it; an agent given none picks a default instead.

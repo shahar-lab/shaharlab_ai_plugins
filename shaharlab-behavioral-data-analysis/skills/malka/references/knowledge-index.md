@@ -1,8 +1,10 @@
 # Coding Knowledge — Index
 
-The file-by-file map of `${CLAUDE_PLUGIN_ROOT}/coding-knowledge/`. Malka reads it at Step 3, once per dispatch in her plan, to fill the card's `ROUTED READS`; the Writer reads it only to locate a path its card already named.
+The file-by-file map of `${CLAUDE_PLUGIN_ROOT}/coding-knowledge/`. Malka reads it at Step 3, once per job in her plan, to fill the Writer Card's `ROUTED READS`; the Writer reads it only to locate a path its card already named.
 
 Paths below are relative to `coding-knowledge/`. Every `02`–`06` row is a `ROUTED READS` candidate for the Writer Card. The `00` and `01` rows are its standing read on every job, delivered by the card's `FOLDER` slot rather than listed as a path.
+
+**This table routes the Writer alone.** The Code Reviewer takes the two constitution files and each folder's `rules.md` on its own standing instruction, reads the approved specification and the files the run produced, and takes no routed craft reads at all — its card has no `ROUTED READS` slot, per `references/reviewer-card.md`. That absence is what holds it to one spawn per run. A `02`–`06` path appearing on a Reviewer Card, or a who-reads-it column appearing in this file, has rebuilt the wider reviewing role that `45d2c1b` removed.
 
 ## How to route a job
 
@@ -149,8 +151,8 @@ several — runs the same pipeline and routes the same two files.
 | writes or revises the recovery comparison and its figure | `how-to-read-recovery.md` |
 
 A first recovery study routes all three. Add the `04-visualization` rows the figures call for —
-`plot-scatter/` for the recovery panels, `plot-posterior/` for the population panels,
-`plot-dot-histogram/` for the true-parameter distributions, plus the panel-tagging and export
+`plot-scatter.md` for the recovery panels, `plot-posterior.md` for the population panels,
+`plot-dot-histogram.md` for the true-parameter distributions, plus the panel-tagging and export
 standards.
 
 | Path | What it covers |

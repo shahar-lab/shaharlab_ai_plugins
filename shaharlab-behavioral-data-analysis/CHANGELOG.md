@@ -2,6 +2,84 @@
 
 ## [Unreleased]
 
+- **The Code Reviewer returns, as its specification layer alone.** `45d2c1b` removed it because two
+  spawns per dispatch across up to three rounds, each re-reading the whole routed craft set, was the
+  dominant cost on every job. That accounting was right about the cost and wrong about what to drop
+  with it: the removed agent's own file said of its third layer that "layers 1 and 2 find code that
+  breaks conventions; only this one finds code that is clean, idiomatic, well-scaffolded, and fits the
+  wrong model or filters on the wrong threshold" — and that layer is the one needing no craft library
+  at all. The Writer's Stage 3 self-check could not stand in for it, being closed over the same inputs
+  the Writer already held, so a value it misread stayed misread through its own review.
+
+  `agents/code-reviewer.md` is new and narrower than its predecessor on every axis. **Read-only**
+  (`Read, Glob, Grep`) rather than annotating findings into the code, which the old file itself warned
+  made "a reviewer that edits code … a second writer". **One spawn per run** rather than one per
+  dispatch per round. **No routed craft reads**: its standing set is the two constitution files plus
+  each folder's `rules.md` — the Writer's own set minus the library — and its card carries no
+  `ROUTED READS` slot. **No `PASS`/`FAIL` and no revision rounds**: it reports and Malka decides, bounded
+  at one review, at most one repair, then the user. Craft compliance stays with the Writer, which read
+  the standards, and the agent file says so rather than reporting on files it never opened.
+
+  Three passes: every returned path resolves to a non-empty file; every value the specification sets
+  appears in the code as approved, with a calibration table separating an equivalent expression from a
+  real difference; and the structural rules that need no craft knowledge — contiguous two-digit
+  prefixes in `main.R`'s source order, the path block, `source()` through variables, each script saving
+  its product, the canonical set, the naming its `rules.md` states. It returns a **manifest** of the
+  values as the code sets them on every review, plus `MISMATCH`, `UNAPPROVED`, or `MISSING`, or `CLEAN`.
+
+  `references/reviewer-card.md` is new and holds the card format, parallel to `writer-card.md`;
+  `dispatch.md` moves the review and the notebook from the dispatch to the run, where the barrier
+  already sat, and gains a failed-dispatch row; `SKILL.md` Step 4 gains the review and Step 5 now
+  briefs the user from the manifest; `folder-summary.md` takes each `summary.md`'s values from the
+  manifest rather than from the approved specification, so a folder's notebook describes the analysis
+  on disk rather than the one that was asked for. `TERMS.md`, `README.md`, and the repo's `CLAUDE.md`
+  follow.
+
+- **`knowledge-index.md` stays a Writer-only table, and now says so.** The index dropped its `W` / `R`
+  marks when the old Reviewer went. Reusing the name for the narrow role makes restoring them look like
+  a correction rather than a regression, so both the index and the repo's `CLAUDE.md` now state that
+  the Reviewer takes no routed reads and that a `02`–`06` path on a Reviewer Card, or a who-reads-it
+  column here, means the wider role has grown back.
+
+- **`BLOCKED` becomes the Writer's default for the reserved set.** `SKILL.md`'s `What you never do` has
+  always held Malka to leaving an exclusion cutoff, a prior, a threshold, or a recovery criterion to
+  the user, while `code-writer.md` made `ASSUMED` its default and `BLOCKED` "the grudging exception" —
+  and illustrated the tag with `ASSUMED[no criterion given]: dropped subjects with fewer than 10
+  trials`, an exclusion cutoff. The rule Malka is held to was voided one layer down, by the agent that
+  writes the number into the file. §3 now splits the two cases: the reserved set returns `BLOCKED`
+  whatever default could be defended, and `ASSUMED` covers how the work is written — an object name, a
+  file split, a panel order — with the worked example replaced to match. The Reviewer's `UNAPPROVED`
+  catches one taken anyway.
+
+- **The approved specification and plan are written to `.malka/current_job.md`.** `planning.md` said
+  the plan "lives in the conversation and nowhere on disk … a plan re-derived mid-job can quietly come
+  back different" — naming the failure and then relying on the model not to have it, across a job that
+  can run to eight dispatches and a full interview. Malka now writes both to that file when the gate
+  clears, one section per job. Writer Cards quote it rather than composing the values again, and the
+  Reviewer Card names it **by path** so the Reviewer reads the approved original — which is what lets a
+  value mistyped onto a Writer Card surface as a `MISMATCH` instead of as code nobody questions. The
+  dotfolder keeps it outside `project-rules.md` §0's five-part tree, since it holds working state
+  rather than a project part.
+
+- **`01_sampling_and_priors.md` read `data_path` as a file.** Lines 28 and 67 called
+  `read_csv(data_path)`, while `project-rules.md` §4, both `template_main.R` files, and
+  `analysis/rules.md` all define `data_path` as the `data/` stage **directory**. Every brms job routes
+  this file, so a Writer following it wrote `read_csv()` against a directory path — code that fails in
+  the user's session, in the plugin's most-used craft route, with nothing in the system executing R to
+  catch it. Both calls now read `file.path(data_path, "df_trials.csv")`, and the workflow step above
+  them states which of the two `data_path` is.
+
+- **Three stale paths from the plot-types flattening.** `EXPORT_STANDARD.md` cited
+  `plot-posterior/instructions.md`, which no longer exists; `how-to-read-recovery.md` and
+  `knowledge-index.md`'s Worked route F still named `plot-posterior/`, `plot-scatter/` and
+  `plot-dot-histogram/` as folders. All repointed to the single-file form.
+
+- **Malka's `description` regains the one-off-script sentence.** "Use her even when the request sounds
+  like a small one-off script, because all analysis code in this project goes through Malka so that it
+  lands consistent with the lab's coding rules" had been dropped. Since skill routing depends on the
+  model matching that description, its absence made the failure mode it guards against — Claude writing
+  the script itself, outside the lab's rules — more likely. The description also now names the Reviewer.
+
 - **The planning term `pass` is renamed `run`.** `TERMS.md` settled `pass` as "the set of jobs
   dispatched together" back when the plan gained its three-level shape; it read too close to the
   Reviewer's old `PASS`/`FAIL` verdict for a plugin that has since removed the Reviewer entirely, and

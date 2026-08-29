@@ -1,11 +1,13 @@
 # The folder's `summary.md`
 
-Read this at Step 4, on a clean return from a dispatch that scaffolded or cloned an `analysis/` or
-`simulation/` folder. Those are the two folder types that carry a notebook, so a dispatch into
-`preprocessing/` or `models/` passes this step.
+Read this at Step 4, once the run is reviewed, for each dispatch that scaffolded or cloned an
+`analysis/` or `simulation/` folder. Those are the two folder types that carry a notebook, so a
+dispatch into `preprocessing/` or `models/` passes this step.
 
-Writing it is yours. Every value in it comes from the specification you had approved, and the Writer's
-`.md` writes are refused by the harness.
+Writing it is yours. Every value in it comes from the Code Reviewer's **manifest** — the values as
+the delivered code sets them — rather than from the specification you approved. The two agree on a
+`CLEAN` run and the manifest is the one that stays true when they diverge, so a folder's notebook
+describes the analysis that is on disk rather than the one that was asked for.
 
 ## The shape
 
@@ -15,8 +17,9 @@ Use that folder type's own `coding-knowledge/01-folder-specific-rules/<type>/tem
 ## What it carries
 
 The model name and formula, the date, the hypotheses, the variables, the data source and any filter
-applied, and the sampler settings. Each value comes from the approved specification, in the user's own
-terms.
+applied, and the sampler settings. The formula, filter, and settings come from the manifest; the
+hypotheses and the framing come from the specification, since those are the user's words and the code
+never carried them.
 
 Leave the findings section empty, with its standing "fill this in once the model is fitted and evaluated"
 note. Nothing in this system runs the model, so nothing here can report a finding.
