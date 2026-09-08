@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+- `coding-rules.md` states two guidelines more emphatically: reach for `pkg::fun()` only to resolve a
+  naming conflict between loaded packages (call everything else directly after `library()`), and write
+  a custom `function()` only when the user specifically asked for one or the same block would otherwise
+  repeat — not as a default way to organize a script.
+
 - **The Exploration Pass now runs.** `interview.md` made it a hard precondition of every
   data-dependent question — "work from the figures it returns" — while nothing could execute it: the
   Code Writer's tools are `Read, Write, Edit, Glob, Grep` with no shell, so none of `exploration.md`'s

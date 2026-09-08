@@ -22,6 +22,7 @@ Follow these guidelines when writing R code:
 * Align `<-` and `=` within related blocks when this improves readability.
 * Use the base R pipe `|>` rather than `%>%`, unless the existing code uses `%>%` or a package requires it.
 * Call functions directly, and add any missing package's `library()` call to `main.R`'s `#### SETUP ####` header (or the top of the script, if there is no `main.R`), so `::` stays out of the body.
+* Reach for `pkg::fun()` only where it is required to resolve a naming conflict between two loaded packages; call every other function directly after loading its package with `library()`.
 
 
 ## Reach for these only where the task calls for them
@@ -42,7 +43,7 @@ These are preferred guidelines, but use judgment when the task or existing code 
 * Prefer `tidyverse` and `dplyr` when they fit the task.
 * Prefer simple, explicit code over clever or compact code.
 * Prefer readable intermediate objects over long nested expressions.
-* Write the steps out in sequence; a custom `function()` earns its place only where the same block genuinely repeats.
+* Write the steps out in sequence, inline, using existing functions from the loaded packages; write a custom `function()` only where the user specifically asked for one, or where the same block would otherwise repeat.
 
 ## Writing conventions 
 * prefer to use `df` for the main data.frame when ever possible
