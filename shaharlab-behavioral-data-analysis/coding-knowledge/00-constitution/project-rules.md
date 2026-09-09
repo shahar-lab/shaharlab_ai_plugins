@@ -33,7 +33,7 @@ models/[MODEL_NAME]/  →  generated into  →  simulation/[NAME]/artifacts/
 | New simulation study | `simulation/[NAME]/` | `04-simulations/` |
 | New model definition | `models/[MODEL_NAME]/` | `03-models/` |
 | Preprocessing setup | `preprocessing/` | `01-preprocessing/` |
-| Duplicate / clone a folder | same parent as the source | `02-analysis/references/smart_clone.md` |
+| Duplicate / clone a folder | same parent as the source | `02-analysis/smart_clone.md` |
 
 **Naming.** Use `snake_case` for every folder and file: `model_stay_by_reward`, `param_recovery`, `03_converting_data_raw_to_processed.R`. Take the name from the approved specification. Keep names free of spaces and of formula notation (`~`, `+`, `|`, `/`) so paths and shell commands resolve.
 

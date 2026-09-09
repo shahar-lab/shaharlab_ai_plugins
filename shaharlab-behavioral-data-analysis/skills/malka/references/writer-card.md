@@ -125,11 +125,11 @@ FOLDER
 analysis/stay_by_reward/          (new — scaffold it)
 
 ROUTED READS
-- coding-knowledge/02-analysis/references/regression/01_sampling_and_priors.md
-- coding-knowledge/02-analysis/references/regression/02_diagnostics.md
-- coding-knowledge/02-analysis/references/visualization/plot-types/plot-posterior.md
-- coding-knowledge/02-analysis/references/visualization/plot-types/plot-posterior.png
-- coding-knowledge/02-analysis/references/visualization/standards/EXPORT_STANDARD.md
+- coding-knowledge/02-analysis/regression/01_sampling_and_priors.md
+- coding-knowledge/02-analysis/regression/02_diagnostics.md
+- coding-knowledge/02-analysis/visualization/plot-types/plot-posterior.md
+- coding-knowledge/02-analysis/visualization/plot-types/plot-posterior.png
+- coding-knowledge/02-analysis/visualization/standards/EXPORT_STANDARD.md
 
 PROJECT STATE
 The folder does not exist yet — scaffold it from its rules.md and templates.

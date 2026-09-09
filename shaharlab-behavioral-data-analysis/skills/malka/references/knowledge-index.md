@@ -2,20 +2,22 @@
 
 The file-by-file map of `${CLAUDE_PLUGIN_ROOT}/coding-knowledge/`. Malka reads it at Step 3, once per job in her plan, to fill the Writer Card's `ROUTED READS`; the Writer reads it only to locate a path its card already named.
 
-Paths below are relative to `coding-knowledge/`. One domain per top-level project part, each holding its own `rules.md`, the templates that build that folder, and its craft under `references/` and `assets/`.
+Paths below are relative to `coding-knowledge/`. One domain per top-level project part, each holding its own `rules.md`, the templates that build that folder, and its craft files.
 
-**Two kinds of read, and the difference decides what goes on the card.** A domain's `rules.md` and the templates beside it are the Writer's standing read for any job landing in that part, delivered by the card's `FOLDER` slot rather than listed as a path. Every `references/…` and `assets/…` row is a `ROUTED READS` candidate, put on the card one at a time.
+**Two kinds of read, and the difference decides what goes on the card.** A domain's `rules.md` and the templates beside it are the Writer's standing read for any job landing in that part, delivered by the card's `FOLDER` slot rather than listed as a path. Every craft row below — anything that is not a `rules.md` or a template — is a `ROUTED READS` candidate, put on the card one at a time.
+
+**Where a domain keeps its craft.** `01-preprocessing/`, `03-models/`, and `04-simulations/` hold theirs under `references/`, with worked examples under `assets/`. `02-analysis/` holds more craft than the others and groups it by kind instead: `regression/`, `visualization/`, and `descriptives/` sit directly in the domain, alongside `smart_clone.md`. Each row's path below is the authority; route from the path, not from the shape.
 
 **This table routes the Writer alone.** The Code Reviewer takes the two constitution files and each folder's `rules.md` on its own standing instruction, reads the approved specification and the files the run produced, and takes no routed craft reads at all — its card has no `ROUTED READS` slot, per `references/reviewer-card.md`. That absence is what holds it to one spawn per run. A `references/` path appearing on a Reviewer Card, or a who-reads-it column appearing in this file, has rebuilt the wider reviewing role that `45d2c1b` removed.
 
 ## How to route a job
 
 1. **Name the folder.** The card's `FOLDER` slot carries the one folder the dispatch works in. That slot is what delivers the standing reads: the Writer reads the two constitution files and the `rules.md` for that folder's part on every job, on the standing instruction in its own agent file. Fill the slot and leave those off `ROUTED READS`. Work touching two folders is two jobs, each routed for its own folder — see `planning.md`, which also places them in runs.
-2. **Add the `references/` and `assets/` rows for each stage the job involves**, working from the trigger table at the head of that domain's section.
+2. **Add the craft rows for each stage the job involves**, working from the trigger table at the head of that domain's section.
 
 Route the stages the job involves and nothing beyond them. `assets/` rows are examples the Writer imitates — route one for each deliverable the job produces.
 
-**Craft is routed across domains where a job needs it.** A domain owns its craft, and a job in another part routes into it rather than carrying a copy. Two routes cross regularly: `02-analysis/references/visualization/` serves the figures of both an `analysis/` and a `simulation/` job, and `02-analysis/references/regression/` serves a `simulation/` job that fits brms on generated data. The `FOLDER` slot still names the one folder the dispatch writes into.
+**Craft is routed across domains where a job needs it.** A domain owns its craft, and a job in another part routes into it rather than carrying a copy. Two routes cross regularly: `02-analysis/visualization/` serves the figures of both an `analysis/` and a `simulation/` job, and `02-analysis/regression/` serves a `simulation/` job that fits brms on generated data. The `FOLDER` slot still names the one folder the dispatch writes into.
 
 **"Worked routes" at the end of this file resolves the common jobs end to end.** Start from the closest one and adjust; it is also the fastest way for a human to check that a route came out right.
 
@@ -81,7 +83,7 @@ Route it on an in-person or non-browser study only if the user asks — there is
 column to count, and the file says to leave the criterion out rather than substitute for it.
 
 **A figure backing an exclusion routes across.** Where the job plots a distribution behind a cutoff,
-add the plot-type row from `02-analysis/references/visualization/` — the `examining_` and `summary_`
+add the plot-type row from `02-analysis/visualization/` — the `examining_` and `summary_`
 reports are Markdown, so most pipelines need none.
 
 | Path | What it covers |
@@ -103,8 +105,9 @@ boilerplate stay one standing read.
 ## 02 · Analysis — fitting, describing, plotting, cloning
 
 `analysis/` holds empirical analyses of real data, so this domain's craft covers what such a folder
-produces. Three of its four `references/` groups are also routed by jobs in other parts, per the
-cross-domain note above.
+produces. It groups that craft by kind rather than under a `references/` folder — `regression/`,
+`visualization/`, and `descriptives/` sit directly in the domain, alongside `smart_clone.md`. Two of
+those groups are also routed by jobs in other parts, per the cross-domain note above.
 
 ### Regression — fitting or checking a brms model
 
@@ -117,8 +120,8 @@ A brms regression is an empirical workflow, so its `FOLDER` slot names a folder 
 
 | Path | What it covers |
 |---|---|
-| `02-analysis/references/regression/01_sampling_and_priors.md` | The `brm()` workflow: load by `data_path`, translate approved priors, sampling settings, save the `.rds` |
-| `02-analysis/references/regression/02_diagnostics.md` | The post-fit script: ess/rhat table, trankplot, pairs plot, reported without interpretation |
+| `02-analysis/regression/01_sampling_and_priors.md` | The `brm()` workflow: load by `data_path`, translate approved priors, sampling settings, save the `.rds` |
+| `02-analysis/regression/02_diagnostics.md` | The post-fit script: ess/rhat table, trankplot, pairs plot, reported without interpretation |
 
 ### Visualization — creating or revising a figure
 
@@ -133,13 +136,13 @@ Route on what the user asked for, then add every standard that applies. A `simul
 
 | Path | What it covers |
 |---|---|
-| `02-analysis/references/visualization/plot-types/plot-posterior.md` | ggdist rules: wide-and-short canvas, the three x-axis cases, zero/median lines, the 0.90 CI, annotation; runnable code inline under `## Examples`, no separate `example.R` |
-| `02-analysis/references/visualization/plot-types/plot-posterior.png` | The rendered reference — awaiting regeneration from that file's Example 3 |
-| `02-analysis/references/visualization/plot-types/plot-scatter.md` | ggplot2 rules: square panel, shared limits and the diagonal on a same-scale pair, trend line, Pearson annotation, mandatory color; runnable code inline under `## Examples`, no separate `example.R` |
-| `02-analysis/references/visualization/plot-types/plot-dot-histogram.md` | ggdist `geom_dots()` rules: full-range x-axis, default binning, rebuilt count y-axis; runnable code inline under `## Examples`, no separate `example.R` |
-| `02-analysis/references/visualization/standards/COLOR_STANDARD.md` | When color is required, which palettes, what to avoid — route whenever the plot uses color |
-| `02-analysis/references/visualization/standards/EXPORT_STANDARD.md` | Dual PDF+PNG export, canvas, naming — route always |
-| `02-analysis/references/visualization/standards/PANEL_TAGGING_STANDARD.md` | patchwork assembly and A/B/C tags — route for 2+ panels |
+| `02-analysis/visualization/plot-types/plot-posterior.md` | ggdist rules: wide-and-short canvas, the three x-axis cases, zero/median lines, the 0.90 CI, annotation; runnable code inline under `## Examples`, no separate `example.R` |
+| `02-analysis/visualization/plot-types/plot-posterior.png` | The rendered reference — awaiting regeneration from that file's Example 3 |
+| `02-analysis/visualization/plot-types/plot-scatter.md` | ggplot2 rules: square panel, shared limits and the diagonal on a same-scale pair, trend line, Pearson annotation, mandatory color; runnable code inline under `## Examples`, no separate `example.R` |
+| `02-analysis/visualization/plot-types/plot-dot-histogram.md` | ggdist `geom_dots()` rules: full-range x-axis, default binning, rebuilt count y-axis; runnable code inline under `## Examples`, no separate `example.R` |
+| `02-analysis/visualization/standards/COLOR_STANDARD.md` | When color is required, which palettes, what to avoid — route whenever the plot uses color |
+| `02-analysis/visualization/standards/EXPORT_STANDARD.md` | Dual PDF+PNG export, canvas, naming — route always |
+| `02-analysis/visualization/standards/PANEL_TAGGING_STANDARD.md` | patchwork assembly and A/B/C tags — route for 2+ panels |
 
 ### Descriptives — reporting the sample and its measures
 
@@ -149,7 +152,7 @@ Route on what the user asked for, then add every standard that applies. A `simul
 
 | Path | What it covers |
 |---|---|
-| `02-analysis/references/descriptives/how-to-report-descriptives.md` | The descriptive folder's tables and figures: participant counts by group, the demographics table, per-measure distributions, and the values the researcher supplies |
+| `02-analysis/descriptives/how-to-report-descriptives.md` | The descriptive folder's tables and figures: participant counts by group, the demographics table, per-measure distributions, and the values the researcher supplies |
 
 ### Cloning a folder
 
@@ -163,7 +166,7 @@ Building a new folder routes through `project-rules.md` §0 and the domain's `ru
 
 | Path | What it covers |
 |---|---|
-| `02-analysis/references/smart_clone.md` | Duplicating an `analysis/`/`simulation/` folder: what to copy, what to wipe, which paths to re-point |
+| `02-analysis/smart_clone.md` | Duplicating an `analysis/`/`simulation/` folder: what to copy, what to wipe, which paths to re-point |
 
 ## 03 · Models — writing the `.R`/`.stan` pair
 
@@ -192,11 +195,11 @@ several — runs the same pipeline and routes the same two files.
 | builds or extends a recovery pipeline | `how-to-build-a-recovery-pipeline.md` and `assets/example_main.R` |
 | writes or revises the recovery comparison and its figure | `how-to-read-recovery.md` |
 
-A first recovery study routes all three. Add the `02-analysis/references/visualization/` rows the
+A first recovery study routes all three. Add the `02-analysis/visualization/` rows the
 figures call for — `plot-scatter.md` for the recovery panels, `plot-posterior.md` for the population
 panels, `plot-dot-histogram.md` for the true-parameter distributions, plus the panel-tagging and
 export standards. A study that fits brms rather than raw Stan also routes
-`02-analysis/references/regression/01_sampling_and_priors.md`.
+`02-analysis/regression/01_sampling_and_priors.md`.
 
 | Path | What it covers |
 |---|---|
@@ -243,7 +246,7 @@ diagnostics, and the plot all land in this one folder, so the job is one dispatc
 
 | `ROUTED READS` | Reads |
 |---|---|
-| `02-analysis/references/regression/01_sampling_and_priors.md`, `02_diagnostics.md`, `02-analysis/references/visualization/plot-types/plot-posterior.md`, `plot-posterior.png`, `02-analysis/references/visualization/standards/EXPORT_STANDARD.md`, and `COLOR_STANDARD.md` when the figure uses color | 3 + 5 or 6 |
+| `02-analysis/regression/01_sampling_and_priors.md`, `02_diagnostics.md`, `02-analysis/visualization/plot-types/plot-posterior.md`, `plot-posterior.png`, `02-analysis/visualization/standards/EXPORT_STANDARD.md`, and `COLOR_STANDARD.md` when the figure uses color | 3 + 5 or 6 |
 
 ### D · Revising an existing two-panel scatter figure
 
@@ -253,7 +256,7 @@ panel-tagging standard on the card, and the scatter instructions make color mand
 
 | `ROUTED READS` | Reads |
 |---|---|
-| `02-analysis/references/visualization/plot-types/plot-scatter.md`, `02-analysis/references/visualization/standards/COLOR_STANDARD.md`, `EXPORT_STANDARD.md`, `PANEL_TAGGING_STANDARD.md` | 3 + 4 |
+| `02-analysis/visualization/plot-types/plot-scatter.md`, `02-analysis/visualization/standards/COLOR_STANDARD.md`, `EXPORT_STANDARD.md`, `PANEL_TAGGING_STANDARD.md` | 3 + 4 |
 
 ### E · The Exploration Pass, dispatched at Step 1
 
@@ -273,11 +276,11 @@ study context — see `interview.md`.
 §0. The folder is new, so its structure and templates arrive with `FOLDER`. The whole pipeline is one
 job however many fits it runs, per `04-simulations/rules.md`. Both `04-simulations` references route
 plus the worked `main.R`, and the four-panel figure puts three plot types and both assembly standards
-on the card — routed across into `02-analysis/references/visualization/`, which owns them.
+on the card — routed across into `02-analysis/visualization/`, which owns them.
 
 | `ROUTED READS` | Reads |
 |---|---|
-| `04-simulations/references/how-to-build-a-recovery-pipeline.md`, `how-to-read-recovery.md`, `04-simulations/assets/example_main.R`, `02-analysis/references/visualization/plot-types/plot-scatter.md`, `plot-posterior.md`, `plot-dot-histogram.md`, `02-analysis/references/visualization/standards/COLOR_STANDARD.md`, `EXPORT_STANDARD.md`, `PANEL_TAGGING_STANDARD.md` | 3 + 9 |
+| `04-simulations/references/how-to-build-a-recovery-pipeline.md`, `how-to-read-recovery.md`, `04-simulations/assets/example_main.R`, `02-analysis/visualization/plot-types/plot-scatter.md`, `plot-posterior.md`, `plot-dot-histogram.md`, `02-analysis/visualization/standards/COLOR_STANDARD.md`, `EXPORT_STANDARD.md`, `PANEL_TAGGING_STANDARD.md` | 3 + 9 |
 
 The `models/` definition is a read, not a write: `PROJECT STATE` names its path and the Writer sources
 it. When that definition does not exist yet, it is a `models/` job in an earlier run — see

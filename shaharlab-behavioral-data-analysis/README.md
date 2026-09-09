@@ -43,22 +43,26 @@ Malka points the subagent at through the card:
 |---|---|
 | `coding-knowledge/00-constitution/` | the project rules and R coding rules every build reads, whatever the domain |
 | `coding-knowledge/01-preprocessing/` | cleaning, reshaping, excluding, examining, or reporting behavioral data — one `how-to-` file per script kind (`converting_`, `examining_`, `summary_`), building `data/raw` + `data/processed`, the Markdown examination and exclusion reports, and a manuscript-ready exclusions paragraph |
-| `coding-knowledge/02-analysis/` | empirical analyses of real data. Its `references/` holds `regression/` (Bayesian/brms sampling, priors, diagnostics), `visualization/` (color, panel-tagging, plot-type, and export standards), `descriptives/` (participant counts, demographics tables, questionnaire distributions), and `smart_clone.md` for duplicating a folder |
+| `coding-knowledge/02-analysis/` | empirical analyses of real data. Holds `regression/` (Bayesian/brms sampling, priors, diagnostics), `visualization/` (color, panel-tagging, plot-type, and export standards), `descriptives/` (participant counts, demographics tables, questionnaire distributions), and `smart_clone.md` for duplicating a folder |
 | `coding-knowledge/03-models/` | writing a `models/` definition as a generating `.R` and fitting `.stan` pair |
 | `coding-knowledge/04-simulations/` | parameter-recovery and other studies on model-generated data — building the pipeline and reading its recovery |
 
-Every domain has the same shape: one `rules.md` stating the structure and file naming of the
-project part it governs, the templates that build that folder beside it, a `references/`
-folder holding the craft the subagent reads while it works, and `assets/` where a domain needs
-worked examples. `00-constitution/` is the exception — it governs no single folder type, so it
-holds the two rules files alone.
+Every domain holds one `rules.md` stating the structure and file naming of the project part it
+governs, the templates that build that folder beside it, and the craft the subagent reads while
+it works. `00-constitution/` is the exception — it governs no single folder type, so it holds
+the two rules files alone.
 
-`rules.md` and the templates are the standing read for any job landing in that part.
-`references/` and `assets/` are routed per card, from `knowledge-index.md`.
+How the craft is arranged follows how much of it there is. `01-preprocessing/`, `03-models/`,
+and `04-simulations/` keep theirs in a `references/` folder, with worked examples in `assets/`.
+`02-analysis/` holds enough to group by kind instead, so `regression/`, `visualization/`, and
+`descriptives/` sit directly in the domain beside `smart_clone.md`.
+
+`rules.md` and the templates are the standing read for any job landing in that part. The craft
+files are routed per card, from `knowledge-index.md`, which carries every one of their paths.
 
 Two domains are read from outside their own part: an `analysis/` job and a `simulation/` job
-both route into `02-analysis/references/visualization/` for figures, and a `simulation/` job
-fitting brms on generated data routes into `02-analysis/references/regression/`.
+both route into `02-analysis/visualization/` for figures, and a `simulation/` job
+fitting brms on generated data routes into `02-analysis/regression/`.
 
 ## Agents
 

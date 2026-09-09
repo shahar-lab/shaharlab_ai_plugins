@@ -16,21 +16,28 @@
   `07-model-definitions/` are retired, their contents moved with `git mv` so history follows each
   file.
 
-  Bayesian regression, visualization, descriptives, and `smart_clone.md` all live under
-  `02-analysis/references/`, since all four are craft an `analysis/` folder needs. Two of them are
-  routed across domains where another part needs them: a `simulation/` job routes into
-  `02-analysis/references/visualization/` for its recovery panels, and into
-  `.../regression/` when it fits brms on generated data. `knowledge-index.md` states each crossing.
+  Bayesian regression, visualization, descriptives, and `smart_clone.md` all live in
+  `02-analysis/`, since all four are craft an `analysis/` folder needs. Two of them are routed
+  across domains where another part needs them: a `simulation/` job routes into
+  `02-analysis/visualization/` for its recovery panels, and into `02-analysis/regression/` when it
+  fits brms on generated data. `knowledge-index.md` states each crossing.
+
+  How a domain arranges its craft follows how much it holds. `01-preprocessing/`, `03-models/`, and
+  `04-simulations/` keep theirs in a `references/` folder, with worked examples in `assets/`.
+  `02-analysis/` holds enough to group by kind instead, so `regression/`, `visualization/`, and
+  `descriptives/` sit directly in the domain beside `smart_clone.md` rather than one level deeper.
+  `knowledge-index.md` carries every craft file's path, and that path is the authority — a route
+  comes from it rather than from the shape.
 
   The numbering now says one thing rather than two: `00` on every job, `01`–`04` by where the work
   lands. Craft carries no number of its own. Inside a domain, `rules.md` and the templates are the
-  standing read and `references/`/`assets/` are routed per card — stated in `knowledge-index.md`,
-  the agent files, and `TERMS.md`'s two new rows, **domain** and **standing read**.
+  standing read and the craft files are routed per card — stated in `knowledge-index.md`, the agent
+  files, and `TERMS.md`'s two new rows, **domain** and **standing read**.
 
 - **A descriptives domain, so reporting the sample has craft behind it.** `analysis/` folders that
   describe rather than fit had no `how-to-` file, so participant counts, demographics tables, and
   measure distributions were written from scratch each time.
-  `02-analysis/references/descriptives/how-to-report-descriptives.md` states the products, the
+  `02-analysis/descriptives/how-to-report-descriptives.md` states the products, the
   per-participant frame every table reads back from `artifacts/`, and the blocks that build each
   table. `interview.md` gains a **Descriptives** bullet asking which variables get described, which
   grouping the tables break down by, and which measures are worth a distribution figure rather than
