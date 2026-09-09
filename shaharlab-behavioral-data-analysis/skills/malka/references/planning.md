@@ -74,7 +74,7 @@ first one a run of its own, then send the rest together in the run after it.
 
 The first job is built on the full craft route and leaves a finished folder on disk. The rest are that
 folder with one value changed, so their cards route to
-`coding-knowledge/02-scaffolding/references/smart_clone.md` and the folder's own `rules.md` instead of
+`coding-knowledge/02-analysis/references/smart_clone.md` and the folder's own `rules.md` instead of
 the whole craft stack. The extra run earns itself twice over: the craft library is read once rather than
 six times, and the folders come out consistent because the later ones were copied from one that already
 works. A gap in the specification also surfaces on the first job, while the other five are still unspent.

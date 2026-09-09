@@ -35,7 +35,7 @@ the study: one generating design, one question about how the model behaves.
 
 - **Parameter recovery** — generate data from known parameters, fit the model back, and compare
   true against recovered values. Its figure is a scatter plot with the diagonal reference line, built
-  from the `04-visualization` scatter knowledge; take that file as an `ADDED READ` where the card
+  from the `02-analysis/references/visualization/` scatter knowledge; take that file as an `ADDED READ` where the card
   carried no plot-type file.
 - **Model simulation** — generate behavior under a set of parameters and check it reproduces the
   qualitative pattern the task is meant to elicit.
@@ -50,7 +50,7 @@ nothing here is read from `data/`. `project-rules.md` §4 states the contract.
 
 Create `code/`, `artifacts/`, `output/`; inject `template_main.R` as `main.R`; then replace
 `<folder_name>` with the real name. To copy an existing
-study, use `../../02-scaffolding/references/smart_clone.md`.
+study, use `../02-analysis/references/smart_clone.md`.
 
 `summary.md` is written by Malka from the approved specification, not by the Writer building the
 folder — the same split `../analysis/rules.md` states. Scaffold the three directories and `main.R`;

@@ -42,16 +42,23 @@ Malka points the subagent at through the card:
 | Domain | Malka reads it for… |
 |---|---|
 | `coding-knowledge/00-constitution/` | the project rules and R coding rules every build reads, whatever the domain |
-| `coding-knowledge/01-folder-specific-rules/` | the structure and file naming of the folder type the work lands in — `preprocessing/`, `analysis/`, `models/`, `simulations/` — with the templates that build it |
-| `coding-knowledge/05-bayesian-regression/` | fitting/checking a Bayesian/brms regression (sampling, priors, diagnostics, reporting) |
-| `coding-knowledge/03-preprocessing/` | cleaning, reshaping, excluding, examining, or reporting behavioral data — one `how-to-` file per script kind (`converting_`, `examining_`, `summary_`), building `data/raw` + `data/processed`, the Markdown examination and exclusion reports, and a manuscript-ready exclusions paragraph |
-| `coding-knowledge/04-visualization/` | creating or revising any lab figure — color, panel-tagging, plot-type, and export standards |
-| `coding-knowledge/02-scaffolding/` | starting a new analysis/simulation/model folder under the "one model, one folder" topology (or smart-cloning an existing one) |
+| `coding-knowledge/01-preprocessing/` | cleaning, reshaping, excluding, examining, or reporting behavioral data — one `how-to-` file per script kind (`converting_`, `examining_`, `summary_`), building `data/raw` + `data/processed`, the Markdown examination and exclusion reports, and a manuscript-ready exclusions paragraph |
+| `coding-knowledge/02-analysis/` | empirical analyses of real data. Its `references/` holds `regression/` (Bayesian/brms sampling, priors, diagnostics), `visualization/` (color, panel-tagging, plot-type, and export standards), `descriptives/` (participant counts, demographics tables, questionnaire distributions), and `smart_clone.md` for duplicating a folder |
+| `coding-knowledge/03-models/` | writing a `models/` definition as a generating `.R` and fitting `.stan` pair |
+| `coding-knowledge/04-simulations/` | parameter-recovery and other studies on model-generated data — building the pipeline and reading its recovery |
 
-Most folders have the same shape: `references/` (the standards and cheatsheets the subagent
-reads while it works) and, where a domain needs boilerplate, `assets/`.
-`01-folder-specific-rules/` is the exception — one subfolder per folder type, each holding a
-`rules.md` and the templates that build that folder.
+Every domain has the same shape: one `rules.md` stating the structure and file naming of the
+project part it governs, the templates that build that folder beside it, a `references/`
+folder holding the craft the subagent reads while it works, and `assets/` where a domain needs
+worked examples. `00-constitution/` is the exception — it governs no single folder type, so it
+holds the two rules files alone.
+
+`rules.md` and the templates are the standing read for any job landing in that part.
+`references/` and `assets/` are routed per card, from `knowledge-index.md`.
+
+Two domains are read from outside their own part: an `analysis/` job and a `simulation/` job
+both route into `02-analysis/references/visualization/` for figures, and a `simulation/` job
+fitting brms on generated data routes into `02-analysis/references/regression/`.
 
 ## Agents
 

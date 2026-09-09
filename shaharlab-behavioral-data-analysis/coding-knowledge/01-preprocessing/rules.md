@@ -39,7 +39,7 @@ Every script in `preprocessing/code/` opens with its two-digit position in `main
 | `examining_` | inspects one data stage and reports what is in it | `02_examining_data_raw.R`, `04_examining_data_processed.R` | `preprocessing/output/` |
 | `summary_` | reports for the researcher and for the manuscript | `05_summary_exclusions.R`, `06_summary_manuscript_paragraph.R` | `preprocessing/output/` |
 
-The `03-preprocessing/references/` how-to files name each script by its kind and subject; the number
+The `01-preprocessing/references/` how-to files name each script by its kind and subject; the number
 in front of it comes from where `main.R` sources it.
 
 These three cover the whole of preprocessing. Work that fits none of them is an analysis, so it
@@ -58,7 +58,7 @@ built it are found from each other.
   hand-curated stores.
 - `analysis/` reads from `data/processed/` by path and copies nothing into its own folders.
   `simulation/` generates its own data instead and reads nothing from `data/`, per
-  `01-folder-specific-rules/simulations/rules.md`.
+  `04-simulations/rules.md`.
 - Every cutoff used in an exclusion is held in a named variable in `main.R`, set from the user's
   approved plan, so the same value drives the filter and the report that quotes it.
 - Scripts run in `main.R`'s order and inherit its environment, so a `summary_` script reads the
@@ -74,5 +74,5 @@ Create `preprocessing/` once per project: `code/`, `output/`, and a `main.R` ada
 `preprocessing/output`, and the three `data/` stages.
 
 Each kind of script is written from its own `how-to-` file in
-`${CLAUDE_PLUGIN_ROOT}/coding-knowledge/03-preprocessing/references/`, one per kind. Where the card
+`${CLAUDE_PLUGIN_ROOT}/coding-knowledge/01-preprocessing/references/`, one per kind. Where the card
 routed no `how-to-` file for a script the job writes, take that file as an `ADDED READ`.

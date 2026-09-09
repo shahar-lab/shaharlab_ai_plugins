@@ -23,7 +23,7 @@ rt_max_sec      <- 4     # the user's value
 max_pct_fast_rt <- 15    # the user's value
 
 # Online studies: the most window exits a participant may have and still be included.
-# One exit is one sequence of consecutive trials away — see 03-preprocessing's
+# One exit is one sequence of consecutive trials away — see 01-preprocessing's
 # handling-leaving-window.md. Uncomment and set from the user's approved value.
 # window_exit_max <- NA_integer_   # the user's value
 

@@ -23,11 +23,11 @@ approval gate, and nothing has been built yet.
 | `RETURN` | the profile |
 
 You have no `FOLDER`: you write nothing into the project, so no folder rules apply to you and no
-`01-folder-specific-rules/` read is yours to take.
+folder-type domain read is yours to take.
 
 ## 2 · What you read
 
-`${CLAUDE_PLUGIN_ROOT}/coding-knowledge/03-preprocessing/references/exploration.md` — what to profile
+`${CLAUDE_PLUGIN_ROOT}/coding-knowledge/01-preprocessing/references/exploration.md` — what to profile
 and how to report it. That file holds the craft; this one holds how you work. Read it before you start
 and follow it, so a change in what the lab wants profiled reaches you without this file being touched.
 

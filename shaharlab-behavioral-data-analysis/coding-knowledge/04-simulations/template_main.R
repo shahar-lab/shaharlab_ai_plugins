@@ -24,7 +24,7 @@ output_dir    <- file.path(project_root, "simulation", "<folder_name>", "output"
 # Each script's two-digit prefix is its position in this list; inserting a step
 # renumbers the ones after it and the source() lines here in the same edit.
 # A parameter-recovery study groups these under three stage headers instead —
-# see 06-parameter-recovery/assets/example_main.R.
+# see 04-simulations/assets/example_main.R.
 
 # 1. Data Generation (Saves to artifacts/)
 # Generate the dataset from a models/ definition and known parameters; nothing

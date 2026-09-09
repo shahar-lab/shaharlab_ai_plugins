@@ -126,10 +126,10 @@ shaharlab-behavioral-data-analysis/
 ├── .claude-plugin/plugin.json
 ├── README.md · CHANGELOG.md
 ├── skills/    malka (the orchestrator), code-walkthrough
-├── coding-knowledge/  00-constitution, 01-folder-specific-rules, 02-scaffolding,
-│                      03-preprocessing, 04-visualization, 05-bayesian-regression
+├── coding-knowledge/  00-constitution, 01-preprocessing, 02-analysis,
+│                      03-models, 04-simulations
 │                      (not skills — indexed by malka, read by the agents)
-└── agents/    code-writer
+└── agents/    code-writer, code-reviewer, data-explorer
 
 shaharlab-jspsych/
 ├── .claude-plugin/plugin.json

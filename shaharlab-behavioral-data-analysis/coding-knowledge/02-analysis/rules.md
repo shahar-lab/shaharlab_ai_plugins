@@ -52,7 +52,7 @@ Scripts in `code/` use those variables and define no paths of their own. Librari
 
 - Read input data from `data/processed/` by path; the folder keeps its own copy of nothing.
 - Write only inside this folder — `artifacts/` for machine-readable, `output/` for human-facing.
-- A figure in this folder is built from the `04-visualization` knowledge for its plot type rather than from raw ggplot. Where the card routed no plot-type file for a figure the specification asks for, take one as an `ADDED READ`.
+- A figure in this folder is built from the `references/visualization/` knowledge for its plot type rather than from raw ggplot. Where the card routed no plot-type file for a figure the specification asks for, take one as an `ADDED READ`.
 - Model definitions live in `models/`; this folder fits and evaluates them.
 - **One fitted model per folder.** If the specification handed to you contains more than one model
   fit, return `BLOCKED` and say how many you counted, rather than building them together in this
@@ -64,7 +64,7 @@ Scripts in `code/` use those variables and define no paths of their own. Librari
 Create `code/`, `artifacts/`, `output/`; inject `template_main.R` as `main.R`; then replace
 `<folder_name>` with the real name, and set the headers to the user's model name and formula.
 To copy an existing analysis, use
-`../../02-scaffolding/references/smart_clone.md`.
+`references/smart_clone.md` beside this file.
 
 `summary.md` is written by Malka from the approved specification, not by the Writer building the
 folder. Scaffold the three directories and `main.R`; the notebook arrives separately, shaped by

@@ -29,7 +29,7 @@ You name the files you write, from the naming rules in your folder's `rules.md` 
 
 1. `${CLAUDE_PLUGIN_ROOT}/coding-knowledge/00-constitution/project-rules.md` — lab topology and the path contract
 2. `${CLAUDE_PLUGIN_ROOT}/coding-knowledge/00-constitution/coding-rules.md` — R style
-3. `${CLAUDE_PLUGIN_ROOT}/coding-knowledge/01-folder-specific-rules/<type>/rules.md` — the part your card's `FOLDER` sits in, per §0's tree; its structure, its file names, and the templates beside it
+3. The `rules.md` of the domain for the part your card's `FOLDER` sits in, per §0's tree — its structure, its file names, and the templates beside it. `${CLAUDE_PLUGIN_ROOT}/coding-knowledge/` holds one domain per part: `01-preprocessing/` for `preprocessing/` and `data/`, `02-analysis/` for `analysis/`, `03-models/` for `models/`, `04-simulations/` for `simulation/`
 
 These three come with every job, whatever your card routes. Then open the files listed under `ROUTED READS`. Malka routed them deliberately from the library's index, and working through that list rather than the library is what keeps your context on this job.
 
@@ -40,7 +40,7 @@ These three come with every job, whatever your card routes. Then open the files 
 ### Stage 1 — prepare the environment
 
 1. Your card's `FOLDER` is the one folder this job writes into; Malka decided that at routing. Write only inside it, following its `rules.md` — `preprocessing/` covers the `data/` stages it builds. Return `BLOCKED` where the job needs a write elsewhere, or where the folder contradicts what the work plainly is: a mechanistic `.stan` definition on an `analysis` card, against `project-rules.md` §2.III.
-2. If the folder does not exist, create it, injecting the templates from the same `01-folder-specific-rules/<type>/` subfolder. If it does exist, verify it matches the canonical set. For a duplication, follow `coding-knowledge/02-scaffolding/references/smart_clone.md` instead.
+2. If the folder does not exist, create it, injecting the templates from that same domain folder. If it does exist, verify it matches the canonical set. For a duplication, follow `coding-knowledge/02-analysis/references/smart_clone.md` instead.
 3. Leave `summary.md` to Malka. She writes it from the approved specification once your dispatch returns, so an `analysis/`/`simulation/` scaffold is yours down to `code/`, `artifacts/`, `output/`, and `main.R`, and the notebook arrives separately.
 4. Give `main.R` the path block of `project-rules.md` §4 and the `#### SETUP ####` block of `coding-rules.md`, so the routed knowledge finds the variables and libraries it assumes already defined.
 

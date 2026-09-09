@@ -41,7 +41,7 @@ Values live in `SPECIFICATION` alone, so the two can never disagree.
 **`FOLDER`** is this entry's folder from the plan, and it bounds **writing** only — the Writer holds §0's
 whole tree and reads across the project as the work requires. It also resolves the one variable in the
 reads the Writer takes on every job: its agent file instructs it to read the two constitution files plus
-its folder's `01-folder-specific-rules/<type>/rules.md`, which §0's tree maps.
+the `rules.md` of its folder's own domain, which §0's tree maps.
 
 **`ROUTED READS`** is what you *decided* — the craft files for the stages this job involves, derived from
 `references/knowledge-index.md` alone. List paths and let the subagent open them itself: a few hundred
@@ -90,9 +90,9 @@ FOLDER
 preprocessing/
 
 ROUTED READS
-- coding-knowledge/03-preprocessing/references/how-to-convert-raw-to-processed.md
-- coding-knowledge/03-preprocessing/references/how-to-summarise-exclusions.md
-- coding-knowledge/03-preprocessing/assets/example-summary-exclusions.md
+- coding-knowledge/01-preprocessing/references/how-to-convert-raw-to-processed.md
+- coding-knowledge/01-preprocessing/references/how-to-summarise-exclusions.md
+- coding-knowledge/01-preprocessing/assets/example-summary-exclusions.md
 
 PROJECT STATE
 The pipeline exists and runs. Revise these two scripts in place:
@@ -125,11 +125,11 @@ FOLDER
 analysis/stay_by_reward/          (new — scaffold it)
 
 ROUTED READS
-- coding-knowledge/05-bayesian-regression/01_sampling_and_priors.md
-- coding-knowledge/05-bayesian-regression/02_diagnostics.md
-- coding-knowledge/04-visualization/references/plot-types/plot-posterior.md
-- coding-knowledge/04-visualization/references/plot-types/plot-posterior.png
-- coding-knowledge/04-visualization/references/standards/EXPORT_STANDARD.md
+- coding-knowledge/02-analysis/references/regression/01_sampling_and_priors.md
+- coding-knowledge/02-analysis/references/regression/02_diagnostics.md
+- coding-knowledge/02-analysis/references/visualization/plot-types/plot-posterior.md
+- coding-knowledge/02-analysis/references/visualization/plot-types/plot-posterior.png
+- coding-knowledge/02-analysis/references/visualization/standards/EXPORT_STANDARD.md
 
 PROJECT STATE
 The folder does not exist yet — scaffold it from its rules.md and templates.

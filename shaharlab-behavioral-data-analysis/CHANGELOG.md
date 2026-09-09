@@ -2,6 +2,41 @@
 
 ## [Unreleased]
 
+- **`coding-knowledge/` is now one domain per project part** (breaking: every path under
+  `coding-knowledge/` changed). A part's rules and its craft used to sit in two places —
+  `01-folder-specific-rules/preprocessing/` held the folder structure and `main.R` template while
+  `03-preprocessing/` held the how-to files — so a Writer landing in `preprocessing/` read one
+  folder for where its work goes and another for how to do it. Each part now holds both: a
+  `rules.md`, the templates beside it, and its craft under `references/` and `assets/`.
+
+  Eight domains become five. `01-preprocessing/`, `02-analysis/`, `03-models/`, and
+  `04-simulations/` each govern one top-level project part, and `00-constitution/` keeps the two
+  files read on every job. `01-folder-specific-rules/`, `02-scaffolding/`, `03-preprocessing/`,
+  `04-visualization/`, `05-bayesian-regression/`, `06-parameter-recovery/`, and
+  `07-model-definitions/` are retired, their contents moved with `git mv` so history follows each
+  file.
+
+  Bayesian regression, visualization, descriptives, and `smart_clone.md` all live under
+  `02-analysis/references/`, since all four are craft an `analysis/` folder needs. Two of them are
+  routed across domains where another part needs them: a `simulation/` job routes into
+  `02-analysis/references/visualization/` for its recovery panels, and into
+  `.../regression/` when it fits brms on generated data. `knowledge-index.md` states each crossing.
+
+  The numbering now says one thing rather than two: `00` on every job, `01`–`04` by where the work
+  lands. Craft carries no number of its own. Inside a domain, `rules.md` and the templates are the
+  standing read and `references/`/`assets/` are routed per card — stated in `knowledge-index.md`,
+  the agent files, and `TERMS.md`'s two new rows, **domain** and **standing read**.
+
+- **A descriptives domain, so reporting the sample has craft behind it.** `analysis/` folders that
+  describe rather than fit had no `how-to-` file, so participant counts, demographics tables, and
+  measure distributions were written from scratch each time.
+  `02-analysis/references/descriptives/how-to-report-descriptives.md` states the products, the
+  per-participant frame every table reads back from `artifacts/`, and the blocks that build each
+  table. `interview.md` gains a **Descriptives** bullet asking which variables get described, which
+  grouping the tables break down by, and which measures are worth a distribution figure rather than
+  a mean; `knowledge-index.md` gains its row and trigger. Which measures and cutoffs those are stays
+  the researcher's to set, per `project-rules.md` §5.
+
 - `coding-rules.md` states two guidelines more emphatically: reach for `pkg::fun()` only to resolve a
   naming conflict between loaded packages (call everything else directly after `library()`), and write
   a custom `function()` only when the user specifically asked for one or the same block would otherwise

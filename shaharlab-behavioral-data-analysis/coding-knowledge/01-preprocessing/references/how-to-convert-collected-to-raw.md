@@ -3,7 +3,7 @@
 The first `converting_` script in the pipeline. It reads `data/collected/`, restructures it into
 one tidy typed table, and saves that to `data/raw/`. The folder it writes into and the three
 prefixes it is named under are defined in
-`${CLAUDE_PLUGIN_ROOT}/coding-knowledge/01-folder-specific-rules/preprocessing/rules.md`.
+`${CLAUDE_PLUGIN_ROOT}/coding-knowledge/01-preprocessing/rules.md`.
 
 ## What this stage does
 

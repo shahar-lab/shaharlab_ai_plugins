@@ -13,7 +13,8 @@ describes the analysis that is on disk rather than the one that was asked for.
 
 ## The shape
 
-Use that folder type's own `coding-knowledge/01-folder-specific-rules/<type>/template_summary.md` —
+Use that folder type's own `template_summary.md` — `coding-knowledge/02-analysis/` for an
+`analysis/` folder, `coding-knowledge/04-simulations/` for a `simulation/` one —
 `analysis/` for an analysis folder, `simulations/` for a simulation one.
 
 ## What it carries

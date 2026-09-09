@@ -1,7 +1,7 @@
 # Writing a `models/` definition
 
 A `models/[model_name]/` folder holds one model in two directions: `[model_name].R` generates behaviour
-from parameters, and `[model_name].stan` estimates parameters from behaviour. `01-folder-specific-rules/models/rules.md`
+from parameters, and `[model_name].stan` estimates parameters from behaviour. `03-models/rules.md`
 states the folder's shape and its file names; this file is about what goes inside the two files.
 
 Nothing here is fitted or evaluated. A definition is loaded by an `analysis/` folder to fit real data
@@ -11,7 +11,7 @@ somewhere else and to hold no paths, no data loading, and no output of its own.
 ## The pair has to agree
 
 The two files are the same model written twice, and every recovery study and every fit rests on their
-agreeing. `06-parameter-recovery/references/how-to-build-a-recovery-pipeline.md` states the three
+agreeing. `04-simulations/references/how-to-build-a-recovery-pipeline.md` states the three
 agreements a recovery result depends on — the population form, the parameter scale, and the choice
 rule — and this is the file where you make them true. Write the `.R` and the `.stan` together and
 check each agreement as you go, since a mismatch here surfaces as a recovery that fails for reasons
@@ -70,7 +70,7 @@ learning rate declared on the unconstrained scale then transformed rather than d
 Editing these two files changes every folder that loads them, and those folders pick the change up on
 their next run — no folder holds a copy. A variant that differs in structure, such as a second learning
 rate or a different link, is a new folder under `models/` rather than a branch inside an existing file,
-per `01-folder-specific-rules/models/rules.md`.
+per `03-models/rules.md`.
 
 Where a fitted result already exists for the old definition, say so at handback: that fit was produced
 by code that no longer exists, and rerunning it is the only way to keep the artifact and the definition

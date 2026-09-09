@@ -4,15 +4,15 @@ This file is the global memory bank for the lab's AI architecture. All AI agents
 
 ## 0. Project Outlook: the whole tree at a glance
 
-A lab project has five top-level parts. Each has its own rules file in `01-folder-specific-rules/`; read the one matching what is being built.
+A lab project has five top-level parts. Each maps to one numbered domain under `coding-knowledge/`, which holds that part's `rules.md`, the templates that build it, and its craft `references/`; read the domain matching what is being built.
 
 ```text
 Project_Root/
-├── data/            raw material, three stages          → 01-folder-specific-rules/preprocessing/
-├── preprocessing/   code that moves data between stages → 01-folder-specific-rules/preprocessing/
-├── models/          reusable model definitions          → 01-folder-specific-rules/models/
-├── analysis/        empirical analyses of real data     → 01-folder-specific-rules/analysis/
-└── simulation/      analyses of model-generated data    → 01-folder-specific-rules/simulations/
+├── data/            raw material, three stages          → 01-preprocessing/
+├── preprocessing/   code that moves data between stages → 01-preprocessing/
+├── models/          reusable model definitions          → 03-models/
+├── analysis/        empirical analyses of real data     → 02-analysis/
+└── simulation/      analyses of model-generated data    → 04-simulations/
 ```
 
 **Data flows one way.** `data/collected/` → `data/raw/` → `data/processed/`, built by `preprocessing/`. `analysis/` reads from `data/processed/` and writes only inside its own folder. `simulation/` generates its data from a `models/` definition into its own `artifacts/`, and reads nothing from `data/`.
@@ -29,20 +29,20 @@ models/[MODEL_NAME]/  →  generated into  →  simulation/[NAME]/artifacts/
 
 | Request | Location | Rules + templates |
 |---|---|---|
-| New analysis | `analysis/[NAME]/` | `01-folder-specific-rules/analysis/` |
-| New simulation study | `simulation/[NAME]/` | `01-folder-specific-rules/simulations/` |
-| New model definition | `models/[MODEL_NAME]/` | `01-folder-specific-rules/models/` |
-| Preprocessing setup | `preprocessing/` | `01-folder-specific-rules/preprocessing/` |
-| Duplicate / clone a folder | same parent as the source | `02-scaffolding/references/smart_clone.md` |
+| New analysis | `analysis/[NAME]/` | `02-analysis/` |
+| New simulation study | `simulation/[NAME]/` | `04-simulations/` |
+| New model definition | `models/[MODEL_NAME]/` | `03-models/` |
+| Preprocessing setup | `preprocessing/` | `01-preprocessing/` |
+| Duplicate / clone a folder | same parent as the source | `02-analysis/references/smart_clone.md` |
 
 **Naming.** Use `snake_case` for every folder and file: `model_stay_by_reward`, `param_recovery`, `03_converting_data_raw_to_processed.R`. Take the name from the approved specification. Keep names free of spaces and of formula notation (`~`, `+`, `|`, `/`) so paths and shell commands resolve.
 
-Every script under a `code/` folder opens with its two-digit position in `main.R`'s source order, per §2.II. Scripts under `preprocessing/code/` carry one of three kind-prefixes after that number — `converting_`, `examining_`, or `summary_`, one per job the script does. `01-folder-specific-rules/preprocessing/rules.md` states the set.
+Every script under a `code/` folder opens with its two-digit position in `main.R`'s source order, per §2.II. Scripts under `preprocessing/code/` carry one of three kind-prefixes after that number — `converting_`, `examining_`, or `summary_`, one per job the script does. `01-preprocessing/rules.md` states the set.
 
 ## 1. Core Architectural Paradigm: "One Model, One Folder"
 Every analytical task must be housed in its own isolated subfolder: empirical analyses (e.g. brms regressions) under `analysis/`, synthetic simulation studies (e.g. parameter recovery) under the top-level `simulation/` directory. Both use the identical canonical folder set (§3).
 
-A folder that fits models holds exactly one fit. A folder that only describes data — plots, tables, summary statistics — holds the coherent set of figures that belong together. `01-folder-specific-rules/analysis/rules.md` states how the count is taken.
+A folder that fits models holds exactly one fit. A folder that only describes data — plots, tables, summary statistics — holds the coherent set of figures that belong together. `02-analysis/rules.md` states how the count is taken.
 
 ## 2. The Three Golden Rules of Operation
 

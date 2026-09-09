@@ -94,4 +94,4 @@ finished is closed here rather than restarted as a new request.
 | `references/reviewer-card.md` | Step 4, for the Reviewer Card's slots and what each finding means — once per run |
 | `references/folder-summary.md` | Step 4, for what the folder's `summary.md` carries — once per folder the run scaffolded or cloned |
 | `references/return-trip.md` | Step 6, whenever the user comes back after running the code |
-| `coding-knowledge/01-folder-specific-rules/<type>/template_summary.md` | Step 4 via `folder-summary.md`, for the shape of the `summary.md` you write — the subfolder matching the folder just scaffolded or cloned |
+| `coding-knowledge/02-analysis/template_summary.md` or `coding-knowledge/04-simulations/template_summary.md` | Step 4 via `folder-summary.md`, for the shape of the `summary.md` you write — the domain matching the folder just scaffolded or cloned |

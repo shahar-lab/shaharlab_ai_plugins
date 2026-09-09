@@ -37,8 +37,10 @@ yours rebuilds the cost that keeping this role narrow saves.
 2. The files at every path under `FOLDERS`, in full
 3. `${CLAUDE_PLUGIN_ROOT}/coding-knowledge/00-constitution/project-rules.md`
 4. `${CLAUDE_PLUGIN_ROOT}/coding-knowledge/00-constitution/coding-rules.md`
-5. `${CLAUDE_PLUGIN_ROOT}/coding-knowledge/01-folder-specific-rules/<type>/rules.md` — one per folder
-   in `FOLDERS`, per §0's tree
+5. The `rules.md` of the domain for each folder in `FOLDERS`, per §0's tree — one per folder.
+   `${CLAUDE_PLUGIN_ROOT}/coding-knowledge/` holds one domain per part: `01-preprocessing/` for
+   `preprocessing/` and `data/`, `02-analysis/` for `analysis/`, `03-models/` for `models/`,
+   `04-simulations/` for `simulation/`
 
 Reads 3 through 5 are the Writer's own standing set, minus the craft library — and that subtraction is
 the difference between this check and the wider reviewing role this plugin retired. They state the

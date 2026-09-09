@@ -3,7 +3,7 @@
 The second `converting_` script in the pipeline. It reads `data/raw/`, applies the exclusions the
 user approved, and saves the survivors to `data/processed/`. The folder it writes into and the
 three prefixes it is named under are defined in
-`${CLAUDE_PLUGIN_ROOT}/coding-knowledge/01-folder-specific-rules/preprocessing/rules.md`.
+`${CLAUDE_PLUGIN_ROOT}/coding-knowledge/01-preprocessing/rules.md`.
 
 Every criterion and every cutoff in this script came from the user through Malka's interview and
 arrives in the Writer Card. Implement exactly the approved plan.
