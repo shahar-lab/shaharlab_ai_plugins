@@ -57,7 +57,7 @@ The stacking is what shows the scatter directly.
 ## Examples
 
 Each example assumes `df`, a data frame with a numeric column `x`, already loaded from `artifacts_dir`
-or `data_path` per the folder's `rules.md`, and `output_dir` defined by `main.R`. `ggplot2`, `ggdist`,
+or `data_path` per the folder's `context.md`, and `output_dir` defined by `main.R`. `ggplot2`, `ggdist`,
 and `dplyr` are loaded in `main.R`'s `#### SETUP ####`. This section is the complete example — no
 `example.R` exists for this plot type.
 

@@ -1,4 +1,4 @@
-# Instructions for R coding 
+# Instructions for R coding
 
 These are instructions and guidelines for writing R scripts in this repository.
 
@@ -24,7 +24,6 @@ Follow these guidelines when writing R code:
 * Call functions directly, and add any missing package's `library()` call to `main.R`'s `#### SETUP ####` header (or the top of the script, if there is no `main.R`), so `::` stays out of the body.
 * Reach for `pkg::fun()` only where it is required to resolve a naming conflict between two loaded packages; call every other function directly after loading its package with `library()`.
 
-
 ## Reach for these only where the task calls for them
 
 Comment where the code needs it and leave the rest to the object names.
@@ -33,8 +32,6 @@ Comment where the code needs it and leave the rest to the object names.
 * Use `tryCatch()` where there is a clear reason to recover from an expected error.
 * Use `stop()` where the user asked for strict validation, or where the error prevents an incorrect result.
 * Reach for `apply`, `vapply` and their like where a vectorised expression or an explicit loop genuinely will not serve.
-
-
 
 ## Preferred R style
 
@@ -45,7 +42,8 @@ These are preferred guidelines, but use judgment when the task or existing code 
 * Prefer readable intermediate objects over long nested expressions.
 * Write the steps out in sequence, inline, using existing functions from the loaded packages; write a custom `function()` only where the user specifically asked for one, or where the same block would otherwise repeat.
 
-## Writing conventions 
+## Writing conventions
+
 * prefer to use `df` for the main data.frame when ever possible
 * in our lab we use the variabels "reward", "reward_oneback", "choice", "stay_ch" very often. Use when appropriate. 
 
@@ -85,6 +83,7 @@ Use only `#` for smaller subtitles:
 ## how to start your script
 
 **Main script (main.R):**
+
 - Put `rm(list = ls())` at the start
 - Use a `#### SETUP ####` header where you:
   - Load all required libraries (including `library(here)`)
@@ -94,6 +93,7 @@ Use only `#` for smaller subtitles:
 - Then use `#### EXECUTE PIPELINE ####` to source the scripts in `code/`
 
 **Sourced scripts (code/*.R):**
+
 - Leave `rm(list = ls())` to `main.R`
 - Leave every `library()` call to `main.R`
 - Start directly with a functional header (e.g., `#### CREATE EXAMPLE DATA ####`, `#### LOAD MODEL ####`)
@@ -102,6 +102,7 @@ Use only `#` for smaller subtitles:
 ## Using paths in sourced scripts (see project-rules.md §4 for the full path-setup contract)
 
 In sourced scripts under `code/`:
+
 * Load data via the `data_path` variable passed from `main.R`.
 * Save derived objects to `artifacts_dir` (e.g. `file.path(artifacts_dir, "fit.rds")`).
 * Save plots/tables to `output_dir` (e.g. `file.path(output_dir, "plot.png")`).
@@ -116,7 +117,7 @@ datasets the `converting_` script before them left in the environment — `df_co
 `after_*` frames, the excluded-ID vector — because every exclusion count they report has to be the
 one the pipeline actually produced, and a count recomputed from a saved file is a second measurement
 that can disagree with the first. That folder's scripts are therefore run in `main.R`'s order rather
-than individually; `01-preprocessing/rules.md` states the contract, and the
+than individually; `01-preprocessing/context.md` states the folder, and the
 `01-preprocessing/references/` how-to files name the datasets each script leaves behind. Open each script with a
 one-line note of its two ends, so reading `main.R` shows where the pipeline can be resumed:
 
@@ -127,5 +128,6 @@ one-line note of its two ends, so reading `main.R` shows where the pipeline can 
 ## Calling external tools (Python, shell)
 
 When a script calls out via `system2()` or similar:
+
 * Escape any path that may contain spaces with `shQuote()`.
 * Pass absolute paths to the external process, e.g. `system2("python", args = c(script_path, shQuote(data_path), shQuote(output_dir)))`.

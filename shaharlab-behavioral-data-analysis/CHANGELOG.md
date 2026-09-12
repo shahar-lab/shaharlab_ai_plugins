@@ -2,6 +2,112 @@
 
 ## [Unreleased]
 
+- **UI elements** in `TERMS.md`: `AskUserQuestion` is Claude Code's question dialog, not lab-made. `- [ ]` is the checklist the terminal UI picks up (Critique leftover questions, Summary Card Confirm & Execute / Revise).
+- **`CHECKS`** is a Plan Card slot: that job's `pre-deploy-checks.md` paths. Critique opens them. Print the Plan Card in the conversation with `CHECKS` omitted; the full card, including `CHECKS`, is the one Plan Card. Fill table lives in `interview-plan-card.md` §2.
+- **`WAVE`** (was Wave) is the slot name, all caps like `JOB`. **Plan Card** (was plan-card) is Title Case like Summary Card.
+- **`WAVE`** and **`JOB`** are written on the Plan Card, the Code-Writer Card, and the Reviewer Card. Omit `WAVE` when the Plan Card is one job. Listed in `TERMS.md`.
+- **Cards** is its own section in `TERMS.md`: Plan Card, Summary Card, Code-Writer Card, Reviewer Card. Each card's name is the first line of the card.
+- **Plan Card** is this request's job list. Plan fills it (`interview-plan-card.md`); Dispatch builds each Code-Writer Card from it. One job omits `WAVE`; several jobs group under WAVE 1, WAVE 2. WAVEs run in order (serial); jobs in the same WAVE run together (parallel).
+- **Structure Legend** is the named form for a heading, a skeleton box, then one bullet per named bit. Listed under Skill design terms in `TERMS.md`. The writing rule lives in the repo `.claude/CLAUDE.md`. Say "write this as a Structure Legend" to get that form.
+- Reviewer Card slots and return tags in `dispatch-reviewer-card.md` are Structure Legends.
+- Code-Writer Card slots in `dispatch-code-writer-card.md` are a Structure Legend.
+
+## [2.0.4] — 2026-09-11
+
+- **Interview beats are Talk, Plan, Critique, Confirm.** Plan counts the jobs and drafts one Code-Writer Card per job. Critique finishes the cards from `pre-deploy-checks.md`. Confirm is still the Summary Card; yes locks the finished Code-Writer Cards to `.malka/current_job.md`. Step 2 does not rebuild them.
+- **One file per interview beat.** `interview.md` stays Step 1's index. Beat files are `interview-talk.md`, `interview-plan.md` (renamed from `planning.md`), `interview-critique.md`, `interview-confirm.md` (folds in `user-request-summary.md`). Dispatch stays `dispatch.md`.
+- **`pre-deploy-checks.md` replaces `interview-points.md`.** Things Malka must know to finish this card; skip what Talk already settled. Count/split bullets (folder name, fit count, `data/processed/` stop) live in Plan.
+- **Code Reviewer is a general after-write check.** Constitution coding rules plus the Code-Writer Card vs the delivered code. No covering-folder craft, no `reviewer-points.md`, no `POINTS` slot. The Reviewer Card carries `CARD` (the dispatched Code-Writer Card) instead of a specification path.
+- **README How Malka works stays three steps:** Interview, Dispatch subagents (spawn the locked cards, then the Code Reviewer), Hand back.
+- **Dispatch card files are prefixed.** The Code-Writer Card lives in `dispatch-code-writer-card.md`; the Reviewer Card in `dispatch-reviewer-card.md`. `dispatch.md` stays the Step 2 file.
+- **Writer Card is Code-Writer Card.** Same object, named after the Code Writer.
+
+## [2.0.3] — 2026-09-11
+
+- **Malka is three linear steps.** Interview (Talk, Count, Critique, Confirm), Dispatch subagents (Cards, then Dispatch), Hand back. Count and the disk file live inside the interview; there is no planning step and no return-trip step. The return trip stays a file the closer opens. A different formula or a new cutoff is **new science**: that is Step 1.
+- **Talk, Count, Critique, Confirm.** Critique is criticizing your own draft specification for gaps, not criticizing the researcher's science. It offers no opinion on their formula. `interview-points.md` files stay leftover checks, opened per Counted job, not one domain for the whole request.
+- **Confirm writes `.malka/current_job.md`.** The Summary Card is folders plus values; on yes the plan is locked to disk. `planning.md` no longer announces the folders after the gate.
+- **`knowledge-index.md` is a lookup.** Trigger → path tables, a compact common-job table, one maintenance line. The point-file table and the seven worked-route chapters are gone. Reviewer `POINTS` is the sibling of each `interview-points.md` Critique opened.
+- **Explorer after Count.** `data/collected/` for preprocessing; `data/processed/` for an analysis job not waiting on this run's preprocessing. A mixed clean-then-fit does not stop for missing `processed/`.
+
+- **Data-validation is a preprocessing output type.** A self-contained HTML per tidy table, written
+  to `preprocessing/output/data-validation-<name>-<suffix>.html`, lets the researcher verify class
+  and domain before analysis. Craft is `01-preprocessing/references/how-to-build-data-validation.md`
+  (shared helper, one-line call after typing, dictionary passed but not rendered) plus
+  `assets/example-data-validation.html`. Routed with collected→raw on a first pipeline; interview
+  and reviewer points ask for intended class/domain per column rather than letting the Writer guess.
+
+- **Matching `reviewer-points.md` files.** Each stage has a short check list. The Reviewer Card
+  gains a `POINTS` slot for those paths. Still no how-tos on the Reviewer — `POINTS` is not
+  `ROUTED READS`.
+
+- **`SKILL.md` is a spine: goal, the file to read, nothing the file already says.** Each step states its goal and names one follow-file. The approval halt at Step 1 and the step-to-step ordering stay in SKILL.md. The closer names `return-trip.md` and new science.
+
+- **`01-preprocessing/context.md` rewritten to three sections.** §1 goal (only main-folder that
+  writes into `data/`); §2 `preprocessing/` is itself one job-folder; §3 the three `data/` stages
+  (collected as arrived, raw as tidy real observations with user-verified types, processed as
+  exclusions plus calculated columns). Behavioral scope: demographics, cognitive tasks,
+  self-reports. `how-to-convert-raw-to-processed.md` now names calculated columns beside the two
+  exclusion phases.
+
+- **One run, jobs with `with` / `after`.** A request is one run: a list of jobs. Malka never plans a
+  second run. Sequencing lives on the jobs — `with X` goes out with X, `after X` waits until X is
+  written and reviewed. Each job gets its own Writer and its own Reviewer (small card, no craft,
+  one folder). Independent jobs spawn Writers together; a waiting job starts only after the job it
+  reads has been reviewed. The Reviewer Card drops the `RUN` slot. `planning.md`, `dispatch.md`,
+  `SKILL.md`, and `TERMS.md` follow.
+
+- **`project-terms.md` holds main-folder, job, job-folder, and the reserved set.** It is a
+  constitution standing read. `project-rules.md` is structure only: §1 the five main-folders, §2 the
+  job-folder.
+
+- **`project-rules.md` cut to the tree, four contracts, and the reserved set.** Stage labels and
+  the `coding-knowledge/` arrows live in the tree; path-block detail stays in the templates and
+  `coding-rules.md`; the save-and-reload exception stays in `coding-rules.md` and
+  `01-preprocessing/context.md`.
+
+- **Main-folders and job-folders; `domain` is gone.** A lab project has five **main-folders**
+  (`data/`, `preprocessing/`, `models/`, `analysis/`, `simulation/`). A **job-folder** is the
+  directory one job writes into. `preprocessing/` is itself one; under `analysis/`, `simulation/`,
+  and `models/` each job is a named job-folder. `data/` holds stages, not job-folders. The word
+  **domain** is deleted: agents open a path under `coding-knowledge/`. `FOLDER` selects the
+  `context.md` from the table in `project-rules.md` §0 (`data/` and `preprocessing/` share
+  `01-preprocessing/`; `00-constitution/` matches no main-folder). `TERMS.md` gains
+  **main-folder**, **job-folder**, and **canonical set**, and drops **domain**. `project-rules.md`
+  is rewritten around that tree — stages, flow, naming, shared contracts, reserved set — and no
+  longer talks about parts or domains.
+
+- **What `data/` and `preprocessing/` are now sits in `project-rules.md` §0**, which every agent
+  already reads — Writer, Reviewer, and Malka — so the three stages and the dividing line between
+  them are not private to a preprocessing job. `01-preprocessing/context.md` keeps the folder's own
+  tree and cites §0 for the meaning. The Data Explorer, which had no topology read, now opens
+  `project-rules.md` before `exploration.md`.
+
+- **Each domain's standing file is `context.md`.** The four folder-type domains under
+  `coding-knowledge/` carried a `rules.md`. That name sat beside the constitution's
+  `project-rules.md` and `coding-rules.md`, and it read as another rules file rather than the
+  folder's own context. Each is now `context.md`: `01-preprocessing/`, `02-analysis/`,
+  `03-models/`, and `04-simulations/`. Standing reads, routing, and in-domain citations follow
+  the new name. `00-constitution/` is unchanged.
+
+- **`project-rules.md` is topology and authority, not a how-to.** The constitution had grown a
+  scaffolding table, the analysis/simulation directory listing, the `main.R` path snippet, the
+  `converting_`/`examining_`/`summary_` prefixes, and a save-and-reload contract that is false for
+  preprocessing — so Malka was told to skip §1–§4 and Writers paid for rules that belonged in a
+  domain `context.md` or in `coding-rules.md`. The file is now three sections read in full: §0 the
+  five-part tree, one-way data flow, naming, and the one-folder-per-fit / one-study-per-folder
+  counts; §1 the shared contracts (no copied data, artifacts vs output, numbered orchestration,
+  path variables, `models/` holds definitions only); §2 the reserved set. The path block stays in
+  each domain's `template_main.R`; save-and-reload and polyglot execution stay in
+  `coding-rules.md`; each part's tree stays in its `context.md`. Citations that named the old §2.I,
+  §2.II, §2.III, §3, §4, and §5 were retargeted in the same edit.
+
+- **`preprocessing/` carries the canonical set.** The folder was documented as `code/`, `output/`,
+  and `main.R` only. It has the same top-level set as `analysis/` and `simulation/`: `code/`,
+  `artifacts/`, `output/`, `main.R`, and `summary.md`. `01-preprocessing/context.md` states the tree;
+  `template_main.R` now defines `artifacts_dir`; Malka writes the notebook from
+  `template_summary.md` beside those files. `models/` remains the one folder type without this set.
+
 - **`coding-knowledge/` is now one domain per project part** (breaking: every path under
   `coding-knowledge/` changed). A part's rules and its craft used to sit in two places —
   `01-folder-specific-rules/preprocessing/` held the folder structure and `main.R` template while
@@ -42,7 +148,7 @@
   table. `interview.md` gains a **Descriptives** bullet asking which variables get described, which
   grouping the tables break down by, and which measures are worth a distribution figure rather than
   a mean; `knowledge-index.md` gains its row and trigger. Which measures and cutoffs those are stays
-  the researcher's to set, per `project-rules.md` §5.
+  the researcher's to set, per `project-rules.md` §2.
 
 - `coding-rules.md` states two guidelines more emphatically: reach for `pkg::fun()` only to resolve a
   naming conflict between loaded packages (call everything else directly after `library()`), and write

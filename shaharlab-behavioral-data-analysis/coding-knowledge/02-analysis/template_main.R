@@ -26,7 +26,7 @@ data_path     <- file.path(project_root, "data", "processed")
 # renumbers the ones after it and the source() lines here in the same edit.
 
 # 1. Data Preparation
-# Read clean data through data_path. Per the Artifacts Rule, never copy data into
+# Read clean data through data_path. Never copy data into
 # this folder. Point data_path at another stage (e.g. data/raw/) only if the user
 # asks for pre-exclusion data.
 # df <- readr::read_csv(file.path(data_path, "your_file.csv"))

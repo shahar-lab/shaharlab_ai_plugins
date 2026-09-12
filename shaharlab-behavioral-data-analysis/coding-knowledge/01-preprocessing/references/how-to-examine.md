@@ -4,15 +4,17 @@ An `examining_` script reads one data stage from disk and writes one Markdown re
 it. Every data inspection that belongs in the pipeline is an `examining_` script, so it reruns with
 every build rather than being done once by hand. The folder it writes into and the three prefixes
 it is named under are defined in
-`${CLAUDE_PLUGIN_ROOT}/coding-knowledge/01-preprocessing/rules.md`.
+`${CLAUDE_PLUGIN_ROOT}/coding-knowledge/01-preprocessing/context.md`.
 
 A standard pipeline has two: `examining_data_raw.R` and `examining_data_processed.R`. Both run the
 same five description blocks, so their two reports line up column for column and the surviving
 sample reads side by side against the full one. A study with a further stage adds one
 `examining_` script for it, on the same pattern.
 
-**This file is the pipeline's examination.** The one-off pass over `data/collected/` that happens
-before any code exists — the profile that feeds Malka's interview — is `exploration.md`.
+**This file is the pipeline's statistical examination.** The one-off pass over a `data/` stage that
+happens before any code exists — the profile that feeds Malka's interview — is `exploration.md`.
+The type-and-domain sanity check that sits under the column names is a different output:
+`how-to-build-data-validation.md`, one self-contained HTML per tidy table.
 
 ## What an examining script reads and writes
 

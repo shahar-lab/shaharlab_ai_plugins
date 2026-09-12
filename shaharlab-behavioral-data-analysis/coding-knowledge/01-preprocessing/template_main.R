@@ -10,6 +10,7 @@ library(knitr)
 # so paths resolve identically on any machine without setwd() gymnastics.
 project_root  <- here::here()
 code_dir      <- file.path(project_root, "preprocessing", "code")
+artifacts_dir <- file.path(project_root, "preprocessing", "artifacts")
 output_dir    <- file.path(project_root, "preprocessing", "output")
 collected_dir <- file.path(project_root, "data", "collected")   # data as it arrived — READ-ONLY
 raw_dir       <- file.path(project_root, "data", "raw")
@@ -30,6 +31,11 @@ max_pct_fast_rt <- 15    # the user's value
 # Renders empty report cells as blanks rather than "NA".
 options(knitr.kable.NA = "")
 
+# Functions that write data-validation HTML. Sourced here so every converting
+# script can call write_data_validation_report() after it types its table.
+# Uncomment once converting_data_validation.R exists.
+# source(file.path(code_dir, "converting_data_validation.R"))
+
 
 
 #### EXECUTE PIPELINE ####
@@ -41,10 +47,12 @@ options(knitr.kable.NA = "")
 # prefix is its position in this list; inserting a step renumbers the ones after it
 # and the source() lines here in the same edit.
 
-# 1. Convert collected data to raw (saves data_raw.RDS to data/raw/)
+# 1. Convert collected data to raw (saves data_raw.RDS to data/raw/; writes
+#    data-validation-<name>-raw.html to output/)
 # Restructure the collected data into the agreed tidy format (one row per trial),
 # type every column, and drop housekeeping rows and empty columns — keeping every
-# real observation and participant.
+# real observation and participant. The HTML is how the researcher verifies class
+# and domain.
 # source(file.path(code_dir, "01_converting_data_collected_to_raw.R"))
 
 # 2. Examine the raw data (writes examining_data_raw.md to output/)
@@ -54,7 +62,8 @@ options(knitr.kable.NA = "")
 # candidates.
 # source(file.path(code_dir, "02_examining_data_raw.R"))
 
-# 3. Convert raw data to processed (saves data_processed.RDS to data/processed/)
+# 3. Convert raw data to processed (saves data_processed.RDS to data/processed/;
+#    writes data-validation-<name>-processed.html to output/ when specified)
 # Run the exclusions in order: participant criteria first (e.g. did not complete
 # the session, subject-level RT thresholds), then trial criteria on the
 # participants that remain (e.g. no response, RT bounds). Give each surviving

@@ -12,6 +12,8 @@ defines the columns this file reads, so the two describe the same measure from t
 The count informs; the researcher decides. The cutoff is the user's number, given in the interview,
 and this file never supplies one.
 
+**When this file is routed.** Add it to the Code-Writer Card when any of these holds: the study ran in a browser (Pavlovia, Prolific, MTurk, or any online sample); `data/collected/` carries a `window_status` / `window_left_ms` column, or rows marked `event_type == "attention_event"`; the user mentions leaving the window, tab switching, losing focus, fullscreen exits, or being away from the screen. Route it on an in-person or non-browser study only if the user asks.
+
 ## What the collected data carries
 
 The task stamps two columns on **every trial row**:
@@ -96,7 +98,7 @@ Leave it `NA_integer_` until the user gives the number. A pipeline that reaches 
 excludes nobody, and that shows up immediately in `summary_exclusions.md` as a criterion that removed
 zero participants — the safe direction, and a visible one.
 
-A cutoff the Writer Card is silent on is a decision nobody has made. Return `BLOCKED` with the
+A cutoff the Code-Writer Card is silent on is a decision nobody has made. Return `BLOCKED` with the
 question phrased about the study, as `how-to-convert-raw-to-processed.md` sets out:
 
 > BLOCKED: no cutoff was given for how many times a participant may leave the study window.
@@ -145,7 +147,7 @@ number the filter used.
 
 Reporting the counts before the cutoff exists is the point of putting them in
 `examining_data_raw.md`. The user chooses a number by looking at their own participants, and this
-domain hands them the distribution to look at.
+this folder hands them the distribution to look at.
 
 ## When the data has no window column
 

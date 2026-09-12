@@ -65,7 +65,7 @@ this plot type.
 ## Examples
 
 Each example assumes `df`, a data frame carrying the two columns, already loaded from `artifacts_dir` or
-`data_path` per the folder's `rules.md`, and `output_dir` defined by `main.R`. `ggplot2` is loaded in
+`data_path` per the folder's `context.md`, and `output_dir` defined by `main.R`. `ggplot2` is loaded in
 `main.R`'s `#### SETUP ####`, and the point and line colours are the pair taken from
 `../standards/COLOR_STANDARD.md`. This section is the complete example — no `example.R` exists for
 this plot type.

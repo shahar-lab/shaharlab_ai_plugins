@@ -102,7 +102,7 @@ nothing a reader needs.
 
 ## Examples
 
-Each example assumes its draws already loaded from `artifacts_dir` per the folder's `rules.md`, and
+Each example assumes its draws already loaded from `artifacts_dir` per the folder's `context.md`, and
 `output_dir` defined by `main.R`. `ggplot2`, `ggdist`, `dplyr`, and — for Example 3 — `patchwork` are
 loaded in `main.R`'s `#### SETUP ####`. This section is the complete example — no `example.R` exists
 for this plot type.

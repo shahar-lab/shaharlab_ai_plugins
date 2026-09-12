@@ -1,64 +1,186 @@
-# Terms — shaharlab-behavioral-data-analysis
+# Terms
 
-The vocabulary of the Malka workflow, one row per term. This file is for whoever edits the plugin:
-it holds one concept to one word across `skills/malka/SKILL.md`, the three agent files under
-`agents/`, and everything under `skills/malka/references/`. Malka never reads it at
-runtime — each term is defined at the point it is used in the files above, and this table is the
-index over those definitions.
+Words Malka uses, and what they mean.
 
-**When naming a concept in a runtime file, read this table first and use the word already here.**
-The failures it exists to catch are near-synonyms: a "job card" or "execution card" for the Writer
-Card, or "an analysis" for a folder that holds one fit.
+## Agents
 
-**Capitalization.** A term whose name is a compound — Summary Card, Writer Card, Code Writer,
-Exploration Pass — takes a capital on each word wherever it appears, so a reader sees at once that it
-names a specific thing. A term that is a single ordinary word used precisely — job, run, dispatch, fit,
-route, plan, folder, specification, gate, interview — stays lowercase and takes its precision from
-context. Bare "the card", short for the Writer Card in a passage already about one, stays lowercase too.
+**Malka**
+The lab's analysis orchestrator. She talks with you, gets your approval, then sends others to write and check the code.
 
-**run** and **Exploration Pass** play a similar role — each is a batch of dispatched work — but are two
-distinct terms, not one word at two capitalizations: a lowercase **run** is a group of jobs dispatched
-together, while the **Exploration Pass** is the Step 1 dispatch over `data/collected/`. Keep them apart
-when editing; a stray "pass" found while searching the plugin usually means one of these two and needs
-routing to the right term rather than assuming either.
+**Code Writer**
+Writes the code and the other files in a job-folder.
 
-Paths in **Settled in** are relative to the plugin root; `references/` means `skills/malka/references/`.
+**Code Reviewer**
+Checks the finished files against what you approved and the lab's coding rules. Reads only.
 
-| Term | What it refers to | Settled in |
-| --- | --- | --- |
-| **Malka** | the orchestrator skill; runs in the main conversation and handles every exchange with the user | `skills/malka/SKILL.md` |
-| **Code Writer** | the subagent that writes every work product, on its own standing instructions rather than on the card | `agents/code-writer.md` |
-| **Data Explorer** | the read-only subagent that profiles `data/collected/` at Step 1 by running R over it, so the interview asks for each cutoff beside its own distribution. The one agent here with a shell, and the one that writes nothing | `agents/data-explorer.md` |
-| **Code Reviewer** | the read-only subagent dispatched once per run to read the finished code against the approved specification and the structural rules, and to report the values it actually sets. A wider role of the same name — three layers, routed craft reads, in-place annotation, `PASS`/`FAIL` across up to three rounds — was removed in `45d2c1b`; this one keeps its specification layer alone and routes nothing | `agents/code-reviewer.md` |
-| **interview** | Step 1 — the questioning that turns a request into a full specification | `references/interview.md` |
-| **Exploration Pass** | the Data Explorer dispatch over `data/collected/` inside Step 1, run before any data-dependent question; the one dispatch that precedes the gate, and the only one whose product is its return rather than a file | `coding-knowledge/01-preprocessing/references/exploration.md` |
-| **Summary Card** | the plain-English card presented at the end of Step 1 for the user to approve | `references/user-request-summary.md` |
-| **the gate** | the approval checkpoint that closes Step 1 — the Summary Card and the halt on it. It stands between the user's request and everything built from it, and it is the only approval in this system | `skills/malka/SKILL.md` Step 1 |
-| **specification** | the approved job in the user's own values; the Writer's only source for every formula, threshold, and setting | `references/writer-card.md` |
-| **plan** | the ordered list of runs Step 2 returns, written to `.malka/current_job.md` beside the approved specification so every card quotes one fixed text | `references/planning.md` |
-| **run** | the set of jobs dispatched together. Runs are dispatched in order, and the jobs inside one go out together. A job joins the earliest run where everything it reads is already on disk. Called *pass* until this table settled the name — kept distinct from the **Exploration Pass** above | `references/planning.md` |
-| **job** | one folder's worth of work, and one line of a run. One job is one card is one dispatch is one folder | `references/planning.md` |
-| **dispatch** | one Code Writer spawn, carrying one Writer Card. Three beats — card, spawn, return. The review and the notebook belong to the run | `references/dispatch.md` §1 |
-| **Writer Card** | the prompt Malka builds at Step 3 and the Writer executes. Also called the execution card until this table settled the name | `references/writer-card.md` |
-| **Reviewer Card** | the prompt Malka builds once per run and the Code Reviewer executes. Carries the run's folders and returned paths, and names the specification by path rather than quoting it. It has no `ROUTED READS` slot | `references/reviewer-card.md` |
-| **manifest** | the Code Reviewer's record of the values as the delivered code sets them, returned on every review. Malka writes each `summary.md` from it and briefs the user from it at Step 5 | `agents/code-reviewer.md` §4 |
-| **route** | choosing which `coding-knowledge/` files a dispatch reads; they travel in the card's `ROUTED READS` slot | `references/knowledge-index.md` |
-| **`FOLDER`** | the one folder a dispatch writes into. It bounds writing; the Writer reads across the project as the work requires | `references/writer-card.md` |
-| **fit** | one fitted model object — one `brm()`/`stan()` call, one combination of formula, family, and analyzed subset. The unit that earns its own `analysis/` folder | `coding-knowledge/02-analysis/rules.md` |
-| **scaffold / clone** | building a folder's canonical set from its templates / duplicating an existing folder | the domain's `rules.md`, `coding-knowledge/02-analysis/smart_clone.md` |
-| **domain** | one numbered folder under `coding-knowledge/`, holding one top-level project part's `rules.md`, the templates that build that folder, and its craft. Four cover the project parts — `01-preprocessing`, `02-analysis`, `03-models`, `04-simulations` — and `00-constitution` governs none of them, so it holds the two rules files read on every job. Three keep their craft in a `references/` folder with worked examples in `assets/`; `02-analysis` groups its own by kind instead, directly in the domain | `references/knowledge-index.md` |
-| **standing read** | a file the Writer opens on every job landing in a given part, delivered by the card's `FOLDER` slot rather than listed as a path: the two constitution files, and the domain's `rules.md` and templates. Distinct from a routed read, which reaches the card one file at a time | `agents/code-writer.md` §2 |
-| **`summary.md`** | the folder's own notebook — formula, hypotheses, variables, findings. Malka writes it at Step 4 from the manifest, and fills its findings at Step 6 from what the user reports. A different artifact from the Summary Card | `references/folder-summary.md` |
-| **recovery study** | a `simulation/` study that generates data from parameters it chose and fits the model back, built in three stages — the environment, the agent population, generate and recover | `coding-knowledge/04-simulations/references/how-to-build-a-recovery-pipeline.md` |
-| **environment** | a recovery study's first stage, and the structure every agent faces in it — a reward schedule, a design matrix, an item set. Distinct from `code-writer.md` §3's "prepare the environment", which is the folder and packages a job needs, and from R's own environments | `coding-knowledge/04-simulations/references/how-to-build-a-recovery-pipeline.md` |
-| **agent** | the unit a recovery study's parameters belong to — a subject, a person, an item, a player, whatever the model family calls it | `coding-knowledge/04-simulations/references/how-to-build-a-recovery-pipeline.md` |
-| **true parameters** | the values a recovery study drew and generated from, saved as `artifacts/true_parameters.rds` | `coding-knowledge/04-simulations/references/how-to-build-a-recovery-pipeline.md` |
-| **recovered parameters** | the posterior means the fit returned, compared against the true parameters in `artifacts/recovery_table.rds` | `coding-knowledge/04-simulations/references/how-to-read-recovery.md` |
-| **the reserved set** | the values that are the researcher's to set and no agent's to choose. Named once in the constitution and cited from Malka's `What you never do`, the Writer's gap rule, and the Reviewer's Pass 2; `UNAPPROVED` is where the Reviewer catches one taken anyway | `coding-knowledge/00-constitution/project-rules.md` §5 |
-| **`ASSUMED`** | a tag the Writer leaves in the code where the specification was silent on something outside the reserved set and a default was defensible; Malka surfaces every one at Step 5 | `agents/code-writer.md` §3 |
-| **`BLOCKED`** | the Writer's return where the specification is silent on a reserved value, or where no defensible default exists; Malka takes the question to the user and re-dispatches | `agents/code-writer.md` §3, `references/dispatch.md` §3 |
-| **`MISMATCH`** | the Reviewer's finding that the code contradicts the approved specification, or breaks a structural rule. Sends one repair back to the Writer | `agents/code-reviewer.md` §4, `references/reviewer-card.md` |
-| **`UNAPPROVED`** | the Reviewer's finding that an `ASSUMED` tag took a value from the reserved set. Goes to the user rather than to the Writer | `agents/code-reviewer.md` §3, `references/reviewer-card.md` |
-| **`ADDED READS`** | the Writer's report of a craft file it opened that its card did not route. Not a failure: the deliverable was built with the file, and the line tells Malka her route was short | `agents/code-writer.md` §2, `references/dispatch.md` §3 |
-| **the return trip** | Step 6 — what happens when the user comes back after running the code: a repair dispatch, a diagnostic table read against the conventional bounds, or the folder's findings written down | `references/return-trip.md` |
-| **`MISSING`** | the Reviewer's finding that a path a dispatch returned holds no file, or an empty one — the run reported a product it did not leave behind | `agents/code-reviewer.md` §3, `references/reviewer-card.md` |
+**Data Explorer**
+Looks at your data during the interview so later questions are grounded in what's actually there. Reads only; writes nothing.
+
+
+
+## Cards
+
+**Plan Card**
+This request's job list: `JOB`, `FOLDER`, `CHECKS`, and `WAVE` when there is more than one job. 
+
+**Summary Card**
+The plain-English write-up you approve before any code is written.
+
+**Code-Writer Card**
+The exact instructions the Writer works from — locked when you approve.
+
+**Reviewer Card**
+The instructions the Reviewer works from after that Writer finishes.
+
+
+
+## UI elements
+
+**`AskUserQuestion`**
+Claude Code's question dialog: a choice with options, then a wait. Not lab-made.
+
+**`- [ ]`**
+A checklist line in the chat. The terminal UI picks it up. Critique's leftover questions and the Summary Card's Confirm & Execute / Revise are written this way.
+
+
+
+## User interview step
+
+**interview**
+The conversation before anything is built: Talk, Plan, Critique, Confirm.
+
+**Talk**
+Malka finds out what you want and looks at the project.
+
+**Plan**
+Malka counts the jobs and fills the Plan Card.
+
+**Critique**
+Malka checks each job on the Plan Card for missing values — not your science.
+
+**Confirm**
+Malka shows you a Summary Card and waits. Nothing is built until you say yes.
+
+**pre-deploy-checks**
+A short list of questions Malka still needs answered before a card is finished. Paths sit in the Plan Card's `CHECKS` slot.
+
+**Exploration Pass**
+A look at your data during the interview. Not a run.
+
+**the gate**
+That approval. Work does not start without it, and it is the only one.
+
+**specification**
+What you approved — the formulas, thresholds, and settings the code has to follow.
+
+**run**
+This request's full list of jobs. One request, one run.
+
+**job**
+One unit of work: one folder, one Writer, one Reviewer.
+
+**`WAVE`**
+A batch of jobs on the Plan Card. WAVEs run in order (serial). Jobs in the same WAVE run together (parallel). Omit `WAVE` when the Plan Card is one job.
+
+## 
+
+## 
+
+## Agents dispatch
+
+**Dispatch subagents**
+Malka sends a Writer, then a Reviewer, for each ready job, until the list is done.
+
+**Dispatch**
+Sending a Writer out to build a job.
+
+**Review**
+Checking the files that came back against what you approved and the lab's coding rules.
+
+**manifest**
+The Reviewer's report of what the code actually set, compared with the card.
+
+**route**
+Which lab how-to files the Writer is told to read for this job.
+
+**standing read**
+Files the Writer always opens — project rules, coding rules, and that folder's templates.
+
+**`FOLDER`**
+Which job-folder this work writes into.
+
+**`CARD`**
+On a Reviewer Card, the Code-Writer Card this job was sent with.
+
+## Folders
+
+**main-folder**
+One of the five directories at the project root: `data/`, `preprocessing/`, `models/`, `analysis/`, `simulation/`.
+
+**job-folder**
+The directory one job writes into.
+
+**canonical set**
+The usual contents of a job-folder: `code/`, `artifacts/`, `output/`, `main.R`, `summary.md`. A `models/` job-folder is the exception — two files, no canonical set.
+
+**fit**
+One fitted model — one `brm()` or `stan()` call, one combination of formula, family, and analyzed subset.
+
+**scaffold / clone**
+Starting a job-folder from its templates, or copying an existing one.
+
+**`summary.md`**
+The notebook that lives in the job-folder. Not the Summary Card you approved.
+
+## Flags
+
+**the reserved set**
+Values only you may choose — the numbers that reach a manuscript. No one else picks these.
+
+**`ASSUMED`**
+A default the Writer took because you didn't specify something that wasn't reserved. Malka will tell you about these.
+
+**`BLOCKED`**
+The Writer stopped because something only you can decide was missing.
+
+**`MISMATCH`**
+The code doesn't match what you approved, or it breaks a lab coding rule.
+
+**`UNAPPROVED`**
+The Writer assumed a value that was yours to set.
+
+**`MISSING`**
+A file the job claimed to produce isn't there, or is empty.
+
+**`ADDED READS`**
+The Writer opened a how-to file Malka hadn't pointed it at. Not a failure.
+
+## Recovery studies
+
+**recovery study**
+A simulation that generates data from known parameters and fits the model back.
+
+**environment**
+The setup every simulated agent faces — a reward schedule, a design, an item set.
+
+**agent**
+Who the parameters belong to in a recovery study — a subject, an item, a player.
+
+**true parameters**
+The values the data were generated from.
+
+**recovered parameters**
+What the fit got back, compared against the true parameters.
+
+## When you come back
+
+**the return trip**
+What happens when you return after running the code — a repair, a look at diagnostics, or writing the findings down.
+
+**new science**
+A different formula or a new cutoff. That needs a new interview, because you have to approve it.
+
+## Skill design terms
+
+**Structure Legend**
+A heading, a skeleton box, then one bullet per named bit of the shape. The form for a folder tree, a card, a Plan Card, or a layout. The writing rule lives in the repo `.claude/CLAUDE.md`.

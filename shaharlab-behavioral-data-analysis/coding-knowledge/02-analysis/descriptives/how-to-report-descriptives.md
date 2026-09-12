@@ -5,7 +5,7 @@ A descriptives folder answers "who took part and what did they look like" from
 per-measure distributions a manuscript's Participants section is written from.
 
 It holds no fitted model, so it is **one folder for the coherent set** however many figures and
-tables it produces, per `../rules.md`. That same file states the folder's structure and the
+tables it produces, per `../context.md`. That same file states the folder's structure and the
 `main.R` path block every script here reads its paths from.
 
 **This is the analysis-stage description, not the pipeline's.** The `examining_` reports written

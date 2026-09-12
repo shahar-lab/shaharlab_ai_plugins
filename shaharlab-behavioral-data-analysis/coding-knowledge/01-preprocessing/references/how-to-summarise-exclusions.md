@@ -10,7 +10,7 @@ A `summary_` script reports for the researcher and for the manuscript. Two come 
 Both run after `converting_data_raw_to_processed.R` and read the named datasets it left in the
 environment, so every number they report is the number the pipeline actually produced. The folder
 they write into and the three prefixes they are named under are defined in
-`${CLAUDE_PLUGIN_ROOT}/coding-knowledge/01-preprocessing/rules.md`.
+`${CLAUDE_PLUGIN_ROOT}/coding-knowledge/01-preprocessing/context.md`.
 
 ## `summary_exclusions.R`
 

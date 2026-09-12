@@ -1,21 +1,22 @@
 # How to write `converting_data_raw_to_processed.R`
 
 The second `converting_` script in the pipeline. It reads `data/raw/`, applies the exclusions the
-user approved, and saves the survivors to `data/processed/`. The folder it writes into and the
-three prefixes it is named under are defined in
-`${CLAUDE_PLUGIN_ROOT}/coding-knowledge/01-preprocessing/rules.md`.
+user approved, adds the calculated columns the plan names, and saves the result to
+`data/processed/`. The folder it writes into and the three prefixes it is named under are defined
+in `${CLAUDE_PLUGIN_ROOT}/coding-knowledge/01-preprocessing/context.md`.
 
 Every criterion and every cutoff in this script came from the user through Malka's interview and
-arrives in the Writer Card. Implement exactly the approved plan.
+arrives in the Code-Writer Card. Implement exactly the approved plan.
 
 ## What this stage does
 
-`processed/` is `raw/` minus observations that *were* data but are excluded by a stated criterion.
-Every count this script produces is a number that appears in the manuscript, so the code is
-written to make those counts recoverable: each criterion gets its own named surviving dataset, and
-`summary_exclusions.R` reads those names afterwards.
+`processed/` is `raw/` after two things only: exclusion of participants and of observations, and
+addition of calculated columns. Every exclusion count this script produces is a number that
+appears in the manuscript, so the code is written to make those counts recoverable: each
+criterion gets its own named surviving dataset, and `summary_exclusions.R` reads those names
+afterwards.
 
-Run the criteria in two phases, in this order:
+Run the exclusions in two phases, in this order:
 
 1. **Participant phase** — whole-subject removal (left the session early, subject-level RT
    thresholds).
@@ -25,7 +26,8 @@ Run the criteria in two phases, in this order:
 Within each phase, apply the criteria one at a time in the order the approved plan lists them, so
 each criterion filters the survivors of the one before it and every count stays attributable to a
 single criterion. A job with a further phase (session-level, block-level) puts it where the plan
-puts it.
+puts it. Calculated columns are added after the exclusions, on the surviving rows, using the
+formulae the plan names.
 
 For an online study, one of the participant criteria is usually how many times the participant left
 the study window. Counting that takes a definition of its own — one exit is a *sequence* of trials
@@ -64,11 +66,22 @@ after_rt_bounds   <- after_no_response |> filter(rt >= rt_min_sec, rt <= rt_max_
 df_processed <- after_rt_bounds
 
 saveRDS(df_processed, file = file.path(processed_dir, "data_processed.RDS"))
+
+# A processed data-validation report when the specification asks for one — see
+# how-to-build-data-validation.md. Build the dictionary in this script (include
+# calculated columns); do not rely on a tribble left behind by the raw step.
+write_data_validation_report(
+  df_processed,
+  trials_dictionary,
+  "trials",
+  suffix = "processed"
+)
 ```
 
 ## Rules for the code
 
-- Read from `raw_dir` and write to `processed_dir` only; both variables come from `main.R`.
+- Read from `raw_dir` and write the tidy table to `processed_dir`; a processed data-validation
+  HTML goes to `output_dir`. All three variables come from `main.R`.
 - Anchor every path with `project_root <- here::here()` and build it with `file.path()`.
 - Chain operations with the base pipe `|>`, and call functions directly, adding any missing
   package's `library()` call to `main.R`'s `#### SETUP ####` block.
@@ -81,12 +94,15 @@ saveRDS(df_processed, file = file.path(processed_dir, "data_processed.RDS"))
 - Name the survivors `df_processed`, and leave every intermediate `after_*` object and every
   excluded-ID vector in the environment — `summary_exclusions.R` and
   `summary_manuscript_paragraph.R` are sourced after this script and read them.
+- When the specification asks for a processed data-validation report, call
+  `write_data_validation_report(..., suffix = "processed")` after `saveRDS`. The helper is sourced
+  from `main.R`'s `#### SETUP ####`.
 - Keep the script to 50–80 lines. A plan with enough criteria to break that splits by phase into a
   second `converting_` script.
 
 ## Where each cutoff comes from
 
-The Writer Card carries the criteria in the user's own words and their numbers. A cutoff the
+The Code-Writer Card carries the criteria in the user's own words and their numbers. A cutoff the
 card is silent on is a decision nobody has made — take a defensible default, mark it where it
 happens, and let Malka carry it back to the user:
 
@@ -101,5 +117,6 @@ about the analysis rather than the code.
 
 | Script | File |
 |---|---|
+| processed data-validation HTML | `how-to-build-data-validation.md` |
 | `examining_data_processed.R` | `how-to-examine.md` |
 | `summary_exclusions.R`, `summary_manuscript_paragraph.R` | `how-to-summarise-exclusions.md` |

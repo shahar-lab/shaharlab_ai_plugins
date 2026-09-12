@@ -1,91 +1,26 @@
-# Dispatch — the spawn and the return
+# Dispatch subagents
 
-Read this with the run in front of you and a Writer Card built for each of its jobs, from
-`references/writer-card.md`. This file covers the round trip: spawning the Code Writer, reviewing what
-the run produced, and reading what comes back.
+Step 2 of `SKILL.md`. Ready jobs are the current WAVE on the Plan Card. Loop until the job list is empty, then go to Step 3.
 
-## 1 · One dispatch
+Build one Code-Writer Card per ready job (`dispatch-code-writer-card.md`). Spawn those Writers in one message, one Writer per job. Act on a return when it arrives; do not wait for the whole WAVE.
 
-A dispatch is one card, one Writer, one folder. It runs in three beats:
+On a clean return: Reviewer Card (`dispatch-reviewer-card.md`), then `summary.md` (`folder-summary.md`; skip `models/`). Carry `ASSUMED`, `ADDED READS`, and the Reviewer's return to Step 3. Then the rest of this WAVE, then the next WAVE.
 
-1. **Card** — built from `references/writer-card.md`: this job's `FOLDER`, its routed reads, and the
-   approved values.
-2. **Spawn** — the Writer starts on that card and nothing else.
-3. **Return** — the output paths plus any `ASSUMED` tags, or `BLOCKED` and a question.
+## BLOCKED
 
-Beat 1 is yours, beat 2 is the spawn, and beat 3 is what comes back. A dispatch reads and writes only
-inside its own folder, apart from the `data/` stages a `preprocessing/` dispatch owns — and that
-isolation is exactly what lets several dispatches share a run.
-
-The review and the notebook belong to the run rather than to one dispatch, since the review reads a
-run's whole output at once. §2 places them.
-
-## 2 · One run, dispatched together
-
-`references/planning.md` groups the jobs into runs: runs go out in order, and the jobs inside one execute
-at the same time. For each run:
-
-1. Build every card the run needs — Step 3, once per job.
-2. Spawn them **in a single message, one Writer per job**, so they run concurrently rather than queueing.
-3. Wait for every Writer in the run to return. Settle the run's `BLOCKED` questions first, per §3 —
-   take them to the user in one round and re-dispatch the jobs that blocked, so the run is whole
-   before it is reviewed.
-4. **Review the run.** Build one Reviewer Card from `references/reviewer-card.md` and spawn the Code
-   Reviewer once, over every folder the run produced. It opens each returned path, reads the code
-   against the approved specification in `.malka/current_job.md`, and returns the manifest plus any
-   `MISMATCH`, `UNAPPROVED`, or `MISSING` findings — or `CLEAN`.
-5. Act on the findings, per the table in `reviewer-card.md`: one review, at most one repair, then the
-   user.
-6. Write the `summary.md` for each folder the run scaffolded or cloned, per
-   `references/folder-summary.md`, taking its values from the manifest.
-7. Carry every `ASSUMED` tag and the manifest forward to Step 5.
-
-A run is finished when its products are on disk and its findings are settled, rather than when its
-Writers replied — and the review's first pass is what tells the two apart. A later run reads files an
-earlier one writes, so it opens only once this one has closed.
-
-A run of one job is the ordinary case: one Writer, then one Reviewer over the one folder.
-
-`SKILL.md` Step 4 states where a clean run goes next.
-
-## 3 · Troubleshooting
-
-Collect the whole run before acting on any of it. Take every `BLOCKED` question the run raised to the
-user in **one round**, amend those cards, and re-dispatch just the jobs that blocked — the jobs that
-returned clean stay done. Batching the questions gives the user one interruption to answer rather than one
-per job.
+One round to the user for every `BLOCKED` in the WAVE. Re-dispatch only the jobs that blocked.
 
 | What comes back | What it means | What you do |
 |---|---|---|
 | `BLOCKED`, no defensible default | the specification is silent | get the value from the user, amend the card |
-| `BLOCKED`, needs a write outside `FOLDER` | the job crosses folders | revise the plan into several jobs, per `planning.md` |
-| `BLOCKED`, `FOLDER` contradicts the work | the route is wrong | re-route on §0's tree and §2.III |
-| `BLOCKED`, specification contains more than one fit | the plan under-counted the jobs | re-count per `planning.md`, then give each fit its own job |
-| `BLOCKED`, an input file is missing from disk | the job that writes it runs in a later run, or its own dispatch failed | move this job after the writing job, per `planning.md`; where that job already ran, treat it as a failed dispatch below |
-| nothing came back, or a return that is neither a clean return nor a `BLOCKED` | the dispatch failed | re-dispatch the same card once; on a second failure, stop the plan and tell the user what is and is not on disk |
+| `BLOCKED`, needs a write outside `FOLDER` | the job crosses folders | revise the Plan Card into several jobs, per `interview-plan-card.md` |
+| `BLOCKED`, `FOLDER` contradicts the work | the route is wrong | re-route on `project-rules.md` §1's tree |
+| `BLOCKED`, specification contains more than one fit | the Plan Card under-counted the jobs | re-Plan per `interview-plan-card.md`, then Critique holes, then Confirm again |
+| `BLOCKED`, an input file is missing from disk | the writing job is not done, or its dispatch failed | put this job in a later WAVE than the job that writes that file, per `interview-plan-card.md`; if that job already ran, treat as a failed dispatch below |
+| nothing came back, or neither clean nor `BLOCKED` | the dispatch failed | re-dispatch the same card once; on a second failure, stop and say what is on disk |
 
-**`ADDED READS` is not a failure.** A Writer that opened a craft file your card left off has already
-written the deliverable with it, so the job stands. Read the list: it names what the route missed, and
-the same gap is about to appear on every card you build for that kind of job in the rest of the plan.
-Add those files to the later cards, and carry the list to Step 5 — the user is the one who learns from
-it that a figure was made against a standard nobody routed.
+Reviewer findings: `dispatch-reviewer-card.md`.
 
-The Reviewer's findings have their own table, in `references/reviewer-card.md` — `MISMATCH` sends a
-repair back to the Writer, `UNAPPROVED` goes to the user with this round's questions, and `MISSING`
-means a dispatch reported a product it did not write.
+`ADDED READS` is not a failure — the deliverable stands. Add those files to later cards of that kind.
 
-A `BLOCKED` question arrives phrased about the analysis rather than the code, because the Writer knows
-you do not read its file. Take it to the user, get the value in their own words, amend the card, and
-re-dispatch.
-
-**A blocked Writer may already have written.** It scaffolds the folder and works through the job before
-it reaches the gap, so the folder can hold directories, a `main.R`, and some of its scripts. The
-amended card's `PROJECT STATE` says what is there and that the job is being resumed rather than
-started — an unamended card tells the re-dispatched Writer to scaffold a folder that already exists.
-
-**Two rounds, then the user.** Where a job blocks again after its amended card, the specification has a
-gap the interview did not close, and a third dispatch spends the user's attention to learn what the
-second one already showed. Stop and take the whole question to them.
-
-This is why your conversational role stays open past the interview gate. A gap that surfaces only once
-code is being written still belongs to the user, and you are the only channel to them.
+Two rounds, then the user. A blocked Writer may already have written: `PROJECT STATE` says the job is resumed.

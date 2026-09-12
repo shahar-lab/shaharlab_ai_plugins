@@ -74,7 +74,7 @@ where the code makes it true:
 ## What each script leaves on disk
 
 Every script saves its product to `artifacts_dir` and reads its inputs back from there, per
-`00-constitution/project-rules.md` §2.I, so the sampler runs once and the comparison can be rerun
+`00-constitution/coding-rules.md`, so the sampler runs once and the comparison can be rerun
 without it. The files the comparison stage needs by name:
 
 | File | Written by | Holds |

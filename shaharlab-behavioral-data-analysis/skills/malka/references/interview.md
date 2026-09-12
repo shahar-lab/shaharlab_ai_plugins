@@ -1,43 +1,17 @@
-# Context
-The user arrives with a request in their own words, and most of what the build needs is still unstated. Interview them to clarify it: learn the request in light of the project and the data, surface what it implies, and put every choice it leaves open back to the user. What gets settled here is what gets built. Pin down what the exact requested analysis is, its goal, what it needs, surface anything ambiguous or missing, and resolve it with the user before any code is written. The interview exists to catch what got dropped or worded ambiguously.
+# Interview
 
-Start by reading `${CLAUDE_PLUGIN_ROOT}/coding-knowledge/00-constitution/project-rules.md` **§0 and §5** — the project tree, the request-to-location table, the one-way data flow, and the naming rule; then the reserved set, the values that are the researcher's to set and that this interview exists to settle. §0 is what lets you ask where the work lands and what you plan the dispatches from at Step 2; §5 is the list you make sure you leave with. Read those two: §1–§4 are the Writer's own standing reads, and judging code is not your job.
+The user is asking you to build or change analysis work in this project — clean data, fit a model, make a figure, write a definition, run a recovery, repair a folder. They said it in their own words. That prompt is the request. Most of what a Writer needs to build from is still unstated: which folders, which values, which leftover the prompt never named.
 
-# Internlizing the user's request
-This step is not to be conveyed to the user, but to help you understand the request and plan the next steps.
--  Summrize to yourself internally the user request in detials. This is not to be conveyed to the user, but to help you understand the request and plan the next steps.
+The interview is how you turn that request into something you can dispatch. You leave this step with a Plan Card the user has approved, every job specified well enough to build, and that card on disk. You work in the main conversation. Work through the steps below in order, executing each before moving to the next.
 
--  Make for yourself a "gap-list" of what's missing, what's ambiguous, nothing else. Use the following to direct the gap-list.
-   -  **Goal** Make sure you know what the request is trying to achive. 
-   -  **Scaffolding.** Confirm the target folder against §0's tree — empirical work lands in `analysis/`, model-generated in `simulation/`, mechanistic `.stan` definitions in `models/`, data movement in `preprocessing/` — and whether it is new, a clone, or a repair. Ask for a `snake_case` name whenever the user has not given one — the subagents build from the approved specification and have no channel to ask. 
-   -  **Preprocessing.** Dispatch the **Data Explorer** over `data/collected/` before asking any data-dependent question, and work from the profile it returns — most gaps here are invisible until the data has been seen. It runs R over the data and comes back with the distribution behind each exclusion question, so the researcher sets every cutoff against their own participants rather than against nothing. Its card carries the path and what you know of the study; `coding-knowledge/01-preprocessing/references/exploration.md` is its own standing read, so it stays off your card. Exclusion criteria are the ones that matter: they are decisions rather than facts, and they need the user's explicit numbers. Separate them into the two phases the pipeline runs in order — participant-level criteria (whole-subject removal, e.g. left the session early, subject-level RT thresholds) and trial/observation-level criteria (e.g. no response, RT cutoffs) — plus any further phase the job needs (session-level, block-level). Settle which of the three script kinds the job writes — `converting_`, `examining_`, `summary_` — since that is what Step 3 routes on: a first pipeline writes all three, while a revision often touches only the exclusions and the summary that quotes them. For a study run online, ask for the window-exit cutoff (`window_exit_max`) as one of the participant-level criteria whenever the data carries a `window_status` column — see `coding-knowledge/01-preprocessing/references/handling-leaving-window.md`. Say that one exit means one sequence of consecutive trials away, not one trial, since that is what the number they give will be compared against, and offer the distribution the Exploration Pass found so they choose against their own participants.
-   -  **Bayesian regression.** The random-effect structure and the priors are what typically go unstated. Propose a formula and explain what it models rather than asking the user to produce one, and offer a weakly informative default with a sentence on what it assumes. Count the fits the request implies — one per distinct combination of formula, family, and analyzed subset, so one formula applied to six filtered subsets is six fits — and state that count on the Summary Card, with the folder each fit will land in. The user approves a folder structure as much as a specification, and the count is the part they cannot infer from their own description of the work.
-   -  **Parameter recovery.** Settle the three stages the pipeline is built in — the environment, the agent population, and generate-and-recover — since each one holds values only the user has. For the environment: how much data each agent contributes (trials, blocks, observations) and the environment constants — whatever structure the agents face, which is a reward schedule for an RL model, a design matrix for a regression, an item set for an IRT model. For the population: how many agents, and the location and scale each parameter is drawn from. For generate-and-recover: which `models/` definition generates, which one is fitted (equal names make it a recovery study, different names a model comparison), and the sampler settings. Then ask what recovery has to look like to count as successful — the correlation, bias, and precision the user judges by — and carry their numbers as the criteria; propose the conventional ones as a starting point and let them set the values. Confirm the `models/` definition exists, since a missing one is its own job in an earlier run. See `coding-knowledge/04-simulations/references/`.
-   -  **Model definitions.** A `models/` job writes a generating `.R` and a fitting `.stan` as one pair. Settle what the model is in the researcher's own terms — its parameters, what each one does, and the scale each is on — and which task structure the generating function faces. Ask whether an existing definition is being varied or a new one written, since a structural variant is a new folder rather than an edit. Where a recovery study in a later run will generate from it, say so: the pair has to satisfy the three agreements in `coding-knowledge/04-simulations/references/`, and that is easier to write in than to retrofit. See `coding-knowledge/03-models/references/`.
-   -  **Descriptives.** A descriptives job reports the analyzed sample rather than fitting anything, so it is one folder however many tables and figures it holds. Settle which variables get described — the demographics the study collected, the questionnaire scores, the behavioral summary measures — and which grouping the tables break down by, since a single-sample study and a two-group study produce different tables. Ask which measures are worth a distribution figure rather than a mean and an SD, and offer the ones the analysis rests on as the starting set. Confirm each named measure exists as a scored column in `data/processed/`: where scoring has not happened yet, that is a `preprocessing/` job in an earlier run. See `coding-knowledge/02-analysis/descriptives/`.
-   -  **Visualization.** Settle the plot type and whether the output is a single figure or a composite; everything else follows lab defaults.
+## 1. Plan
 
-- You can run a quick exploration across the repo to understand what we alrady have, whats the current status and inform your summary and gap list
-# Handeling the communication with the user
+Read and immediately follow the instructions on`references/interview-plan-card.md` and write a Plan Card from the user prompt. 
 
-**Ask until the gap-list is empty.** The list above is what the build needs, and every item left on it
-becomes a value someone downstream picks instead of the researcher. A first parameter-recovery study
-holds a dozen unknowns and a first pipeline holds most of a dozen; a fixed question count would close
-the interview with the rest unasked.
+## 2. Clarify
 
-What keeps that short is **batching, not skipping**. One exchange carries every value that turns on the
-same decision — "the three learning-rate parameters, and the location and scale each is drawn from" is
-one question, not six; "both exclusion phases and their cutoffs" is one, not four. Aim to finish in
-about five exchanges, and take a sixth rather than leave a reserved value unset.
+Read and immediately follow the instructions `references/interview-critique.md` to engage the user in critical questions regarding the work.
 
-- Ask sequentially: format each question as a Markdown checklist (using `- [ ]`) to trigger the
-  interactive terminal UI, and wait for the answer before asking the next. Say in one line what turns
-  on the answer and propose a specific default, since reacting is easier than specifying.
-- Carry the profile into the questions it informs. A cutoff asked beside its own distribution gets a
-  considered answer; the same cutoff asked cold gets a round number.
-- **Every value in `project-rules.md` §5's reserved set leaves this interview with a number the
-  researcher gave.** Where one is still open when the rest is settled, ask for it on its own rather
-  than carry it to the gate — the Writer returns `BLOCKED` on it and the round trip costs more than
-  the question does.
-- Close the interview at the Summary Card and the approval gate — `SKILL.md` Step 1 states both, and
-  `user-request-summary.md` shows the card.
+## 3. Confirm
+
+Read and immediately follow the instructions`references/interview-confirm.md` and present the Summary Card. Halt until yes. Repeat the Clarify then Confirm 
