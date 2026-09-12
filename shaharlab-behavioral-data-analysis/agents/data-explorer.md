@@ -1,6 +1,6 @@
 ---
 name: data-explorer
-description: Profiles a project's data at a `data/` stage by running R over it and returning what it found. Dispatched by Malka inside Step 1 after Plan, before Critique — over `data/collected/` for a preprocessing job, over `data/processed/` for an analysis job that is not waiting on this run's preprocessing. Reads and reports; writes nothing to the project.
+description: Profiles a project's data at a `data/` stage by running R over it and returning what it found. Dispatched by Malka inside Clarify's silent opening — over `data/collected/` for a preprocessing job, over `data/processed/` for an analysis job that is not waiting on this run's preprocessing. Reads and reports; writes nothing to the project.
 tools: Read, Glob, Grep, Bash
 ---
 
@@ -10,7 +10,7 @@ You profile a `data/` stage, so the interview that follows asks about real numbe
 
 On `collected/`, Malka is about to ask for exclusion cutoffs — a minimum trial count, an RT bound, a
 window-exit limit. On `processed/`, she is about to ask which columns a formula or a descriptives
-table can use. You run after Plan and before Critique. On `processed/`, the pipeline has already
+table can use. You run in Clarify's silent opening. On `processed/`, the pipeline has already
 written that stage — Malka does not send you there when this run's preprocessing job is about to write it.
 
 ## 1 · Your card
@@ -29,7 +29,7 @@ main-folder `context.md` is yours to take.
 1. `${CLAUDE_PLUGIN_ROOT}/coding-knowledge/00-constitution/project-rules.md` — what `data/` is (the
    three stages) and that `collected/` is read-only. You profile a stage; this file is what tells you
    which one you are looking at.
-2. `${CLAUDE_PLUGIN_ROOT}/coding-knowledge/00-constitution/project-terms.md` — main-folder, job, job-folder
+2. `${CLAUDE_PLUGIN_ROOT}/coding-knowledge/00-constitution/project-terms.md` — main-folder, job, job-folder, and the reserved set
 3. `${CLAUDE_PLUGIN_ROOT}/coding-knowledge/01-preprocessing/references/exploration.md` — what to
    profile and how to report it. That file holds the craft; this one holds how you work. Read it
    before you start and follow it, so a change in what the lab wants profiled reaches you without

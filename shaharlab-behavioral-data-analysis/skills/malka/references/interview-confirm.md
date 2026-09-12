@@ -1,19 +1,45 @@
 # Confirm
 
-Step 1's last beat. The plain-English **Summary Card** and the halt. Machinery stays off the Summary Card — file paths, slot names, and AI-to-AI brief language live in the Code-Writer Cards the user never sees.
+Confirm is the last interview beat. You write a plain-English **Summary Card**, show it, and wait. Nothing is built until the user says yes. This is the only approval in the system, so every value that will appear in the code appears here too. Not silent: present the card, then halt until yes.
 
-**Values stay on it.** This gate is the only approval in the system, so a number the card leaves out is a number nobody approved. Every value that will appear in the code appears here too, in plain English.
+Work through the steps below in order.
 
-**Say what the job will overwrite.** Where the Plan Card rebuilds a `data/` stage that existing folders read, the Summary Card says so and names them. That is the one thing on the Summary Card the user cannot infer from their own request.
+## 1. Structure of the Summary Card
 
-Present the Summary Card, then halt until yes. Treat **Revise** as a return to Talk. Treat an ambiguous reply as a no and ask again.
+Machinery stays off the Summary Card — file paths as slot names, `CHECKS`, `ROUTED READS`, and AI-to-AI brief language live on the Job Cards the user never sees. Folder names in backticks are fine: the user needs to know where the work lands.
 
-On yes, write the Plan Card and each job's specification to `.malka/current_job.md`. Then go to Step 2.
+```text
+Summary Card
 
-Each Summary Card ends with the same two-item checklist so the interactive terminal UI picks it up. The first line is the name.
+📋 Summary: [short name]
 
-## Example 1: One analysis
+[plain-English body: every job, every value, any overwrite, any wait]
 
+- [ ] Confirm & Execute
+- [ ] Revise
+```
+
+- **`Summary Card`**
+
+  The name. First line of every copy.
+
+- **📋 Summary**
+
+  A short title for this request.
+
+- **Body**
+
+  One paragraph per job, or a short run of paragraphs when several jobs belong together. Take the folders from the Plan Card and the values from the Job Cards. Every formula, cutoff, family, prior, sampling setting, plot type, and recovery criterion that will appear in the code appears here, in the researcher's words. Where the Plan Card rebuilds a `data/` stage that existing folders read, say so and name them — that is the one thing on the Summary Card the user cannot infer from their own request. Where a later WAVE waits, say that it waits.
+
+- **`- [ ] Confirm & Execute` / `- [ ] Revise`**
+
+  The same two-item checklist on every card, so the terminal UI picks it up. Present the card, then halt until yes. Treat an ambiguous reply as a no and ask again.
+
+## 2. Examples
+
+### Example 1: One analysis
+
+```
 Summary Card
 
 📋 Summary: Bayesian Model
@@ -26,9 +52,11 @@ posterior plot.
 
 - [ ] Confirm & Execute
 - [ ] Revise
+```
 
-## Example 2: Two jobs — clean, then fit
+### Example 2: Two jobs — clean, then fit
 
+```
 Summary Card
 
 📋 Summary: Preprocessing and stay-by-reward
@@ -45,15 +73,28 @@ the new file. `analysis/stay_by_reward/` waits until preprocessing is done.
 
 - [ ] Confirm & Execute
 - [ ] Revise
+```
 
-## Example 3: Visualization
+### Example 3: Visualization
 
+```
 Summary Card
 
 📋 Summary: Plots
 
-Inside `analysis/value_learning/output/`, we will generate a side-by-side scatter plot and
+Inside `analysis/value_learning/`, we will generate a side-by-side scatter plot and
 histogram panel following lab themes.
 
 - [ ] Confirm & Execute
 - [ ] Revise
+```
+
+## 3. When the user wants changes
+
+**Revise** is a return into the interview, not a new request.
+
+- Jobs, folders, or WAVEs are wrong → go back to Plan. Rebuild the Plan Card and the Job Cards, then Clarify, then Confirm.
+- A leftover value is wrong or still missing → go back to Clarify. Update that Job Card's `SPECIFICATION`, then Confirm again.
+- Wording on the Summary Card is the only issue → edit the card and present it again.
+
+On **Confirm & Execute**, write the Plan Card and the Job Cards to `.malka/current_job.md`. Then go to Step 2.

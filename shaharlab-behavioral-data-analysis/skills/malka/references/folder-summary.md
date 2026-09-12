@@ -1,8 +1,8 @@
 # The job-folder's `summary.md`
 
-Read this at Step 2, once this job is reviewed, for each dispatch that scaffolded or cloned a `preprocessing/`, `analysis/`, or `simulation/` job-folder. A dispatch into `models/` skips this file.
+Read this at Step 2, once this job's Writer has returned clean, for each dispatch that scaffolded or cloned a `preprocessing/`, `analysis/`, or `simulation/` job-folder. A dispatch into `models/` skips this file.
 
-Every value comes from the Code Reviewer's **manifest**, the values as the delivered code sets them against the Code-Writer Card. The hypotheses and framing come from the card, since those are the user's words.
+Every value comes from the Writer's return and the locked specification. The hypotheses and framing come from the card, since those are the user's words.
 
 ## The shape
 

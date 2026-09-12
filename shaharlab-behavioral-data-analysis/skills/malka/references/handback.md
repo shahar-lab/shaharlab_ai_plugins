@@ -1,12 +1,10 @@
 # Handing back
 
-Step 3 of `SKILL.md`. Read this once every job on the Plan Card is written and reviewed. Nothing in this system runs the code; the user does.
+Step 3 of `SKILL.md`. Every job on the Plan Card has returned. Nothing in this system runs the code; the user does. This step leaves them able to run the work and judge its output.
 
-## Brief them from the Reviewer's return
+## Brief them from the Writer's return
 
-Brief them from the Code Reviewer's **manifest** — the values as the code actually sets them against the Code-Writer Card. Quoting the card back would describe the job you asked for rather than the one on disk.
-
-Surface every `ASSUMED` tag the Writer reported. Surface any `ADDED READS` too.
+Brief them from the output paths the Writer named, plus every `ASSUMED` and every `ADDED READS` that came back. Those tags are how a default or an extra how-to reaches the user.
 
 ## Say what to look for
 

@@ -1,4 +1,4 @@
-# Shahar Lab: Project Stracture and Rules
+# Shahar Lab: Project Structure and Rules
 
 ## 1. The project main-folders
 
@@ -19,7 +19,7 @@ Project_Root/
   - `processed/` — after observation exclusions and added calculated columns. 
 - `preprocessing/` — the only code that is allowed to handle the data folder. 
 - `models/` — the mathematical code for generating and fitting data.
-- `analysis/` — hold subfolders that reads and anlyze the data
+- `analysis/` — hold subfolders that reads and analyze the data
 - `simulation/` —  reads nothing from `data/`, only generates and fit models.
 
 ## 2. The job-folder
@@ -35,8 +35,8 @@ A **job-folder** is the directory one job writes into.
 └── summary.md
 ```
 
-- `code/` — numbered scripts, sourced in `main.R`'s order; renumber in the same edit
+- `code/` — each sourced script is `NN_descriptive_name.R`, where `NN` is its position in `main.R`'s `source()` list (`01_`, `02_`, …). Inserting, removing, or reordering a step renumbers the files after it and rewrites the matching `source()` lines in the same edit
 - `artifacts/` — machine-readable files that are specific to the job. This could be .rds, .pkl, .csv, etc.
-- `output/` — human-facing output inclding figures, tables and manuscript excerpts.
+- `output/` — human-facing output including figures, tables and manuscript excerpts.
 - `main.R` — the orchestrator; paths come from `here::here()` variables; the templates carry the block
-- `summary.md` — a human facging notebook that summrizes the job-folder
+- `summary.md` — a human facing notebook that summarizes the job-folder

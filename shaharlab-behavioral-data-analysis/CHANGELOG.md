@@ -2,15 +2,18 @@
 
 ## [Unreleased]
 
-- **UI elements** in `TERMS.md`: `AskUserQuestion` is Claude Code's question dialog, not lab-made. `- [ ]` is the checklist the terminal UI picks up (Critique leftover questions, Summary Card Confirm & Execute / Revise).
-- **`CHECKS`** is a Plan Card slot: that job's `pre-deploy-checks.md` paths. Critique opens them. Print the Plan Card in the conversation with `CHECKS` omitted; the full card, including `CHECKS`, is the one Plan Card. Fill table lives in `interview-plan-card.md` §2.
-- **`WAVE`** (was Wave) is the slot name, all caps like `JOB`. **Plan Card** (was plan-card) is Title Case like Summary Card.
-- **`WAVE`** and **`JOB`** are written on the Plan Card, the Code-Writer Card, and the Reviewer Card. Omit `WAVE` when the Plan Card is one job. Listed in `TERMS.md`.
-- **Cards** is its own section in `TERMS.md`: Plan Card, Summary Card, Code-Writer Card, Reviewer Card. Each card's name is the first line of the card.
-- **Plan Card** is this request's job list. Plan fills it (`interview-plan-card.md`); Dispatch builds each Code-Writer Card from it. One job omits `WAVE`; several jobs group under WAVE 1, WAVE 2. WAVEs run in order (serial); jobs in the same WAVE run together (parallel).
-- **Structure Legend** is the named form for a heading, a skeleton box, then one bullet per named bit. Listed under Skill design terms in `TERMS.md`. The writing rule lives in the repo `.claude/CLAUDE.md`. Say "write this as a Structure Legend" to get that form.
-- Reviewer Card slots and return tags in `dispatch-reviewer-card.md` are Structure Legends.
-- Code-Writer Card slots in `dispatch-code-writer-card.md` are a Structure Legend.
+- **Job Card split.** The Plan Card is the index only (`WAVE`, `JOB`, `FOLDER`), printed in full. Plan then writes one **Job Card** per line (`interview-job-card.md`): `JOB`, `FOLDER`, `ROUTED READS`, `CHECKS`, `SPECIFICATION`, and `WAVE` when the Plan has more than one job. The knowledge-index walk lives in `interview-job-card.md` §2. Clarify reads each Job Card's `CHECKS` and writes answers onto that card's `SPECIFICATION`. Confirm locks the Plan Card and the Job Cards to `.malka/current_job.md`. Dispatch reads that file and completes each Job Card for spawn (`dispatch-job-card.md`: drop `CHECKS`, add `PROJECT STATE` / `RETURN`, prefix `coding-knowledge/`). **Code-Writer Card** is retired; the agent is still **Code Writer**. `dispatch-code-writer-card.md` is `dispatch-job-card.md`.
+- **`code/` scripts take a two-digit prefix from `main.R` order.** `project-rules.md` §2 names the form (`NN_descriptive_name.R`) and the renumber-with-`source()` action. Preprocessing `context.md` §3 states that how-tos keep the unnumbered stem and SETUP helpers stay unprefixed.
+- **Clarify** replaces Critique. The interview is Plan → Clarify → Confirm. `interview-clarify.md` is the beat file; `interview-critique.md` is gone. Talk is retired. Clarify: context, read the Job Card `CHECKS`, profile the data, form questions, ask, update that Job Card.
+- **Confirm** rewritten to the Plan Card shape: context, Structure Legend of the Summary Card, examples, then how Revise returns to Plan or Clarify. Yes locks the Plan Card and the Job Cards to `.malka/current_job.md`.
+- **Deploy-checks live on `knowledge-index.md`.** Each craft file is one heading and one box of three bullets — Path, What it covers, Deploy-checks. The When column and the three-column table are gone. Deploy-checks holds nested leftover bullets. Sibling `*_checks.md` and folder-level `pre-deploy-checks.md` are gone. Plan copies matching Paths onto each Job Card's `ROUTED READS` and, when Deploy-checks apply, onto `CHECKS`; Clarify walks the bullets; the Writer reads the how-to.
+- **Dispatch returns** are a short tag treatment in `dispatch.md`; emission rules stay in `agents/code-writer.md`. The `BLOCKED` action table stays. WAVEs run serial; jobs in a WAVE run parallel.
+- **Code Reviewer files are gone.** `dispatch-reviewer-card.md` and `agents/code-reviewer.md` deleted. Dispatch is Writer-only: a clean return writes `summary.md`, then Handback briefs from output paths, `ASSUMED`, and `ADDED READS`. Restore point before this removal is commit `4eb8ec8`.
+- **Runtime `.md` files** open with a context/goal paragraph. The `coding-knowledge/` page format (context first, then fixed sections) is stated in `.claude/CLAUDE.md`; this pass does not rewrite every craft page.
+- **Reserved set restored to `project-terms.md`.** Citations that pointed at `project-rules.md` §2 now point at `project-terms.md`.
+- **Cards** in `TERMS.md`: Plan Card, Summary Card, Job Card. Plan Card slots in `interview-plan-card.md` and Job Card slots in `interview-job-card.md` / `dispatch-job-card.md` are Structure Legends.
+- **UI elements** in `TERMS.md`: `AskUserQuestion` is Claude Code's question dialog. `- [ ]` is the checklist fallback (Clarify leftovers, Summary Card Confirm & Execute / Revise).
+- **Structure Legend** is the named form for a heading, a skeleton box, then one bullet per named bit. The writing rule lives in the repo `.claude/CLAUDE.md`.
 
 ## [2.0.4] — 2026-09-11
 

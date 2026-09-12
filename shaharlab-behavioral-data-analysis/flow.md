@@ -8,7 +8,7 @@ flowchart TD
   newScience["1. New science"]
   subgraph interview [Interview]
     direction TB
-    planCard["2. Build a plan card"]
+    planCard["2. Plan"]
     clarify["3. Clarify"]
     confirm["4. Confirm"]
     planCard --> clarify
@@ -20,4 +20,4 @@ flowchart TD
 
 **New science** sits outside the Interview. A different formula or a new cutoff is new science: it starts a new Interview.
 
-Inside **Interview**, the three beats run in order: build a Plan Card, then Clarify, then Confirm. Confirm can send the work back to Clarify and then forward again until the user approves.
+Inside **Interview**, the three beats run in order: Plan (a Plan Card, then one Job Card per line), then Clarify, then Confirm. Confirm can send the work back to Clarify and then forward again until the user approves.

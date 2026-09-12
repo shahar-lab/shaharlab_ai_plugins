@@ -1,7 +1,7 @@
 # The Exploration Pass — profiling a `data/` stage
 
-The one-off pass over a `data/` stage that runs **before any pipeline code exists**, inside Malka's
-Step 1 and before the approval gate. It produces the profile her interview works from. The examination
+The one-off pass over a `data/` stage that runs **before any pipeline code exists**, inside Clarify's
+silent opening. It produces the profile her leftover questions work from. The examination
 that lives *in* the pipeline and reruns with every build is a different thing — that is
 `how-to-examine.md`'s `examining_` scripts.
 
@@ -123,4 +123,4 @@ honest — a missing package, an absent column, an identifier you could not work
 
 ## Next
 
-Malka takes this profile into Critique, where the researcher sets each cutoff or names each column against what you reported. The Summary Card and the approval gate close Step 1 from there.
+Malka takes this profile into Clarify, where the researcher sets each cutoff or names each column against what you reported. The Summary Card and the approval gate close Step 1 from there.

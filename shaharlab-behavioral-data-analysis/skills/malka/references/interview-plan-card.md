@@ -1,8 +1,12 @@
 # The Plan Card
 
-A Plan Card is this request's job list: what each job is, which folder it writes into, the order the jobs run, and the values the prompt already gave. Each job later becomes one subagent that performs it. This document shows how to structure one.
+A Plan Card is this request's job list: what each job is, which folder it writes into, and the order the jobs run. Each job later becomes one subagent that performs it. This document shows how to structure one.
+
+## 
 
 ## 1. Structure of the Plan Card
+
+The shape of every Plan Card. Names only in the box; what each name means is in the bullets. One job is one block: no blank line between `JOB` and `FOLDER`. A blank line starts the next job.
 
 ```text
 Plan Card
@@ -10,60 +14,37 @@ Plan Card
 ## WAVE 1 ##
 JOB
 [one line — what this job produces]
-
 FOLDER
-[job-folder path]  (new / clone / repair)
-
-CHECKS
-- [this job's pre-deploy-checks.md paths]
-
-SPECIFICATION
-- [each value the prompt already gave]
-
+[job-folder path]  (new / existing / repair)
 
 ## WAVE 2 ##
 JOB
 [one line]
-
 FOLDER
-[job-folder path]  (new / clone / repair)
-
-CHECKS
-- [this job's pre-deploy-checks.md paths]
-
-SPECIFICATION
-- [each value the prompt already gave]
+[job-folder path]  (new / existing / repair)
 ```
 
-- **`Plan Card`**
+- **Plan Card**
   
-  The name. First line of every copy. One Plan Card per request.
+  The first line of the card.
 
 - **`WAVE`**
   
-  A batch of jobs. WAVEs run in order: WAVE 1, then WAVE 2. That is serial. Jobs listed under the same WAVE run together. That is parallel. Omit WAVE when the Plan Card is one job.
+  A numbered heading (`## WAVE 1 ##`, `## WAVE 2 ##`, …). WAVEs run in order. Jobs under the same WAVE run together. When the Plan Card is one job, skip this heading.
 
 - **`JOB`**
   
-  The one-line name of what this job produces. Take it from the user's request. This line is copied onto the Code-Writer Card and is how the Writer, which never saw the interview, knows what to do. Write it as the task, in their words.
+  The one-line name of what this job produces. Take it from the user's request. This line is copied onto the Job Card and is how the Writer, which never saw the interview, knows what to do. Write it as the task, in their words.
 
 - **`FOLDER`**
   
-  The path of the folder this job writes into. The first segment is the main-folder — cleaning, an empirical analysis, a model definition, or a simulation — which is Malka translating the user's request into lab terms. That choice is how she and the Writer know what kind of work this is. One job is always done in one folder. Mark new / clone / repair on the path line so the Writer knows whether to start it, copy one, or edit what is already there.
-
-- **`CHECKS`**
-  
-  Paths to the `pre-deploy-checks.md` files this job needs. Critique opens these against this job's `SPECIFICATION` and asks the leftover questions. Fill from `FOLDER` and the `JOB` line, per §2. This slot stays on the Plan Card; omit it when printing the card in the conversation.
-
-- **`SPECIFICATION`**
-  
-  The values for this job — formula, cutoffs, family, priors, sampling, plot type. Write each value the prompt already gave, one per line. Keep the slot even when the prompt gave none yet, so later beats have a place to write.
+  The job-folder this job writes into, then `(new)`, `(existing)`, or `(repair)`. New: the folder is not on disk yet. Existing: it is, and this job adds to it. Repair: it is, and this job revises files already in it. Counting jobs is counting folders: one job, one folder.
 
 ## 2. From the user request to JOBs and WAVEs
 
 The Plan Card is how you translate the user's prompt into an executable plan. The important part is to translate the request into the right number of jobs and WAVEs.
 
-**Setting up the jobs.** A job is always a single folder, written by one fresh subagent with its own card. Read `coding-knowledge/00-constitution/project-terms.md` for the five main-folders and how a lab project is structured. Then count jobs by how many folders the work needs. Remember that each job is a fresh subagent. Things to consider when you count the jobs:
+**Setting up the jobs.** A job is always a single folder, written by one fresh subagent with its own Job Card. Read `coding-knowledge/00-constitution/project-terms.md` for the five main-folders and how a lab project is structured. Then count jobs by how many folders the work needs. Remember that each job is a fresh subagent. Things to consider when you count the jobs:
 
 * One job is one fresh subagent that writes into a single folder.
 * Plots or tables that belong together are one job.
@@ -73,146 +54,102 @@ The Plan Card is how you translate the user's prompt into an executable plan. Th
 
 **Setting up the WAVEs.** Once the list of jobs is set, structure the WAVEs. WAVEs are how you structure the flow of the jobs and their order. Some jobs depend on others — they read a file another job on this Plan Card still has to write — and those must run sequentially, in a later WAVE. Time to finish the whole work is critical. Therefore everything that does not wait should run together, so the work finishes as soon as it can. Putting jobs into WAVEs is how you encode that: WAVEs run in order (serial); jobs under the same WAVE run together (parallel). One job omits WAVE. Same-shape fits: the first job is its own WAVE; the copies share the next WAVE.
 
-## 3. Examples
+**When the prompt cannot be counted.** If the user named no folder and the request could land in more than one — send `AskUserQuestion` with one option per landing, then write the Plan Card from the answer.
 
-### Example 1 — one job
+## 3. Examples of Plan Cards
 
-A filled Plan Card. One job, so no WAVE.
+### Example 1. One brms fit plus a posterior-mean figure
 
-```
+The user named the formula, the data, and a posterior-mean figure of the two-way interaction.
+
+```text
 Plan Card
 
 JOB
-Fit the stay-by-reward regression and plot its posteriors.
-
+Fit a stay-by-reward regression, condition by trial-type, and plot the posterior means
 FOLDER
-analysis/stay_by_reward/ (new)
-
-CHECKS
-- 02-analysis/pre-deploy-checks.md
-- 02-analysis/regression/pre-deploy-checks.md
-- 02-analysis/visualization/pre-deploy-checks.md
-
-SPECIFICATION
-- Figure: posterior plot
+analysis/stay_reward_x_condition/ (new)
 ```
 
-### Example 2
+### Example 2. Clean, then fit; two clones; then loo
 
-WAVE 1 runs first, then WAVE 2, then the two jobs under WAVE 3 run together, then WAVE 4.
+The user wants the data cleaned, then a stay-by-reward fit, then the same fit in two more conditions by cloning, then a loo comparison. The new column has to exist in `data/processed/` before any fit can read it. Each clone needs the filled source folder. loo reads the three fits.
 
-```
+```text
 Plan Card
 
 ## WAVE 1 ##
 JOB
 Add a choice-stay logical column to the data
-
 FOLDER
-preprocessing/ (revise)
-
-CHECKS
-- 01-preprocessing/pre-deploy-checks.md
-
-SPECIFICATION
-- Calculated column: choice-stay, logical
-
+preprocessing/ (repair)
 
 ## WAVE 2 ##
 JOB
-Fit a stay-by-reward regression with an interaction with condition and plot its posteriors.
-
+Fit a stay-by-reward regression of the new stay column, condition by trial-type
 FOLDER
-analysis/stay~reward x condition (new)
-
-CHECKS
-- 02-analysis/pre-deploy-checks.md
-- 02-analysis/regression/pre-deploy-checks.md
-- 02-analysis/visualization/pre-deploy-checks.md
-
-SPECIFICATION
-- Formula includes the interaction of stay-by-reward with condition
-- Figure: posterior plot
-
+analysis/stay_reward_x_condition/ (new)
 
 ## WAVE 3 ##
 JOB
-Clone the regression from WAVE 2 only drop the interaction with condition
-
+Clone stay_reward_x_condition for the easy condition
 FOLDER
-analysis/stay~reward + condition (new)
-
-CHECKS
-- 02-analysis/pre-deploy-checks.md
-- 02-analysis/regression/pre-deploy-checks.md
-- 02-analysis/visualization/pre-deploy-checks.md
-
-SPECIFICATION
-- Same regression as WAVE 2, without the interaction with condition
-- Figure: posterior plot
-
+analysis/stay_reward_x_condition_easy/ (new)
 
 JOB
-Clone the regression from WAVE 2 only drop the condition predictor completely
-
+Clone stay_reward_x_condition for the hard condition
 FOLDER
-analysis/stay~reward (new)
-
-CHECKS
-- 02-analysis/pre-deploy-checks.md
-- 02-analysis/regression/pre-deploy-checks.md
-- 02-analysis/visualization/pre-deploy-checks.md
-
-SPECIFICATION
-- Same regression as WAVE 2, without the condition predictor
-- Figure: posterior plot
-
+analysis/stay_reward_x_condition_hard/ (new)
 
 ## WAVE 4 ##
 JOB
-Make a model comparison using loo package and print the results output to pdf
-
+Compare the three stay-by-reward fits with loo
 FOLDER
-analysis/stay~reward_model_compare/ (new)
-
-CHECKS
-- 02-analysis/pre-deploy-checks.md
-
-SPECIFICATION
-- Model comparison with loo
-- Print the results to PDF
+analysis/stay_reward_x_condition_loo/ (new)
 ```
 
-### Example 3 — two jobs, serial
+### Example 3. A model, then a recovery study
 
-Each WAVE has one job. WAVE 2 waits for WAVE 1. The prompt named the jobs and left the values unset, so each `SPECIFICATION` is present and empty.
+The user wants a new RL model written, then a parameter-recovery study that generates from it.
 
-```
+```text
 Plan Card
 
 ## WAVE 1 ##
 JOB
-Write the RL model definition.
-
+Write the generating .R and fitting .stan for the new RL model
 FOLDER
-models/rl_model/ (new)
-
-CHECKS
-- 03-models/pre-deploy-checks.md
-
-SPECIFICATION
-
+models/rl_twostep/ (new)
 
 ## WAVE 2 ##
 JOB
-Run parameter recovery for the RL model.
-
+Build a parameter-recovery study of that model
 FOLDER
-simulation/param_recovery/ (new)
+simulation/rl_twostep_recovery/ (new)
+```
 
-CHECKS
-- 04-simulations/pre-deploy-checks.md
-- 03-models/pre-deploy-checks.md
+### Example 4. First preprocessing of an online study
 
-SPECIFICATION
+The user has `data/collected/` from Pavlovia and wants it cleaned.
+
+```text
+Plan Card
+
+JOB
+Clean the Pavlovia export into tidy tables and apply exclusions
+FOLDER
+preprocessing/ (new)
+```
+
+### Example 5. Descriptives of the sample
+
+The user wants a table of who is in the sample.
+
+```text
+Plan Card
+
+JOB
+Describe the sample: counts, demographics, and questionnaire scores
+FOLDER
+analysis/descriptives/ (new)
 ```

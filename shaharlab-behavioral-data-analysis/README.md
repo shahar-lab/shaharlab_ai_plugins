@@ -3,7 +3,7 @@
 Behavioral data analysis in R for the Shahar Lab (Tel Aviv University).
 Bundles the lab's brms Bayesian-regression workflow, data preprocessing,
 visualization standards, project scaffolding, and R code walkthroughs — plus Malka,
-the orchestrator skill that interviews you and directs the subagents that build and check the work.
+the orchestrator skill that interviews you and directs the Code Writer that builds the work.
 
 > Installation is documented once at the [repo root README](../README.md).
 > This file lists what the plugin provides.
@@ -16,15 +16,15 @@ routes to the right one.
 
 | Skill              | Use it when you…                                                                                                                                                                                                                                       |
 | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `malka`            | have any lab analysis task — create, revise, extend, or repair. She interviews you, you approve one card, then she writes and checks the code. The reliable entry point. |
+| `malka`            | have any lab analysis task — create, revise, extend, or repair. She interviews you, you approve one card, then she writes the code. The reliable entry point. |
 | `code-walkthrough` | want R code explained statement by statement to learn or verify it — always runs in the main thread, never as a subagent.                                                                                                                              |
 
 ## How Malka works
 
 Three steps.
 
-1. **Interview** — Talk, Plan, Critique, Confirm. You approve one Summary Card. Nothing is built until you say yes.
-2. **Dispatch subagents** — build one Code-Writer Card per ready job, spawn those Writers, then the Code Reviewer. Later WAVEs wait until earlier WAVEs are done.
+1. **Interview** — Plan, Clarify, Confirm. You approve one Summary Card. Nothing is built until you say yes.
+2. **Dispatch subagents** — complete one Job Card per ready job and spawn those Writers. Later WAVEs wait until earlier WAVEs are done.
 3. **Hand back** — what to run and what to look at. Malka does not run R.
 
 A new formula or a new cutoff is **new science**: that is a new interview.
@@ -39,9 +39,9 @@ its own agent file rather than in the card, so a card carries only what varies f
 `coding-knowledge/` is not a skills folder — nothing under it has a `SKILL.md`, triggers on its
 own, or runs independently. Each numbered subfolder holds the `context.md`, templates, and craft
 for one or two main-folders, which Malka points the subagent at through the card. Each covering
-folder also holds a short `pre-deploy-checks.md` list; optional stages
-(`regression/`, `visualization/`, `descriptives/`) hold their own. Critique opens only the
-pre-deploy-checks this request needs, to finish that job's specification.
+folder's craft files are listed in `knowledge-index.md`. Each file is one heading
+and one box of three bullets — Path, What it covers, Deploy-checks. Plan copies matching
+Paths onto each Job Card's `ROUTED READS` and, when Deploy-checks apply, onto `CHECKS`. The Writer reads the how-to, not the checks.
 
 | Path                                 | Malka reads it for…                                                                                                                                                                                                                                                                                                     |
 | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -70,16 +70,15 @@ generated data routes into `02-analysis/regression/`.
 
 ## Agents
 
-Three subagent types, available once the plugin is loaded — dispatched by `malka`, not
+Two subagent types, available once the plugin is loaded — dispatched by `malka`, not
 invoked directly:
 
 - **`data-explorer`** — profiles a `data/` stage during Step 1 after Plan by running R over it (`data/collected/` for a preprocessing job, `data/processed/` for an analysis job in WAVE 1). The only agent here with a shell, and it writes nothing.
-- **`code-writer`** — prepares the job-folder, writes the code from the `coding-knowledge/` files Malka named on the Code-Writer Card, then checks its own work against the same rules and the approved specification before returning. One spawn per job.
-- **`code-reviewer`** — a general after-write check: reads the finished files against the Code-Writer Card and the constitution coding rules, and reports what the code actually sets, plus any value that contradicts the card, any product that never reached disk, and any threshold the Writer chose that was the user's to set. Read-only, one spawn per job, and it opens no main-folder craft — the library the Writer reads stays out of its context.
+- **`code-writer`** — prepares the job-folder, writes the code from the `coding-knowledge/` files Malka named on the Job Card, then checks its own work against the same rules and the approved specification before returning. One spawn per job.
 
 There is no orchestrator agent — the orchestrator is the `malka` skill itself, so it runs in the main conversation thread where the user actually is (a subagent has no one to interview or wait on for approval).
 
-The Reviewer checks that the code matches the Code-Writer Card and the coding rules; whether the craft is right stays with the Writer, which read the standards. Nothing here runs the code, so a job with real stakes is still worth reading before it ships.
+Whether the craft is right stays with the Writer, which read the standards. Nothing here runs the code, so a job with real stakes is still worth reading before it ships.
 
 ## How to invoke
 
@@ -94,7 +93,7 @@ Lab rules (folder topology, R style) are **not** injected automatically into eve
 
 ## Terms
 
-See [`TERMS.md`](TERMS.md) for the vocabulary of the Malka workflow — Summary Card, Plan Card, Code-Writer Card,
+See [`TERMS.md`](TERMS.md) for the vocabulary of the Malka workflow — Summary Card, Plan Card, Job Card,
 job, dispatch, fit, `ASSUMED`, `BLOCKED`, and the rest.
 
 ## What changed

@@ -129,7 +129,7 @@ shaharlab-behavioral-data-analysis/
 ├── coding-knowledge/  00-constitution, 01-preprocessing, 02-analysis,
 │                      03-models, 04-simulations
 │                      (not skills — indexed by malka, read by the agents)
-└── agents/    code-writer, code-reviewer, data-explorer
+└── agents/    code-writer, data-explorer
 
 shaharlab-jspsych/
 ├── .claude-plugin/plugin.json

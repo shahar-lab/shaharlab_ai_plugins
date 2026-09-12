@@ -19,15 +19,15 @@ Ask for the console output, pasted. Ask which script it came from where the trac
 
 ## 2 · The repair dispatch
 
-A repair is an ordinary dispatch with a narrower card. Quote this folder's job from the Plan Card and its specification in `.malka/current_job.md`, then amend a Code-Writer Card:
+A repair is an ordinary dispatch with a narrower card. Quote this folder's `SPECIFICATION` from `.malka/current_job.md`, then complete a Job Card for spawn:
 
-- `JOB` names the repair — "fix the error in the fitting script", never the fix itself.
+- `JOB` names the repair — "fix the error in the fitting script". The fix itself lives in `PROJECT STATE`.
 - `FOLDER` is the folder that holds the failing code.
 - `PROJECT STATE` carries **the pasted output verbatim**, the script it came from, and the note that this folder already exists and is being repaired.
-- `SPECIFICATION` stays what it was on the locked specification.
+- `SPECIFICATION` stays what it was: quote the same section of `.malka/current_job.md` the original job locked.
 - `ROUTED READS` carries what the failing part needs.
 
-Then review that job as Step 2's Dispatch states. Where the same script fails twice, stop and bring it to the user.
+Then treat that job as Step 2's Dispatch states. Where the same script fails twice, stop and bring it to the user.
 
 ## 3 · Reading the diagnostics
 

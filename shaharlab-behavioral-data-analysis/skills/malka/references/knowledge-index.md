@@ -1,139 +1,485 @@
-# Coding Knowledge — Index
+# Coding Knowledge Index
 
-Opened at Dispatch when filling a Code-Writer Card's `ROUTED READS`. Paths below are relative to `${CLAUDE_PLUGIN_ROOT}/coding-knowledge/`. The Writer also opens this file when a deliverable has no craft on its card, and names every such file under `ADDED READS`.
+Opened at Plan when filling a Job Card's `ROUTED READS` and `CHECKS`. Dispatch copies `ROUTED READS` onto the spawn card. Paths below are relative to `${CLAUDE_PLUGIN_ROOT}/coding-knowledge/`. The Writer also opens this file when a deliverable has no craft on its card, and names every such file under `ADDED READS`.
 
-Constitution files, the covering folder's `context.md`, its `rules.md` when it exists, and its templates arrive with `FOLDER`. Leave them off this list. `pre-deploy-checks.md` is not craft. `exploration.md` is the Data Explorer's standing read, never routed.
+Constitution files, the covering folder's `context.md`, its `rules.md` when it exists, and its templates arrive with `FOLDER`. Leave them off this list. `exploration.md` is the Data Explorer's standing read, never routed. Leftover questions live in that entry's **Deploy-checks** — there is no separate checks file. An em dash means that entry has no leftovers. Clarify walks those bullets in the order written. The Writer reads the how-to.
 
-## How to route
+## The entry
 
-1. Name `FOLDER`. That delivers the standing reads.
-2. Add every trigger-matching craft row for the stages this job involves.
-3. Route by path: a `simulation/` job still takes `02-analysis/visualization/` when it plots, and `02-analysis/regression/` when it fits brms on generated data.
-4. Route an `assets/` row only for a deliverable this job writes.
+Each craft file is one heading and one box. The heading is the filename. The box holds three bullets, always in this order, each name on its own line and its value on the next.
 
-Every file under `coding-knowledge/` that is craft is one row here, and every row is one file.
+```text
+### `filename.md`
+
+> - **Path**
+> - **What it covers**
+> - **Deploy-checks**
+```
+
+- **Heading**
+  
+  The filename in backticks. Leftover-only entries (no how-to) use the leftover-only label instead.
+
+- **Path**
+  
+  The path Plan copies onto the Job Card's `ROUTED READS` and, when Deploy-checks is not an em dash, onto `CHECKS`. An em dash means leftover-only: Plan lists the leftover-only label from **What it covers** on `CHECKS` only.
+
+- **What it covers**
+  
+  The file's subject, and when needed the job that matches it. Match an entry by this line.
+
+- **Deploy-checks**
+  
+  Leftover questions as nested bullets, one leftover per line, in ask order. Clarify walks them top to bottom. An em dash means none. The how-to remains the only place its craft lives.
+
+Every file under `coding-knowledge/` that is craft is one entry here, and every craft entry is one file.
 
 ## 01 · Preprocessing
 
-| The job writes | Route to |
-|---|---|
-| `converting_data_collected_to_raw.R` | `how-to-convert-collected-to-raw.md` |
-| `converting_data_raw_to_processed.R` | `how-to-convert-raw-to-processed.md` |
-| any `examining_` script | `how-to-examine.md` |
-| `summary_exclusions.R` or `summary_manuscript_paragraph.R` | `how-to-summarise-exclusions.md` |
-| any `converting_` script | `conversion-and-filter-traps.md`, alongside the `how-to-` file above |
-| a data-validation HTML | `how-to-build-data-validation.md` |
-| a figure of a cutoff | the matching `02-analysis/visualization/` plot-type |
+### `how-to-convert-collected-to-raw.md`
 
-`handling-leaving-window.md` — online / `window_status` column / the user mentions leaving the window. The file states when.
+> - **Path**
+>   
+>   `01-preprocessing/references/how-to-convert-collected-to-raw.md`
+> 
+> - **What it covers**
+>   
+>   `converting_data_collected_to_raw.R`: restructure, type every column, drop what was never data, save `data/raw/`.
+> 
+> - **Deploy-checks**
+>   
+>   - Do we know what files from collected should be pulled to be converted to raw?
+>   - Do we know class and domain per column?
+>   - Do we know what counts as missing data ?
 
-| Path | What it covers |
-|---|---|
-| `01-preprocessing/references/how-to-convert-collected-to-raw.md` | `converting_data_collected_to_raw.R`: restructure, type every column, drop what was never data, save `data/raw/` |
-| `01-preprocessing/references/how-to-convert-raw-to-processed.md` | `converting_data_raw_to_processed.R`: two-phase exclusions, one named surviving dataset per criterion, save `data/processed/` |
-| `01-preprocessing/references/how-to-examine.md` | The `examining_` scripts: five description blocks, report assembly |
-| `01-preprocessing/references/how-to-summarise-exclusions.md` | The two `summary_` scripts: cascade tables and the manuscript paragraph |
-| `01-preprocessing/references/how-to-build-data-validation.md` | Data-validation HTML per tidy table, class and domain meta-rows |
-| `01-preprocessing/references/conversion-and-filter-traps.md` | Type coercion, `%in%` versus chained `!=`, `scale()`/`cut()`, counts to print |
-| `01-preprocessing/references/handling-leaving-window.md` | `window_status`, one exit per sequence of `left` trials, `window_exit_max` |
-| `01-preprocessing/references/exploration.md` | Data Explorer profile — standing read, never routed |
-| `01-preprocessing/assets/example-examining-report.md` | Mockup of an `examining_` report |
-| `01-preprocessing/assets/example-summary-exclusions.md` | Mockup of `summary_exclusions.md` |
-| `01-preprocessing/assets/example-data-validation.html` | Mockup of a data-validation HTML |
+### `how-to-convert-raw-to-processed.md`
+
+> - **Path**
+>   
+>   `01-preprocessing/references/how-to-convert-raw-to-processed.md`
+> 
+> - **What it covers**
+>   
+>   `converting_data_raw_to_processed.R`: two-phase exclusions, one named surviving dataset per criterion, save `data/processed/`.
+> 
+> - **Deploy-checks**
+>   
+>   - Participant-level exclusion criteria and cutoffs
+>   - Trial-level exclusion criteria and cutoffs
+>   - Calculated columns and formulae
+
+### `how-to-examine.md`
+
+> - **Path**
+>   
+>   `01-preprocessing/references/how-to-examine.md`
+> 
+> - **What it covers**
+>   
+>   Any `examining_` script: five description blocks, report assembly.
+> 
+> - **Deploy-checks**
+>   
+>   —
+
+### `how-to-summarise-exclusions.md`
+
+> - **Path**
+>   
+>   `01-preprocessing/references/how-to-summarise-exclusions.md`
+> 
+> - **What it covers**
+>   
+>   `summary_exclusions.R` and `summary_manuscript_paragraph.R`: cascade tables and the manuscript paragraph.
+> 
+> - **Deploy-checks**
+>   
+>   —
+
+### `conversion-and-filter-traps.md`
+
+> - **Path**
+>   
+>   `01-preprocessing/references/conversion-and-filter-traps.md`
+> 
+> - **What it covers**
+>   
+>   Read alongside any `converting_` script: type coercion, `%in%` versus chained `!=`, `scale()`/`cut()`, counts to print.
+> 
+> - **Deploy-checks**
+>   
+>   —
+
+### `how-to-build-data-validation.md`
+
+> - **Path**
+>   
+>   `01-preprocessing/references/how-to-build-data-validation.md`
+> 
+> - **What it covers**
+>   
+>   Data-validation HTML per tidy table, class and domain meta-rows.
+> 
+> - **Deploy-checks**
+>   
+>   - raw, processed, or both
+
+### `handling-leaving-window.md`
+
+> - **Path**
+>   
+>   `01-preprocessing/references/handling-leaving-window.md`
+> 
+> - **What it covers**
+>   
+>   `window_status`, one exit per sequence of `left` trials, `window_exit_max`. Route when the study is online, the column is present, or the user mentions leaving the window.
+> 
+> - **Deploy-checks**
+>   
+>   - `window_exit_max` (one exit is one sequence of `left` trials)
+
+### `exploration.md`
+
+> - **Path**
+>   
+>   `01-preprocessing/references/exploration.md`
+> 
+> - **What it covers**
+>   
+>   Data Explorer profile — standing read, never routed.
+> 
+> - **Deploy-checks**
+>   
+>   —
+
+### `example-examining-report.md`
+
+> - **Path**
+>   
+>   `01-preprocessing/assets/example-examining-report.md`
+> 
+> - **What it covers**
+>   
+>   Mockup of an `examining_` report.
+> 
+> - **Deploy-checks**
+>   
+>   —
+
+### `example-summary-exclusions.md`
+
+> - **Path**
+>   
+>   `01-preprocessing/assets/example-summary-exclusions.md`
+> 
+> - **What it covers**
+>   
+>   Mockup of `summary_exclusions.md`.
+> 
+> - **Deploy-checks**
+>   
+>   —
+
+### `example-data-validation.html`
+
+> - **Path**
+>   
+>   `01-preprocessing/assets/example-data-validation.html`
+> 
+> - **What it covers**
+>   
+>   Mockup of a data-validation HTML.
+> 
+> - **Deploy-checks**
+>   
+>   —
+
+A figure of a cutoff takes the matching `02-analysis/visualization/` plot-type entry.
 
 ## 02 · Analysis
 
-Route by path, not by where the job lands. A `simulation/` or `preprocessing/` job that needs a figure or a brms fit takes these same rows.
+Route by path, not by where the job lands. A `simulation/` or `preprocessing/` job that needs a figure or a brms fit takes these same entries.
 
-### Regression
+**Regression**
 
-| The job | Route to |
-|---|---|
-| fits a brms model | `regression/01_sampling_and_priors.md` |
-| writes or checks the post-fit diagnostics | `regression/02_diagnostics.md` |
+### `01_sampling_and_priors.md`
 
-| Path | What it covers |
-|---|---|
-| `02-analysis/regression/01_sampling_and_priors.md` | `brm()` workflow: load by `data_path`, approved priors, sampling, save the `.rds` |
-| `02-analysis/regression/02_diagnostics.md` | ess/rhat table, trankplot, pairs plot, reported without interpretation |
+> - **Path**
+>   
+>   `02-analysis/regression/01_sampling_and_priors.md`
+> 
+> - **What it covers**
+>   
+>   `brm()` workflow: load by `data_path`, approved priors, sampling, save the `.rds`.
+> 
+> - **Deploy-checks**
+>   
+>   - Formula and RE structure
+>   - Family
+>   - Priors (offer weakly informative)
+>   - Sampling (offer 4 / 2000 / half warmup)
 
-### Visualization
+### `02_diagnostics.md`
 
-| Request | Route to |
-|---|---|
-| posterior, credible interval, effect estimate | `plot-posterior.md` (+ `plot-posterior.png`) |
-| scatter, x vs y, correlation, parameter recovery | `plot-scatter.md` |
-| dot histogram, distribution of one variable | `plot-dot-histogram.md` |
-| 2+ panels | `PANEL_TAGGING_STANDARD.md` |
-| any figure | `EXPORT_STANDARD.md`; `COLOR_STANDARD.md` when the plot uses color |
+> - **Path**
+>   
+>   `02-analysis/regression/02_diagnostics.md`
+> 
+> - **What it covers**
+>   
+>   Post-fit diagnostics: ess/rhat table, trankplot, pairs plot, reported without interpretation.
+> 
+> - **Deploy-checks**
+>   
+>   —
 
-| Path | What it covers |
-|---|---|
-| `02-analysis/visualization/plot-types/plot-posterior.md` | ggdist: wide-and-short canvas, three x-axis cases, 0.90 CI |
-| `02-analysis/visualization/plot-types/plot-posterior.png` | Rendered reference |
-| `02-analysis/visualization/plot-types/plot-scatter.md` | ggplot2: square panel, shared limits, diagonal, Pearson, mandatory color |
-| `02-analysis/visualization/plot-types/plot-dot-histogram.md` | ggdist `geom_dots()`: full-range x-axis, rebuilt count y-axis |
-| `02-analysis/visualization/standards/COLOR_STANDARD.md` | When color is required, which palettes |
-| `02-analysis/visualization/standards/EXPORT_STANDARD.md` | Dual PDF+PNG export, canvas, naming |
-| `02-analysis/visualization/standards/PANEL_TAGGING_STANDARD.md` | patchwork assembly and A/B/C tags |
+**Visualization**
 
-### Descriptives
+### `plot-posterior.md`
 
-| The job | Route to |
-|---|---|
-| participant counts, demographics, or questionnaire distributions | `descriptives/how-to-report-descriptives.md` |
+> - **Path**
+>   
+>   `02-analysis/visualization/plot-types/plot-posterior.md`
+> 
+> - **What it covers**
+>   
+>   Posterior / credible interval / effect estimate. ggdist: wide-and-short canvas, three x-axis cases, 0.90 CI.
+> 
+> - **Deploy-checks**
+>   
+>   - Which parameters or effects
+>   - Effect vs bounded vs other
+>   - Single figure or composite
 
-| Path | What it covers |
-|---|---|
-| `02-analysis/descriptives/how-to-report-descriptives.md` | Sample tables and per-measure distributions |
+### `plot-scatter.md`
 
-### Cloning
+> - **Path**
+>   
+>   `02-analysis/visualization/plot-types/plot-scatter.md`
+> 
+> - **What it covers**
+>   
+>   Scatter, x vs y, correlation, parameter recovery. ggplot2: square panel, shared limits, diagonal, Pearson, mandatory color.
+> 
+> - **Deploy-checks**
+>   
+>   - x and y columns
+>   - Same-scale or different
+>   - Colour mapping
+>   - Trend-line band or line alone
+>   - Single figure or composite
 
-| The job | Route to |
-|---|---|
-| starts a new job-folder | nothing — `FOLDER` delivers structure and templates |
-| duplicates an `analysis/`/`simulation/` job-folder | `smart_clone.md` |
-| repairs a job-folder against the canonical set | nothing — that covering folder's `context.md` |
+### `plot-dot-histogram.md`
 
-| Path | What it covers |
-|---|---|
-| `02-analysis/smart_clone.md` | Duplicating a job-folder: what to copy, what to wipe, which paths to re-point |
+> - **Path**
+>   
+>   `02-analysis/visualization/plot-types/plot-dot-histogram.md`
+> 
+> - **What it covers**
+>   
+>   Dot histogram, distribution of one variable. ggdist `geom_dots()`: full-range x-axis, rebuilt count y-axis.
+> 
+> - **Deploy-checks**
+>   
+>   - Which column
+>   - Theoretical range or none
+>   - Grouping or none
+>   - Single figure or composite
+
+### `plot-posterior.png`
+
+> - **Path**
+>   
+>   `02-analysis/visualization/plot-types/plot-posterior.png`
+> 
+> - **What it covers**
+>   
+>   Rendered reference for the posterior plot.
+> 
+> - **Deploy-checks**
+>   
+>   —
+
+### `PANEL_TAGGING_STANDARD.md`
+
+> - **Path**
+>   
+>   `02-analysis/visualization/standards/PANEL_TAGGING_STANDARD.md`
+> 
+> - **What it covers**
+>   
+>   Two or more panels: patchwork assembly and A/B/C tags.
+> 
+> - **Deploy-checks**
+>   
+>   —
+
+### `EXPORT_STANDARD.md`
+
+> - **Path**
+>   
+>   `02-analysis/visualization/standards/EXPORT_STANDARD.md`
+> 
+> - **What it covers**
+>   
+>   Every figure: dual PDF+PNG export, canvas, naming.
+> 
+> - **Deploy-checks**
+>   
+>   —
+
+### `COLOR_STANDARD.md`
+
+> - **Path**
+>   
+>   `02-analysis/visualization/standards/COLOR_STANDARD.md`
+> 
+> - **What it covers**
+>   
+>   When the plot uses color: which palettes.
+> 
+> - **Deploy-checks**
+>   
+>   —
+
+**Descriptives**
+
+### `how-to-report-descriptives.md`
+
+> - **Path**
+>   
+>   `02-analysis/descriptives/how-to-report-descriptives.md`
+> 
+> - **What it covers**
+>   
+>   Participant counts, demographics, or questionnaire distributions: sample tables and per-measure distributions.
+> 
+> - **Deploy-checks**
+>   
+>   - Which variables
+>   - Grouping
+>   - Which measures get a distribution figure
+>   - Each named measure exists as a scored column in `data/processed/`
+
+**Cloning**
+
+A new job-folder takes structure from `FOLDER`. A repair reads that covering folder's `context.md`.
+
+### `smart_clone.md`
+
+> - **Path**
+>   
+>   `02-analysis/smart_clone.md`
+> 
+> - **What it covers**
+>   
+>   Duplicating an `analysis/` or `simulation/` job-folder: what to copy, what to wipe, which paths to re-point.
+> 
+> - **Deploy-checks**
+>   
+>   - Source job-folder
+>   - What changes in the clone
+
+**Model comparison**
+
+### Model comparison / `loo`
+
+> - **Path**
+>   
+>   —
+> 
+> - **What it covers**
+>   
+>   Model comparison / `loo` — leftover-only; no how-to.
+> 
+> - **Deploy-checks**
+>   
+>   - Which fitted objects
+>   - Which metric (`loo` or another)
+>   - Where the PDF goes
 
 ## 03 · Models
 
-| The job | Route to |
-|---|---|
-| writes or revises a `models/` definition | `how-to-write-a-model-definition.md` |
-| writes one a recovery study will generate from and fit back | that file, plus `04-simulations/references/how-to-build-a-recovery-pipeline.md` |
+### `how-to-write-a-model-definition.md`
 
-| Path | What it covers |
-|---|---|
-| `03-models/references/how-to-write-a-model-definition.md` | Generating `.R` and fitting `.stan` as one pair |
+> - **Path**
+>   
+>   `03-models/references/how-to-write-a-model-definition.md`
+> 
+> - **What it covers**
+>   
+>   Generating `.R` and fitting `.stan` as one pair.
+> 
+> - **Deploy-checks**
+>   
+>   - Parameters, what each does, and the scale each is on
+>   - Task structure
+>   - New definition or structural variant
+>   - The three generating/fitting agreements if a recovery will use the pair
+
+A definition a recovery study will generate from and fit back also matches `04-simulations/references/how-to-build-a-recovery-pipeline.md`.
 
 ## 04 · Simulations
 
-| The job | Route to |
-|---|---|
-| builds or extends a recovery pipeline | `how-to-build-a-recovery-pipeline.md` and `assets/example_main.R` |
-| writes or revises the recovery comparison and its figure | `how-to-read-recovery.md` |
+### `how-to-build-a-recovery-pipeline.md`
 
-A first recovery study routes all three, plus the `02-analysis/visualization/` rows its figures call for. A study that fits brms also routes `02-analysis/regression/01_sampling_and_priors.md`.
+> - **Path**
+>   
+>   `04-simulations/references/how-to-build-a-recovery-pipeline.md`
+> 
+> - **What it covers**
+>   
+>   Three pipeline stages, model-family mapping, generating-versus-fitting agreements.
+> 
+> - **Deploy-checks**
+>   
+>   - Environment (trials, blocks, task constants)
+>   - Population (n agents, location and scale per parameter)
+>   - Which `models/` definition generates and which is fitted
+>   - Sampler
 
-| Path | What it covers |
-|---|---|
-| `04-simulations/references/how-to-build-a-recovery-pipeline.md` | Three pipeline stages, model-family mapping, generating-versus-fitting agreements |
-| `04-simulations/references/how-to-read-recovery.md` | Six recovery checks in order |
-| `04-simulations/assets/example_main.R` | Worked recovery `main.R` |
+### `how-to-read-recovery.md`
+
+> - **Path**
+>   
+>   `04-simulations/references/how-to-read-recovery.md`
+> 
+> - **What it covers**
+>   
+>   Six recovery checks in order.
+> 
+> - **Deploy-checks**
+>   
+>   - Success criterion: correlation
+>   - Success criterion: bias
+>   - Success criterion: precision
+>   - Offer conventional defaults
+
+### `example_main.R`
+
+> - **Path**
+>   
+>   `04-simulations/assets/example_main.R`
+> 
+> - **What it covers**
+>   
+>   Worked recovery `main.R`.
+> 
+> - **Deploy-checks**
+>   
+>   —
+
+A first recovery study matches both reference entries, `example_main.R`, and the `02-analysis/visualization/` entries its figures call for. A study that fits brms also matches `02-analysis/regression/01_sampling_and_priors.md`.
 
 ## Common jobs
 
-Standing reads (`FOLDER`) are the same in every row. Extra paths only:
+Standing reads (`FOLDER`) are the same in every job. Extra paths only — Plan copies them onto the Job Card's `ROUTED READS`. Deploy-checks stay on the catalog entries above.
 
-| Job | Extra paths |
-|---|---|
-| First preprocessing, study online | all four `how-to-` script files, `how-to-build-data-validation.md`, `conversion-and-filter-traps.md`, `handling-leaving-window.md`, three `01-preprocessing/assets/` examples |
-| Revising exclusions, study in person | `how-to-convert-raw-to-processed.md`, `conversion-and-filter-traps.md`, `how-to-summarise-exclusions.md`, `example-summary-exclusions.md` |
-| New brms folder with a posterior plot | both regression files, `plot-posterior.md`, `plot-posterior.png`, `EXPORT_STANDARD.md`, `COLOR_STANDARD.md` if colour |
-| Revising a two-panel scatter | `plot-scatter.md`, `COLOR_STANDARD.md`, `EXPORT_STANDARD.md`, `PANEL_TAGGING_STANDARD.md` |
+| Job                                                  | Extra paths                                                                                                                                                                                 |
+| ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| First preprocessing, study online                    | all four `how-to-` script files, `how-to-build-data-validation.md`, `conversion-and-filter-traps.md`, `handling-leaving-window.md`, three `01-preprocessing/assets/` examples               |
+| Revising exclusions, study in person                 | `how-to-convert-raw-to-processed.md`, `conversion-and-filter-traps.md`, `how-to-summarise-exclusions.md`, `example-summary-exclusions.md`                                                   |
+| New brms folder with a posterior plot                | both regression files, `plot-posterior.md`, `plot-posterior.png`, `EXPORT_STANDARD.md`, `COLOR_STANDARD.md` if colour                                                                       |
+| Revising a two-panel scatter                         | `plot-scatter.md`, `COLOR_STANDARD.md`, `EXPORT_STANDARD.md`, `PANEL_TAGGING_STANDARD.md`                                                                                                   |
 | First parameter-recovery, model already in `models/` | both `04-simulations` references, `example_main.R`, `plot-scatter.md`, `plot-posterior.md`, `plot-dot-histogram.md`, `COLOR_STANDARD.md`, `EXPORT_STANDARD.md`, `PANEL_TAGGING_STANDARD.md` |
-| Writing the `models/` pair a recovery needs | `how-to-write-a-model-definition.md`, `how-to-build-a-recovery-pipeline.md` |
+| Writing the `models/` pair a recovery needs          | `how-to-write-a-model-definition.md`, `how-to-build-a-recovery-pipeline.md`                                                                                                                 |

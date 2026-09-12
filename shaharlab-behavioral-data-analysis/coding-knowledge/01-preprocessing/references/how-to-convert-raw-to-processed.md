@@ -6,7 +6,7 @@ user approved, adds the calculated columns the plan names, and saves the result 
 in `${CLAUDE_PLUGIN_ROOT}/coding-knowledge/01-preprocessing/context.md`.
 
 Every criterion and every cutoff in this script came from the user through Malka's interview and
-arrives in the Code-Writer Card. Implement exactly the approved plan.
+arrives in the Job Card. Implement exactly the approved plan.
 
 ## What this stage does
 
@@ -102,7 +102,7 @@ write_data_validation_report(
 
 ## Where each cutoff comes from
 
-The Code-Writer Card carries the criteria in the user's own words and their numbers. A cutoff the
+The Job Card carries the criteria in the user's own words and their numbers. A cutoff the
 card is silent on is a decision nobody has made — take a defensible default, mark it where it
 happens, and let Malka carry it back to the user:
 

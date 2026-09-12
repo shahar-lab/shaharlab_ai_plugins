@@ -5,34 +5,24 @@ Words Malka uses, and what they mean.
 ## Agents
 
 **Malka**
-The lab's analysis orchestrator. She talks with you, gets your approval, then sends others to write and check the code.
+The lab's analysis orchestrator. She talks with you, gets your approval, then sends the Code Writer to write the code.
 
 **Code Writer**
 Writes the code and the other files in a job-folder.
 
-**Code Reviewer**
-Checks the finished files against what you approved and the lab's coding rules. Reads only.
-
 **Data Explorer**
 Looks at your data during the interview so later questions are grounded in what's actually there. Reads only; writes nothing.
-
-
 
 ## Cards
 
 **Plan Card**
-This request's job list: `JOB`, `FOLDER`, `CHECKS`, and `WAVE` when there is more than one job. 
+This request's job index: `JOB`, `FOLDER`, and `WAVE` when there is more than one job. Printed in full in the chat.
 
 **Summary Card**
 The plain-English write-up you approve before any code is written.
 
-**Code-Writer Card**
-The exact instructions the Writer works from — locked when you approve.
-
-**Reviewer Card**
-The instructions the Reviewer works from after that Writer finishes.
-
-
+**Job Card**
+The instructions for one job. Born at Plan from a Plan Card line; locked at Confirm; completed at Dispatch for spawn.
 
 ## UI elements
 
@@ -40,29 +30,24 @@ The instructions the Reviewer works from after that Writer finishes.
 Claude Code's question dialog: a choice with options, then a wait. Not lab-made.
 
 **`- [ ]`**
-A checklist line in the chat. The terminal UI picks it up. Critique's leftover questions and the Summary Card's Confirm & Execute / Revise are written this way.
-
-
+A checklist line in the chat. The terminal UI picks it up. Clarify's leftover questions and the Summary Card's Confirm & Execute / Revise are written this way.
 
 ## User interview step
 
 **interview**
-The conversation before anything is built: Talk, Plan, Critique, Confirm.
-
-**Talk**
-Malka finds out what you want and looks at the project.
+The conversation before anything is built: Plan, Clarify, Confirm.
 
 **Plan**
-Malka counts the jobs and fills the Plan Card.
+Malka counts the jobs, prints the Plan Card, then writes one Job Card per line — walking `knowledge-index.md` once per job to fill `ROUTED READS` and `CHECKS`.
 
-**Critique**
-Malka checks each job on the Plan Card for missing values — not your science.
+**Clarify**
+Malka reads Deploy-checks on the knowledge-index entries listed in each Job Card's `CHECKS`, then asks for leftover values — not your science. Answers write into that Job Card's `SPECIFICATION`.
 
 **Confirm**
-Malka shows you a Summary Card and waits. Nothing is built until you say yes.
+Malka shows you a Summary Card and waits. Nothing is built until you say yes. Revise returns to Clarify. Wrong jobs return to Plan. On yes, the Plan Card and the Job Cards are written to `.malka/current_job.md`.
 
-**pre-deploy-checks**
-A short list of questions Malka still needs answered before a card is finished. Paths sit in the Plan Card's `CHECKS` slot.
+**deploy-checks**
+Leftover questions on a knowledge-index entry, written as an ordered bullet list. Plan copies that entry's Path onto the Job Card's `CHECKS` in the same walk that fills `ROUTED READS`. Clarify walks the bullets in that order. The Writer reads the how-to.
 
 **Exploration Pass**
 A look at your data during the interview. Not a run.
@@ -77,40 +62,27 @@ What you approved — the formulas, thresholds, and settings the code has to fol
 This request's full list of jobs. One request, one run.
 
 **job**
-One unit of work: one folder, one Writer, one Reviewer.
+One unit of work: one folder, one Writer.
 
 **`WAVE`**
-A batch of jobs on the Plan Card. WAVEs run in order (serial). Jobs in the same WAVE run together (parallel). Omit `WAVE` when the Plan Card is one job.
-
-## 
-
-## 
+A batch of jobs on the Plan Card. WAVEs run in order (serial). Jobs in the same WAVE run together (parallel). When the Plan Card is one job, the heading is skipped.
 
 ## Agents dispatch
 
 **Dispatch subagents**
-Malka sends a Writer, then a Reviewer, for each ready job, until the list is done.
+Malka sends a Writer for each ready job, until the list is done.
 
 **Dispatch**
 Sending a Writer out to build a job.
 
-**Review**
-Checking the files that came back against what you approved and the lab's coding rules.
-
-**manifest**
-The Reviewer's report of what the code actually set, compared with the card.
-
 **route**
-Which lab how-to files the Writer is told to read for this job.
+Which lab how-to files the Writer is told to read for this job. Plan writes those paths on the Job Card's `ROUTED READS`.
 
 **standing read**
 Files the Writer always opens — project rules, coding rules, and that folder's templates.
 
 **`FOLDER`**
 Which job-folder this work writes into.
-
-**`CARD`**
-On a Reviewer Card, the Code-Writer Card this job was sent with.
 
 ## Folders
 
@@ -135,22 +107,13 @@ The notebook that lives in the job-folder. Not the Summary Card you approved.
 ## Flags
 
 **the reserved set**
-Values only you may choose — the numbers that reach a manuscript. No one else picks these.
+Values only you may choose — the numbers that reach a manuscript, named in `project-terms.md`. No one else picks these.
 
 **`ASSUMED`**
 A default the Writer took because you didn't specify something that wasn't reserved. Malka will tell you about these.
 
 **`BLOCKED`**
 The Writer stopped because something only you can decide was missing.
-
-**`MISMATCH`**
-The code doesn't match what you approved, or it breaks a lab coding rule.
-
-**`UNAPPROVED`**
-The Writer assumed a value that was yours to set.
-
-**`MISSING`**
-A file the job claimed to produce isn't there, or is empty.
 
 **`ADDED READS`**
 The Writer opened a how-to file Malka hadn't pointed it at. Not a failure.
@@ -183,4 +146,4 @@ A different formula or a new cutoff. That needs a new interview, because you hav
 ## Skill design terms
 
 **Structure Legend**
-A heading, a skeleton box, then one bullet per named bit of the shape. The form for a folder tree, a card, a Plan Card, or a layout. The writing rule lives in the repo `.claude/CLAUDE.md`.
+A heading, a skeleton box, then one bullet per named bit of the shape. The form for a folder tree, a card, a Plan Card, a Job Card, or a layout. The writing rule lives in the repo `.claude/CLAUDE.md`.

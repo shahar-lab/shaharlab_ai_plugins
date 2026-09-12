@@ -12,7 +12,7 @@ defines the columns this file reads, so the two describe the same measure from t
 The count informs; the researcher decides. The cutoff is the user's number, given in the interview,
 and this file never supplies one.
 
-**When this file is routed.** Add it to the Code-Writer Card when any of these holds: the study ran in a browser (Pavlovia, Prolific, MTurk, or any online sample); `data/collected/` carries a `window_status` / `window_left_ms` column, or rows marked `event_type == "attention_event"`; the user mentions leaving the window, tab switching, losing focus, fullscreen exits, or being away from the screen. Route it on an in-person or non-browser study only if the user asks.
+**When this file is routed.** Add it to the Job Card's `ROUTED READS` when any of these holds: the study ran in a browser (Pavlovia, Prolific, MTurk, or any online sample); `data/collected/` carries a `window_status` / `window_left_ms` column, or rows marked `event_type == "attention_event"`; the user mentions leaving the window, tab switching, losing focus, fullscreen exits, or being away from the screen. Route it on an in-person or non-browser study only if the user asks.
 
 ## What the collected data carries
 
@@ -98,7 +98,7 @@ Leave it `NA_integer_` until the user gives the number. A pipeline that reaches 
 excludes nobody, and that shows up immediately in `summary_exclusions.md` as a criterion that removed
 zero participants — the safe direction, and a visible one.
 
-A cutoff the Code-Writer Card is silent on is a decision nobody has made. Return `BLOCKED` with the
+A cutoff the Job Card is silent on is a decision nobody has made. Return `BLOCKED` with the
 question phrased about the study, as `how-to-convert-raw-to-processed.md` sets out:
 
 > BLOCKED: no cutoff was given for how many times a participant may leave the study window.
