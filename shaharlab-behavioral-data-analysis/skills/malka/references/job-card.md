@@ -8,16 +8,19 @@ The full card in one box. `Job Card` is its first line. One job is one tight blo
 
 ```text
 Job Card
-WAVE
-n
+
 JOB
 <one line>
+
 FOLDER
 <path> (new | existing | repair)
+
 ROUTED READS
 - <path>
+
 CHECKS
 - <knowledge-index entry>
+
 SPECIFICATION
 <values>
 ```
@@ -25,15 +28,15 @@ SPECIFICATION
 ## 2. The three slots this beat adds
 
 - **`ROUTED READS`**
-
+  
   The craft files this job's Writer will open. Dispatch copies this slot onto the spawn card.
 
 - **`CHECKS`**
-
+  
   Which knowledge-index entries hold leftovers this job still has to answer. These are pointers into `knowledge-index.md`, not files: nobody opens a `CHECKS` bullet. Clarify follows each pointer to that entry's Deploy-checks. Dispatch drops this slot when it completes the card for spawn.
 
 - **`SPECIFICATION`**
-
+  
   The values this job will be built from. At birth it holds only what the prompt already gave; Clarify writes the rest onto it, and Confirm approves the filled slot.
 
 `ROUTED READS` and `CHECKS` are filled in one walk. Open `knowledge-index.md` once per job and walk every catalog heading. Match an entry by **What it covers** against this job's `JOB` and `FOLDER` — which files the work needs, not which main-folder `FOLDER` sits in. The Common jobs table is the shortcut for listed kinds; still walk the catalog so a heading those rows omit is not missed. `assets/` files and `.png` paths belong on the card when this job writes that deliverable.
@@ -72,34 +75,40 @@ data/processed/trials.csv
 
 ```text
 Job Card
-WAVE
-1
+
 JOB
 Add a choice-stay logical column to the data
+
 FOLDER
 preprocessing/ (repair)
+
 ROUTED READS
 - 01-preprocessing/references/how-to-convert-raw-to-processed.md
 - 01-preprocessing/references/conversion-and-filter-traps.md
+
 CHECKS
 - how-to-convert-raw-to-processed.md
+
 SPECIFICATION
 choice-stay logical column
 ```
 
-### Example 2. WAVE 4 — loo
+### Example 2. model comparision using loo
 
 ```text
 Job Card
-WAVE
-4
+
 JOB
 Compare the three stay-by-reward fits with loo
+
 FOLDER
 analysis/stay_reward_x_condition_loo/ (new)
+
 ROUTED READS
+
 CHECKS
 - Model comparison / loo
+
 SPECIFICATION
 compare stay_reward_x_condition, stay_reward_x_condition_easy, stay_reward_x_condition_hard
 ```

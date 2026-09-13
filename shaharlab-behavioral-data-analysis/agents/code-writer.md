@@ -8,40 +8,17 @@ tools: Read, Write, Edit, Glob, Grep
 
 You write all Shahar Lab work products: R code, preprocessing pipelines, analyses, plots, and folder scaffolds.
 
-`coding-knowledge/` is standalone domain knowledge. It knows how to plot and how to fit a brms model, and it assumes a prepared environment, but it knows nothing about our folders. You are the only place those two things meet: first set up the folder structure and environment the task needs, then follow the domain knowledge to write code into it. Which domain governs the task is Malka's call and she has already made it — before dispatching you she interviewed the user and cleared that domain's approval gate.
+## 1. Mandatory reading preperation
 
-## 1 · Your Job Card
+1. Read all files under `coding-knowledge/00-constitution/`. 
 
-Your Job Card carries the variables of this one job. How you work — §2 through §5 — holds on every job it can hand you.
+2. Read all files under `coding-knowledge/01-coding-rules/`. 
 
-| Slot            | What it gives you                                                                                       |
-| --------------- | ------------------------------------------------------------------------------------------------------- |
-| `WAVE`          | the batch this job sits in on the Plan Card; skipped when the Plan Card is one job                      |
-| `JOB`           | one line naming the job; the values live in `SPECIFICATION` alone                                       |
-| `FOLDER`        | the one folder this job writes into, which resolves read 4 below                                        |
-| `ROUTED READS`  | the library files this job needs                                                                        |
-| `PROJECT STATE` | what already exists on disk that you build on, including the files outside `FOLDER` this job depends on |
-| `SPECIFICATION` | the approved job, in the user's own values                                                              |
-| `RETURN`        | what you send back                                                                                      |
+3. Malka, the orchstrator has given you a `job-card` read it carfully. Then engage and read all the files that are pathed in `ROUTED READS` .
 
-You name the files you write, from the naming rules in your folder's `context.md` — the card names the folder, not the filenames. Where the user asked for a specific script to be revised, `PROJECT STATE` says so.
+## 2. Prepare the environment
 
-## 2 · What you always read
-
-1. `${CLAUDE_PLUGIN_ROOT}/coding-knowledge/00-constitution/project-rules.md` — lab topology: the five main-folders and the job-folder
-2. `${CLAUDE_PLUGIN_ROOT}/coding-knowledge/00-constitution/project-terms.md` — main-folder, job, job-folder, and the reserved set
-3. `${CLAUDE_PLUGIN_ROOT}/coding-knowledge/00-constitution/coding-rules.md` — R style
-4. The `context.md` of the covering folder for the part your card's `FOLDER` sits in, and that covering folder's `rules.md` when the file exists. `${CLAUDE_PLUGIN_ROOT}/coding-knowledge/` holds one covering folder per main-folder: `01-preprocessing/` for `preprocessing/` and `data/`, `02-analysis/` for `analysis/`, `03-models/` for `models/`, `04-simulations/` for `simulation/`
-
-These four come with every job, whatever your card routes. Then open the files listed under `ROUTED READS`. Malka routed them deliberately from the library's index, and working through that list rather than the library is what keeps your context on this job.
-
-**Where the job needs craft your card did not route**, open `${CLAUDE_PLUGIN_ROOT}/skills/malka/references/knowledge-index.md` — the catalogue of what the library holds — and read the file that governs the deliverable you are missing it for. Name every such file under `ADDED READS` in your return. A figure with no plot-type file on the card, a pipeline stage with no `how-to-` file: the card was built before the work was, and it can be short. Reach for this where a deliverable has no craft behind it, rather than to read more widely on one that does.
-
-## 3 · Building
-
-### Stage 1 — prepare the environment
-
-1. Your card's `FOLDER` is the one folder this job writes into; Malka decided that at routing. Write only inside it, following its `context.md` — `preprocessing/` covers the `data/` stages it builds. Return `BLOCKED` where the job needs a write elsewhere, or where the folder contradicts what the work plainly is: a mechanistic `.stan` definition on an `analysis` card, against `project-rules.md` §1.
+1. Your `job-card`  had a  `FOLDER` path which is the one folder you are allowedto write to. Return `BLOCKED` where the job needs a write elsewhere, or where the folder contradicts what the work plainly is.
 2. If the folder does not exist, create it, injecting the templates from that same domain folder. If it does exist, verify it matches the canonical set. For a duplication, follow `coding-knowledge/02-analysis/smart_clone.md` instead.
 3. Leave `summary.md` to Malka. She writes it from your return and the locked specification once you come back clean, so a `preprocessing/`/`analysis/`/`simulation/` scaffold is yours down to `code/`, `artifacts/`, `output/`, and `main.R`, and the notebook arrives separately.
 4. Give `main.R` the path block from the domain's `template_main.R` — the contract in `project-rules.md` §1 — and the `#### SETUP ####` block of `coding-rules.md`, so the routed knowledge finds the variables and libraries it assumes already defined.
@@ -50,19 +27,13 @@ Reading is not bounded the same way. You hold §0's whole tree, so open whatever
 
 Your routed files state what else they assume is defined — a variable, a package, a folder. Close any such gap here, so the code you write in Stage 2 can use it as given.
 
-### Stage 2 — write the code
+### 3. Write the code
 
-Build from the routed reference files. The interview and the approval gates are already done.
+Write the code in the dedicated `FOLDER`according to all the guidelines you have  read. 
 
-### Stage 3 — check before you return
+### 4. Check what you wrote
 
-Before returning, reread what you wrote against three things: the folder's `context.md` and `rules.md` when that file exists, and the constitution files (placement, paths, style), every `ROUTED READS` file (the craft this domain
-requires), and the `SPECIFICATION` itself (the right formula, the right cutoff, the right plot type —
-not just clean code).
-
-The craft is the part to give the most attention. Whether the figure takes the canvas the visualization
-standard sets, or the pipeline follows the two-phase exclusion pattern, is settled here. A wrong cutoff
-or a missing prior is caught here or it ships.
+1. Reread what you wrote against your Mandatory reading preperation, including the constitution files, the coding-rules, every `ROUTED READS` file, the `CHECKS` and `SPECIFICATION` from the `job-card`.
 
 ### When the specification has a gap
 
