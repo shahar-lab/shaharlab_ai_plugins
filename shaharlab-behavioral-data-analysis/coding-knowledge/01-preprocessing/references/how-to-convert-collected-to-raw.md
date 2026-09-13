@@ -1,4 +1,12 @@
-# How to write `converting_data_collected_to_raw.R`
+# How to write a "creating-raw-data.R" script
+
+<u>Context:</u> This document explains what needs to be addresed in order to preprocessed `collected-data` placed by the user under `data/collected` into `raw-data` placed by the code in `preprocessing` in `data/raw`. `collected-data` as you alrady know is what the machine collectes at time os testing 'as-is'. The process this document covers is how to handle major issues in `collected-data`. The user will have to prompt you and guide you on how to address these issues:
+
+- <u>Amount of files to generate under the `data/raw/` folder:</u> The user will guide you on which files should be merged from `collected-data` to become `raw-data` files. Typically, in behavioral analysis all participants' single files can be aggregated into one file. Yet, you might have several `raw-data` files. This could be files that integrates participants for different sections of the experiment, like a file for each task, a file for each self-report or demographic.
+  
+  <u>Columns</u>: Columns `collected-data` might have unessasry columns like a column that has no values, or has the same value across the whole set. These columns are not valuablefor further analysis. The columns might also not have the correct class and labels. Columns that should be a `factor` might actually render as `string`. Labels might be inaccurate. Arbitrarry coding like `1` for male and `2` for female might be in it.The user will guide you on which columns to save from `collected-data`, which to drop and what class and labels they should have. The point is to save only columns that really have information, and to tidy their names, class, labels, etcs.
+
+- <u>Missing data</u>: you might have different ways that missing data is expressed here. No way of really telling whats a missing data without a user informed guidence.The user will inform you what exactly counts as missing data and how to code it. But for R missing data is `NA`, and this usually comes from `999` `""` and similar cell values in the `collected-data`.
 
 The first `converting_` script in the pipeline. It reads `data/collected/`, restructures it into
 one tidy typed table, and saves that to `data/raw/`. The folder it writes into and the three
@@ -57,7 +65,7 @@ trials_dictionary <- tribble(
   "reward",     "numeric",   "Trial reward."
 )
 
-write_data_validation_report(df_raw, trials_dictionary, "trials")
+write_data_validation_report(df_raw, trials_dictionary, "trials", prefix = "01_")
 ```
 
 `examining_data_raw.R` runs next and reports what came out, reading both stages from disk. This
@@ -104,8 +112,8 @@ outcome <- tolower(outcome) %in% c("true", "yes", "y", "1")
 
 ## What comes next
 
-| Script | File |
-|---|---|
-| data-validation HTML | `how-to-build-data-validation.md` |
-| `examining_data_raw.R` | `how-to-examine.md` |
+| Script                               | File                                 |
+| ------------------------------------ | ------------------------------------ |
+| data-validation HTML                 | `how-to-build-data-validation.md`    |
+| `examining_data_raw.R`               | `how-to-examine.md`                  |
 | `converting_data_raw_to_processed.R` | `how-to-convert-raw-to-processed.md` |

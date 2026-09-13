@@ -157,7 +157,8 @@ a figure the specification asks for, take one as an `ADDED READ`. Export follows
 `PANEL_TAGGING_STANDARD.md` beside it.
 
 One script per figure type, named for what it plots behind its two-digit prefix, and each reads
-`per_participant.RDS` back from `artifacts/`.
+`per_participant.RDS` back from `artifacts/`. The figures it writes take that same prefix, per
+`project-rules.md` §2.
 
 ## Which measures and groupings get reported
 

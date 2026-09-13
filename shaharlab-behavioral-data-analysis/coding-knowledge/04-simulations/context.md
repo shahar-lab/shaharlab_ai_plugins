@@ -8,7 +8,7 @@ simulation/
 └── [study_name]/          e.g. param_recovery, model_sim, model_comparison
     ├── code/              short R scripts, numbered in main.R's order (01_generate_data.R, 02_fit_model.R, 03_plot_recovery.R …)
     ├── artifacts/         machine-readable derived files (generated data, fitted .rds)
-    ├── output/            human-facing results (recovery scatter plots, tables)
+    ├── output/            human-facing results, same NN as the writing script (04_recovery_scatter.pdf)
     ├── main.R             the orchestrator — sources code/ scripts in order
     └── summary.md         the notebook — what is being validated, and the verdict
 ```

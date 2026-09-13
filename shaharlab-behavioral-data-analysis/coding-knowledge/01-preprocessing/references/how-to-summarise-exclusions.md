@@ -4,13 +4,15 @@ A `summary_` script reports for the researcher and for the manuscript. Two come 
 
 | Script | Writes | Says |
 |---|---|---|
-| `summary_exclusions.R` | `output/summary_exclusions.md` | the exclusion cascade as tables, one row per criterion |
-| `summary_manuscript_paragraph.R` | `output/summary_manuscript_paragraph.md` | the same numbers as a "Data treatment" paragraph |
+| `summary_exclusions.R` | `output/NN_summary_exclusions.md` | the exclusion cascade as tables, one row per criterion |
+| `summary_manuscript_paragraph.R` | `output/NN_summary_manuscript_paragraph.md` | the same numbers as a "Data treatment" paragraph |
 
 Both run after `converting_data_raw_to_processed.R` and read the named datasets it left in the
 environment, so every number they report is the number the pipeline actually produced. The folder
 they write into and the three prefixes they are named under are defined in
 `${CLAUDE_PLUGIN_ROOT}/coding-knowledge/01-preprocessing/context.md`.
+Each report file takes the same two-digit prefix as the script, per
+`${CLAUDE_PLUGIN_ROOT}/coding-knowledge/00-constitution/project-rules.md` §2.
 
 ## `summary_exclusions.R`
 
@@ -63,7 +65,7 @@ report_lines <- c(
          " observations across ", n_distinct(df_processed$subject_id),
          " participants.**")
 )
-writeLines(report_lines, file.path(output_dir, "summary_exclusions.md"))
+writeLines(report_lines, file.path(output_dir, "05_summary_exclusions.md"))
 ```
 
 Participant tables count participants and trial tables count observations, so each table's heading
@@ -77,7 +79,7 @@ See `../assets/example-summary-exclusions.md` for a worked example of the render
 
 ## `summary_manuscript_paragraph.R`
 
-A single "Data treatment" paragraph, written to `output/summary_manuscript_paragraph.md`, with
+A single "Data treatment" paragraph, written to `output/NN_summary_manuscript_paragraph.md`, with
 every number computed from the data by the script rather than typed by hand. Assemble it with
 `paste0()` over the same objects `summary_exclusions.R` reads, so the paragraph and the tables can
 never disagree.

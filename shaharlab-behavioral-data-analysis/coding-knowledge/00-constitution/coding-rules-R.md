@@ -105,7 +105,7 @@ In sourced scripts under `code/`:
 
 * Load data via the `data_path` variable passed from `main.R`.
 * Save derived objects to `artifacts_dir` (e.g. `file.path(artifacts_dir, "fit.rds")`).
-* Save plots/tables to `output_dir` (e.g. `file.path(output_dir, "plot.png")`).
+* Save plots/tables to `output_dir` with the writing script's `NN` prefix (e.g. `file.path(output_dir, "04_plot.png")`), per `project-rules.md` §2.
 
 Each script ends with the save of what it produced, and reads any earlier step's product back
 from `artifacts_dir` at its top (e.g. `df <- readRDS(file.path(artifacts_dir, "df_trials.rds"))`)

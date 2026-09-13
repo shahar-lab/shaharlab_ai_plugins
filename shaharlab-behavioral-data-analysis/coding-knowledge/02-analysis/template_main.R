@@ -22,8 +22,9 @@ data_path     <- file.path(project_root, "data", "processed")
 
 #### EXECUTE PIPELINE ####
 
-# Each script's two-digit prefix is its position in this list; inserting a step
-# renumbers the ones after it and the source() lines here in the same edit.
+# Each script's two-digit prefix is its position in this list; every file it
+# writes to output/ takes that same prefix. Inserting a step renumbers the
+# scripts and output files after it and the source() lines here in the same edit.
 
 # 1. Data Preparation
 # Read clean data through data_path. Never copy data into

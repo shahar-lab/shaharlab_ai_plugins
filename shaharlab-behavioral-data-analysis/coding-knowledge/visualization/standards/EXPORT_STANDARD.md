@@ -16,7 +16,7 @@ Every figure must be saved in BOTH PDF and PNG. No exceptions.
 
 ### Single plot export
 ```r
-plot_name <- "posterior_effect"
+plot_name <- "04_posterior_effect"
 
 ggsave(
   file.path(output_dir, paste0(plot_name, ".pdf")),
@@ -37,7 +37,7 @@ p_final <- (p1 | p2) / p3 +
   plot_annotation(tag_levels = 'A') &
   theme(plot.tag = element_text(face = "bold", size = 14))
 
-plot_name <- "composite_results"
+plot_name <- "04_composite_results"
 
 ggsave(
   file.path(output_dir, paste0(plot_name, ".pdf")),
@@ -54,8 +54,7 @@ ggsave(
 
 ## File Naming Convention
 
-- Use descriptive names: `posterior_effect.pdf` not `plot_1.pdf`
-- Use snake_case: `scatter_observed_vs_predicted.pdf`
+- Prefix with the two-digit `source()` number of the writing script, then a descriptive snake_case stem: `04_posterior_effect.pdf`
 - Both PDF and PNG share the same basename (only extension differs)
 
 ## Post-Export Checklist

@@ -8,7 +8,7 @@ Brief them from the output paths the Writer named, plus every `ASSUMED` and ever
 
 ## Say what to look for
 
-For a preprocessing job that wrote data-validation HTML, tell them to open each `output/data-validation-*.html` and check that the grey class row and the values row match what they approved — before any analysis reads the tidy table.
+For a preprocessing job that wrote data-validation HTML, tell them to open each `output/*_data-validation-*.html` and check that the grey class row and the values row match what they approved — before any analysis reads the tidy table.
 
 For Bayesian jobs, say what a convergence problem looks like, and that they can paste the ess/rhat table back for you to read against the conventional bounds.
 

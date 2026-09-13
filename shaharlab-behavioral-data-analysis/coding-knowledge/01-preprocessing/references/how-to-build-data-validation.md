@@ -21,14 +21,15 @@ The folder it writes into and the `converting_` prefix it is named under are def
 ## Filename contract
 
 ```
-preprocessing/output/data-validation-<name>-<suffix>.html
+preprocessing/output/NN_data-validation-<name>-<suffix>.html
 ```
 
+- `NN_` — the two-digit prefix of the converting script whose `source()` writes this file (`01_`, `03_`, …), per `project-rules.md` §2
 - `<name>` — dataset short name, e.g. `trials`, `phq9`, `demographics`, `feedback`
 - `<suffix>` — `raw` (default) or `processed`
 
-The same table can legitimately have both `data-validation-phq9-raw.html` and
-`data-validation-phq9-processed.html`. Several tidy tables (task, self-report, demographics) mean
+The same table can legitimately have both `01_data-validation-phq9-raw.html` and
+`03_data-validation-phq9-processed.html`. Several tidy tables (task, self-report, demographics) mean
 several files. Never write two tables into one HTML.
 
 ## Anatomy of the rendered page
@@ -116,7 +117,8 @@ write_data_validation_report <- function(df,
                                          dictionary,
                                          name,
                                          freetext_cols = character(),
-                                         suffix = "raw") {
+                                         suffix = "raw",
+                                         prefix) {
   class_row  <- html_escape(describe_class_row(df))
   values_row <- html_escape(describe_values_row(df, freetext_cols))
 
@@ -155,7 +157,7 @@ write_data_validation_report <- function(df,
     "</html>"
   )
 
-  filename <- paste0("data-validation-", name, "-", suffix, ".html")
+  filename <- paste0(prefix, "data-validation-", name, "-", suffix, ".html")
   writeLines(html, file.path(output_dir, filename))
 }
 ```
@@ -188,7 +190,7 @@ trials_dictionary <- tribble(
   "reward",     "numeric",   "Trial reward."
 )
 
-write_data_validation_report(df_raw, trials_dictionary, "trials")
+write_data_validation_report(df_raw, trials_dictionary, "trials", prefix = "01_")
 ```
 
 A processed report is the same shape after `saveRDS` to `processed_dir`, with `suffix = "processed"`
@@ -249,7 +251,8 @@ write_data_validation_report(
   df_raw,
   feedback_dictionary,
   "feedback",
-  freetext_cols = c("task_understanding_text", "feedback_text_response")
+  freetext_cols = c("task_understanding_text", "feedback_text_response"),
+  prefix = "01_"
 )
 ```
 

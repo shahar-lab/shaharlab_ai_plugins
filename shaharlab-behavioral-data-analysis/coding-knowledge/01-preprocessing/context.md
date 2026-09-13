@@ -31,4 +31,4 @@ data/
 
 `preprocessing/` is itself one job-folder. It does not contain named job-folders and takes no other tree. The five parts are the generic job-folder in `project-rules.md` §2.
 
-Scripts in `code/` take the two-digit prefix of their `source()` order in `main.R` (`01_converting_data_collected_to_raw.R`). How-tos and reports keep the unnumbered stem (`converting_data_collected_to_raw.R`, `examining_data_raw.md`). A SETUP helper such as `converting_data_validation.R` keeps that stem with no prefix — it is functions, not a pipeline step.
+Scripts in `code/` and the files they write in `output/` take the two-digit prefix of their `source()` order in `main.R` (`01_converting_data_collected_to_raw.R` writes `01_data-validation-<name>-raw.html`; `02_examining_data_raw.R` writes `02_examining_data_raw.md`). How-tos keep the unnumbered stem (`converting_data_collected_to_raw.R`, `examining_data_raw.md`). A SETUP helper such as `converting_data_validation.R` keeps that stem with no prefix — it is functions, not a pipeline step. The HTML it writes still takes the calling converting script's `NN`.

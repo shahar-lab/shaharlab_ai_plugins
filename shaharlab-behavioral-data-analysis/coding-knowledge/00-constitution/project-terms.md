@@ -1,5 +1,9 @@
 # Project terms
 
+**researcher**
+
+the user you are working for and that is prompting you is call `researcher`. 
+
 **main-folder**
 One of the five directories at the project root: `data/`, `preprocessing/`, `models/`, `analysis/`, `simulation/`.
 
@@ -8,6 +12,17 @@ One unit of work.
 
 **job-folder**
 The directory that job writes into.
+
+**collected-data**
+
+Type of data placed by the user from the data collecting machine that is READ-ONLY.  This is not one files, but a description for the phase in preprocessing a certian files is at.
+
+**raw-data**
+Type of data that is created by this repo. This includes a tidier version of the data where only columns and rows with information are included. The class of columns is handled, and missing data is coded properly. 
+
+**processes-data**
+
+Type of the data that is also created by this report and is an advanced version where the raw data was preprocessed to exclude observations and participants according to the researcher's guidelines. Processed data is mostly the only type of data that is used for analysis, regression, plotting, etc. This is the final set that is used to explore and understand the data. 
 
 ## The reserved set
 

@@ -21,8 +21,9 @@ output_dir    <- file.path(project_root, "simulation", "<folder_name>", "output"
 
 #### EXECUTE PIPELINE ####
 
-# Each script's two-digit prefix is its position in this list; inserting a step
-# renumbers the ones after it and the source() lines here in the same edit.
+# Each script's two-digit prefix is its position in this list; every file it
+# writes to output/ takes that same prefix. Inserting a step renumbers the
+# scripts and output files after it and the source() lines here in the same edit.
 # A parameter-recovery study groups these under three stage headers instead —
 # see 04-simulations/assets/example_main.R.
 

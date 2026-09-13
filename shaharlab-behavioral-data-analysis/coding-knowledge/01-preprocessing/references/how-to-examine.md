@@ -5,6 +5,8 @@ it. Every data inspection that belongs in the pipeline is an `examining_` script
 every build rather than being done once by hand. The folder it writes into and the three prefixes
 it is named under are defined in
 `${CLAUDE_PLUGIN_ROOT}/coding-knowledge/01-preprocessing/context.md`.
+The report file takes the same two-digit prefix as the script, per
+`${CLAUDE_PLUGIN_ROOT}/coding-knowledge/00-constitution/project-rules.md` §2.
 
 A standard pipeline has two: `examining_data_raw.R` and `examining_data_processed.R`. Both run the
 same five description blocks, so their two reports line up column for column and the surviving
@@ -20,8 +22,8 @@ The type-and-domain sanity check that sits under the column names is a different
 
 | Script | Reads | Writes |
 |---|---|---|
-| `examining_data_raw.R` | `data/raw/` from disk, plus `df_collected` from the environment to account for the rows the conversion dropped | `output/examining_data_raw.md` |
-| `examining_data_processed.R` | `data/processed/` from disk | `output/examining_data_processed.md` |
+| `examining_data_raw.R` | `data/raw/` from disk, plus `df_collected` from the environment to account for the rows the conversion dropped | `output/NN_examining_data_raw.md` |
+| `examining_data_processed.R` | `data/processed/` from disk | `output/NN_examining_data_processed.md` |
 
 Read the stage this script reports on from disk by path, so the report is a statement about what is
 actually saved. The one exception is the collected row count: `data/collected/` arrives in whatever
@@ -161,7 +163,7 @@ report_lines <- c(
   "## Per condition", "",        kable(per_condition, format = "pipe"), "",
   "## Per participant", "",      kable(per_subject, format = "pipe")
 )
-writeLines(report_lines, file.path(output_dir, "examining_data_raw.md"))
+writeLines(report_lines, file.path(output_dir, "02_examining_data_raw.md"))
 ```
 
 `examining_data_processed.R` is the same file with `processed_dir`/`data_processed.RDS` in place of

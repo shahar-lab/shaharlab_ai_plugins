@@ -1,6 +1,6 @@
 # Reference: MCMC Diagnostics
 
-After a model is fit, write a separate R script that produces one `diagnostic.pdf` with these pages, in order:
+After a model is fit, write a separate R script that produces one `NN_diagnostic.pdf` — `NN` matching that script's `source()` prefix — with these pages, in order:
 
 1. **Summary table** — effective sample size (`ess_bulk`, `ess_tail`) and `rhat` per parameter
 2. **Trankplot** — rank-based trace plot per parameter (`mcmc_rank_overlay`)
@@ -35,7 +35,7 @@ summary_table[-1] <- round(summary_table[-1], 2)
 trank_plot <- mcmc_rank_overlay(draws)
 pairs_plot <- mcmc_pairs(draws)
 
-pdf(file.path(output_dir, "diagnostic.pdf"), width = 8, height = 6)
+pdf(file.path(output_dir, "03_diagnostic.pdf"), width = 8, height = 6)
 grid.arrange(tableGrob(summary_table))
 print(trank_plot)
 print(pairs_plot)
