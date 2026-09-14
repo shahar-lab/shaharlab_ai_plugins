@@ -56,13 +56,13 @@ A **job-folder** is the directory one job writes into.
 [job-folder]/
 ├── code/
 ├── artifacts/
-├── outputs/
+├── output/
 ├── main.R
 └── summary.md
 ```
 
 - **`main.R`**
-  This script is the orchestrator. It starts with clearning the workspace uisng `rm(list = ls()` and  loads the R libraries that will be use in `code/`. Next, it uses `here::here()` to settle path variables for the job-folder root, the `code`, `outputs`, and `artifacts` subfolder, and the path to the data that needs to be read for this specific analysis. The `main.R` files then lists the scripts one by one, ordered and numbered in a `source()` script that allows the user to run these one at  a time.
+  This script is the orchestrator. It starts with clearning the workspace uisng `rm(list = ls()` and  loads the R libraries that will be use in `code/`. Next, it uses `here::here()` to settle path variables for the job-folder root, the `code`, `output`, and `artifacts` subfolder, and the path to the data that needs to be read for this specific analysis. The `main.R` files then lists the scripts one by one, ordered and numbered in a `source()` script that allows the user to run these one at  a time.
 
 - **`code/`** 
   Human-facing scripts that perfom the task that is required for the specific job-folder. These can be files that run a regression, make a figure, fit a model etcs. They are run by the researcher in the main.R file, where they are sourced one-by-one. They are numbered according to their sorting in `main.R`. These scripts are written according to the lab coding rules. They are human-facing in every possible aspect since the reesrcher will need to validate them from time-to-time. Optimally, they are not too long (50-100 rows) and are well written. 
@@ -70,8 +70,17 @@ A **job-folder** is the directory one job writes into.
 - **`artifacts\`** 
   This is a subfolder that contains all machine-readable files specific to the job. These may include `.rds`, `.pkl`, `.csv`, etc. These files are typically produces by the `code` subfolders and are required for the scripts to complete their task. They should be saved in a way that is most convenitit for the code and AI, since the researcher is unlikley to explore or examine them. Each code starts by loading data or models from the data path or artifacts, and ends by saving something or producing somethings. 
 
-- **`outputs/`**
+- **`output/`**
   Human-facing outputs, including figures, tables, and manuscript excerpts. Each file is named `NN_descriptive_name.ext`, where `NN` is the same prefix as the `code/` script whose `source()` call writes it.
+
+  `preprocessing/` is the only job-folder with subfolders inside `output/`:
+
+  ```text
+  output/
+  ├── reports-collected/
+  ├── reports-raw/
+  └── reports-processed/
+  ```
 
 - **`summary.md` **
   A human-facing notebook that summarizes the job folder.

@@ -1,7 +1,7 @@
 # How to build a data-validation report
 
 A **data-validation** report is a single self-contained HTML file, one per tidy table, written to
-`preprocessing/output/`. Its job is to let a human eyeball, in one screen, whether that table left
+`preprocessing/output/reports-raw/` or `preprocessing/output/reports-processed/`. Its job is to let a human eyeball, in one screen, whether that table left
 the converting script with the **classes and value ranges the specification intended** — before any
 analysis touches it.
 
@@ -10,20 +10,19 @@ those are `how-to-examine.md` and `how-to-summarise-exclusions.md`. Do not fold 
 into the examining Markdown, and do not describe this file as a data dictionary (see
 [The dictionary argument](#the-dictionary-argument) below).
 
-`raw/` is where class and values are set and verified
-(`${CLAUDE_PLUGIN_ROOT}/coding-knowledge/01-preprocessing/context.md`). This report is that
-verification. A processed table that adds calculated columns can have one as well.
+`raw/` is where class and values are set and verified. This report is that verification. A processed
+table that adds calculated columns can have one as well.
 
-The folder it writes into and the `converting_` prefix it is named under are defined in that same
-`context.md`. `tidyverse` (`purrr`, `stringr`, `tibble`, `dplyr`) and `knitr` are loaded in
-`main.R`'s `#### SETUP ####`; `output_dir` is defined there. Call functions directly.
+`template-main.md` defines both report paths. `tidyverse` (`purrr`, `stringr`, `tibble`, `dplyr`)
+and `knitr` are loaded in `main.R`'s `#### SETUP ####`. Call functions directly.
 
 ## Filename contract
 
 ```
-preprocessing/output/NN_data-validation-<name>-<suffix>.html
+preprocessing/output/reports-<stage>/NN_data-validation-<name>-<suffix>.html
 ```
 
+- `<stage>` — `raw` or `processed`, matching the table being validated
 - `NN_` — the two-digit prefix of the converting script whose `source()` writes this file (`01_`, `03_`, …), per `project-rules.md` §2
 - `<name>` — dataset short name, e.g. `trials`, `phq9`, `demographics`, `feedback`
 - `<suffix>` — `raw` (default) or `processed`
@@ -158,7 +157,8 @@ write_data_validation_report <- function(df,
   )
 
   filename <- paste0(prefix, "data-validation-", name, "-", suffix, ".html")
-  writeLines(html, file.path(output_dir, filename))
+  report_dir <- if (identical(suffix, "processed")) reports_processed_dir else reports_raw_dir
+  writeLines(html, file.path(report_dir, filename))
 }
 ```
 
@@ -204,7 +204,7 @@ rides on.
 ### Type coercion is the substance of the whole exercise
 
 The report only has value if the coercion block above it is deliberate. Patterns live in
-`how-to-convert-collected-to-raw.md` and `conversion-and-filter-traps.md`. What this file adds:
+`01_convert-collected-to-raw.md` and `conversion-and-filter-traps.md`. What this file adds:
 
 - Numeric columns: `as.numeric(...)`.
 - Identity/grouping columns: `factor()` or `as.character()`, as the specification says.
@@ -271,13 +271,13 @@ line in `main.R`'s style, saying what the step builds and which artifacts it wri
 HTML path.
 
 Sourced scripts inherit the environment from `main.R`. They must **not** call `library()` and must
-**not** redefine paths — `output_dir`, `raw_dir`, `processed_dir`, `collected_dir`, `project_root`
+**not** redefine paths — `reports_raw_dir`, `reports_processed_dir`, `raw_dir`, `processed_dir`, `collected_dir`, `project_root`
 are all already defined there. If a new package is genuinely needed, add it to `main.R`'s
-`#### SETUP ####` block. `knitr` is already in `template_main.R`.
+`#### SETUP ####` block. `knitr` is already in `template-main.md`.
 
 ## Rules for the code
 
-- Write the HTML to `output_dir` only. The tidy table still saves to `raw_dir` or `processed_dir`.
+- Write the HTML to `reports_raw_dir` or `reports_processed_dir`. The tidy table still saves to `raw_dir` or `processed_dir`.
 - Call `write_data_validation_report()` on the in-memory typed frame, immediately after the save.
 - Reuse the helper. A second HTML generator in a dataset script is the wrong split.
 - Chain operations with the base pipe `|>`, and call functions directly.
@@ -291,4 +291,4 @@ are all already defined there. If a new package is genuinely needed, add it to `
 | Script | File |
 |---|---|
 | `examining_data_raw.R` / `examining_data_processed.R` | `how-to-examine.md` |
-| `converting_data_raw_to_processed.R` | `how-to-convert-raw-to-processed.md` |
+| `converting_data_raw_to_processed.R` | `02_convert-raw-to-processed.md` |

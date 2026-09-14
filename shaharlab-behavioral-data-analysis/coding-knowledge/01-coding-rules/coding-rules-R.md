@@ -117,7 +117,7 @@ datasets the `converting_` script before them left in the environment — `df_co
 `after_*` frames, the excluded-ID vector — because every exclusion count they report has to be the
 one the pipeline actually produced, and a count recomputed from a saved file is a second measurement
 that can disagree with the first. That folder's scripts are therefore run in `main.R`'s order rather
-than individually; `01-preprocessing/context.md` states the folder, and the
+than individually; `project-rules.md` states the folder structure, `01-preprocessing/template-main.md` defines its paths, and the
 `01-preprocessing/references/` how-to files name the datasets each script leaves behind. Open each script with a
 one-line note of its two ends, so reading `main.R` shows where the pipeline can be resumed:
 

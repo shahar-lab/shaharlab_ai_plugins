@@ -5,24 +5,21 @@ Words Malka uses, and what they mean.
 ## Agents
 
 **Malka**
-The lab's analysis orchestrator. She talks with you, gets your approval, then sends the Code Writer to write the code.
+The lab's analysis orchestrator. She specifies every job with you, executes a single job, and dispatches Code Writers for multiple jobs.
 
 **Code Writer**
 Writes the code and the other files in a job-folder.
 
-**Data Explorer**
-Looks at your data during the interview so later questions are grounded in what's actually there. Reads only; writes nothing.
-
 ## Cards
-
-**Plan Card**
-This request's job index: `JOB`, `FOLDER`, and `WAVE` when there is more than one job. Printed in full in the chat.
 
 **Summary Card**
 The plain-English write-up you approve before any code is written.
 
 **Job Card**
-The instructions for one job. Born at Plan from a Plan Card line; locked at Confirm; completed at Dispatch for spawn.
+The complete instructions for one job. Created before Clarify, approved at Confirm, then executed by Malka or a Code Writer.
+
+**Handback Card**
+The checked delivery for one job: its status, changed files, entry point, outputs to inspect, and any `BLOCKED`, `ASSUMED`, or `ADDED READS` tags.
 
 ## UI elements
 
@@ -35,22 +32,19 @@ A checklist line in the chat. The terminal UI picks it up. Clarify's leftover qu
 ## User interview step
 
 **interview**
-The conversation before anything is built: Plan, Clarify, Confirm.
+The conversation before anything is built: Specify, Clarify, Confirm.
 
-**Plan**
-Malka counts the jobs, prints the Plan Card, then writes one Job Card per line — walking `knowledge-index.md` once per job to fill `ROUTED READS` and `CHECKS`.
+**Specify**
+Malka splits the request into one Job Card per job-folder, then fills `ROUTED READS` and `CHECKS` from `02-knowledge-index.md`.
 
 **Clarify**
-Malka reads Deploy-checks on the knowledge-index entries listed in each Job Card's `CHECKS`, then asks for leftover values — not your science. Answers write into that Job Card's `SPECIFICATION`.
+Malka reads the actual questions under each Job Card's `CHECKS`, asks for leftover values, and writes the answers into `SPECIFICATION`.
 
 **Confirm**
-Malka shows you a Summary Card and waits. Nothing is built until you say yes. Revise returns to Clarify. Wrong jobs return to Plan. On yes, the Plan Card and the Job Cards are written to `.malka/current_job.md`.
+Malka shows you a Summary Card and waits. Nothing is built until you say yes. Revise returns to the affected Job Cards and Clarify. On yes, the Job Cards are written to `.malka/current_job.md`.
 
-**deploy-checks**
-Leftover questions on a knowledge-index entry, written as an ordered bullet list. Plan copies that entry's Path onto the Job Card's `CHECKS` in the same walk that fills `ROUTED READS`. Clarify walks the bullets in that order. The Writer reads the how-to.
-
-**Exploration Pass**
-A look at your data during the interview. Not a run.
+**`CHECKS`**
+The actual clarification questions copied from a knowledge-index entry onto a Job Card. Clarify answers them in `SPECIFICATION`.
 
 **the gate**
 That approval. Work does not start without it, and it is the only one.
@@ -62,10 +56,7 @@ What you approved — the formulas, thresholds, and settings the code has to fol
 This request's full list of jobs. One request, one run.
 
 **job**
-One unit of work: one folder, one Writer.
-
-**`WAVE`**
-A batch of jobs on the Plan Card. WAVEs run in order (serial). Jobs in the same WAVE run together (parallel). When the Plan Card is one job, the heading is skipped.
+One unit of work in one job-folder, executed by Malka or one Code Writer.
 
 ## Agents dispatch
 
@@ -76,10 +67,10 @@ Malka sends a Writer for each ready job, until the list is done.
 Sending a Writer out to build a job.
 
 **route**
-Which lab how-to files the Writer is told to read for this job. Plan writes those paths on the Job Card's `ROUTED READS`.
+Which lab how-to files the executor reads for this job. Their paths appear under the Job Card's `ROUTED READS`.
 
 **standing read**
-Files the Writer always opens — project rules, coding rules, and that folder's templates.
+Files every executor opens — project rules, coding rules, and that folder's templates.
 
 **`FOLDER`**
 Which job-folder this work writes into.
@@ -93,7 +84,7 @@ One of the five directories at the project root: `data/`, `preprocessing/`, `mod
 The directory one job writes into.
 
 **canonical set**
-The usual contents of a job-folder: `code/`, `artifacts/`, `output/`, `main.R`, `summary.md`. A `models/` job-folder is the exception — two files, no canonical set.
+The usual contents of a job-folder: `code/`, `artifacts/`, `output/`, `main.R`, `summary.md`. Preprocessing alone adds `reports-collected/`, `reports-raw/`, and `reports-processed/` inside `output/`. A `models/` job-folder is the exception — two files, no canonical set.
 
 **fit**
 One fitted model — one `brm()` or `stan()` call, one combination of formula, family, and analyzed subset.
@@ -110,13 +101,13 @@ The notebook that lives in the job-folder. Not the Summary Card you approved.
 Values only you may choose — the numbers that reach a manuscript, named in `project-terms.md`. No one else picks these.
 
 **`ASSUMED`**
-A default the Writer took because you didn't specify something that wasn't reserved. Malka will tell you about these.
+A defensible non-reserved default used while executing a Job Card. Malka reports it at Handback.
 
 **`BLOCKED`**
-The Writer stopped because something only you can decide was missing.
+Execution stopped because a reserved user decision or required input was missing.
 
 **`ADDED READS`**
-The Writer opened a how-to file Malka hadn't pointed it at. Not a failure.
+Guidance opened beyond the Job Card's `ROUTED READS`.
 
 ## Recovery studies
 
@@ -135,10 +126,7 @@ The values the data were generated from.
 **recovered parameters**
 What the fit got back, compared against the true parameters.
 
-## When you come back
-
-**the return trip**
-What happens when you return after running the code — a repair, a look at diagnostics, or writing the findings down.
+## Revisions
 
 **new science**
 A different formula or a new cutoff. That needs a new interview, because you have to approve it.
@@ -146,4 +134,4 @@ A different formula or a new cutoff. That needs a new interview, because you hav
 ## Skill design terms
 
 **Structure Legend**
-A heading, a skeleton box, then one bullet per named bit of the shape. The form for a folder tree, a card, a Plan Card, a Job Card, or a layout. The writing rule lives in the repo `.claude/CLAUDE.md`.
+A heading, a skeleton box, then one bullet per named bit of the shape. The form for a folder tree, a card, a Job Card, or a layout. The writing rule lives in the repo `.claude/CLAUDE.md`.

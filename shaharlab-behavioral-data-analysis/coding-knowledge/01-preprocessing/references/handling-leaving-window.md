@@ -99,7 +99,7 @@ excludes nobody, and that shows up immediately in `summary_exclusions.md` as a c
 zero participants — the safe direction, and a visible one.
 
 A cutoff the Job Card is silent on is a decision nobody has made. Return `BLOCKED` with the
-question phrased about the study, as `how-to-convert-raw-to-processed.md` sets out:
+question phrased about the study, as `02_convert-raw-to-processed.md` sets out:
 
 > BLOCKED: no cutoff was given for how many times a participant may leave the study window.
 

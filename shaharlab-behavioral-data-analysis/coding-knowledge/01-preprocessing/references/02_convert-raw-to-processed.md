@@ -2,8 +2,8 @@
 
 The second `converting_` script in the pipeline. It reads `data/raw/`, applies the exclusions the
 user approved, adds the calculated columns the plan names, and saves the result to
-`data/processed/`. The folder it writes into and the three prefixes it is named under are defined
-in `${CLAUDE_PLUGIN_ROOT}/coding-knowledge/01-preprocessing/context.md`.
+`data/processed/`. Its data and report paths are defined in
+`${CLAUDE_PLUGIN_ROOT}/coding-knowledge/01-preprocessing/template-main.md`.
 
 Every criterion and every cutoff in this script came from the user through Malka's interview and
 arrives in the Job Card. Implement exactly the approved plan.
@@ -82,7 +82,7 @@ write_data_validation_report(
 ## Rules for the code
 
 - Read from `raw_dir` and write the tidy table to `processed_dir`; a processed data-validation
-  HTML goes to `output_dir`. All three variables come from `main.R`.
+  HTML goes to `reports_processed_dir`. All three variables come from `main.R`.
 - Anchor every path with `project_root <- here::here()` and build it with `file.path()`.
 - Chain operations with the base pipe `|>`, and call functions directly, adding any missing
   package's `library()` call to `main.R`'s `#### SETUP ####` block.

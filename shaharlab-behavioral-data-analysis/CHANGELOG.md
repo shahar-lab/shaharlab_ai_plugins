@@ -2,16 +2,20 @@
 
 ## [Unreleased]
 
-- **Job Card split.** The Plan Card is the index only (`WAVE`, `JOB`, `FOLDER`), printed in full. Plan then writes one **Job Card** per line (`interview-job-card.md`): `JOB`, `FOLDER`, `ROUTED READS`, `CHECKS`, `SPECIFICATION`, and `WAVE` when the Plan has more than one job. The knowledge-index walk lives in `interview-job-card.md` §2. Clarify reads each Job Card's `CHECKS` and writes answers onto that card's `SPECIFICATION`. Confirm locks the Plan Card and the Job Cards to `.malka/current_job.md`. Dispatch reads that file and completes each Job Card for spawn (`dispatch-job-card.md`: drop `CHECKS`, add `PROJECT STATE` / `RETURN`, prefix `coding-knowledge/`). **Code-Writer Card** is retired; the agent is still **Code Writer**. `dispatch-code-writer-card.md` is `dispatch-job-card.md`.
+- **Job Cards are the only job index and execution contract.** One Job Card is created per job-folder, and dependencies are written in `SPECIFICATION`. Confirm writes only approved Job Cards to `.malka/current_job.md`.
+- **Malka's references now follow runtime order.** `01-job-card.md`, `02-knowledge-index.md`, `03-interview-clarify.md`, `04-confirm-card.md`, `05-executing-job.md`, `06-dispatch.md`, and `07-handback-card.md`.
+- **Single and multiple jobs share one execution guide.** Malka executes one Job Card directly; Code Writers execute multiple Job Cards using the same `05-executing-job.md` contract, including `summary.md`, `BLOCKED`, `ASSUMED`, and `ADDED READS`.
+- **The knowledge index now matches files on disk.** Analysis and preprocessing paths are corrected. Each entry's actual `CHECKS` bullets are copied directly onto the Job Card and clarified there.
+- **Preprocessing now has dedicated Markdown templates.** `template-main.md` replaces `folder-template.md`, `template-summary.md` defines its notebook, and `output/` separates reports into collected, raw, and processed subfolders.
+- **Post-run recovery guidance is retired.** Handback ends by inviting errors, diagnostics, results, or a code walkthrough.
 - **`code/` scripts and `output/` files take a two-digit prefix from `main.R` order.** `project-rules.md` §2 names the form (`NN_descriptive_name.R` / `NN_descriptive_name.ext`) and the renumber-with-`source()` action. An output file takes the same `NN` as the `source()` that writes it. Preprocessing `context.md` §3 states that how-tos keep the unnumbered stem and SETUP helpers stay unprefixed.
-- **Clarify** replaces Critique. The interview is Plan → Clarify → Confirm. `interview-clarify.md` is the beat file; `interview-critique.md` is gone. Talk is retired. Clarify: context, read the Job Card `CHECKS`, profile the data, form questions, ask, update that Job Card.
-- **Confirm** rewritten to the Plan Card shape: context, Structure Legend of the Summary Card, examples, then how Revise returns to Plan or Clarify. Yes locks the Plan Card and the Job Cards to `.malka/current_job.md`.
-- **Deploy-checks live on `knowledge-index.md`.** Each craft file is one heading and one box of three bullets — Path, What it covers, Deploy-checks. The When column and the three-column table are gone. Deploy-checks holds nested leftover bullets. Sibling `*_checks.md` and folder-level `pre-deploy-checks.md` are gone. Plan copies matching Paths onto each Job Card's `ROUTED READS` and, when Deploy-checks apply, onto `CHECKS`; Clarify walks the bullets; the Writer reads the how-to.
-- **Dispatch returns** are a short tag treatment in `dispatch.md`; emission rules stay in `agents/code-writer.md`. The `BLOCKED` action table stays. WAVEs run serial; jobs in a WAVE run parallel.
-- **Code Reviewer files are gone.** `dispatch-reviewer-card.md` and `agents/code-reviewer.md` deleted. Dispatch is Writer-only: a clean return writes `summary.md`, then Handback briefs from output paths, `ASSUMED`, and `ADDED READS`. Restore point before this removal is commit `4eb8ec8`.
+- **Data exploration during Clarify is retired.** Malka now finds gaps by comparing the prompt, `CHECKS`, and `SPECIFICATION`, asks the researcher, and records each answer.
+- **Confirm** presents one Summary Card and locks the approved Job Cards to `.malka/current_job.md`.
+- **Dispatch returns** are handled in `06-dispatch.md`. Independent jobs can run in parallel; dependent jobs wait for their inputs.
+- **Code Reviewer files are gone.** `dispatch-reviewer-card.md` and `agents/code-reviewer.md` deleted. Dispatch is Writer-only; Handback checks the completed files against each Job Card.
 - **Runtime `.md` files** open with a context/goal paragraph. The `coding-knowledge/` page format (context first, then fixed sections) is stated in `.claude/CLAUDE.md`; this pass does not rewrite every craft page.
 - **Reserved set restored to `project-terms.md`.** Citations that pointed at `project-rules.md` §2 now point at `project-terms.md`.
-- **Cards** in `TERMS.md`: Plan Card, Summary Card, Job Card. Plan Card slots in `interview-plan-card.md` and Job Card slots in `interview-job-card.md` / `dispatch-job-card.md` are Structure Legends.
+- **Cards** in `TERMS.md`: Summary Card, Job Card, and Handback Card.
 - **UI elements** in `TERMS.md`: `AskUserQuestion` is Claude Code's question dialog. `- [ ]` is the checklist fallback (Clarify leftovers, Summary Card Confirm & Execute / Revise).
 - **Structure Legend** is the named form for a heading, a skeleton box, then one bullet per named bit. The writing rule lives in the repo `.claude/CLAUDE.md`.
 
@@ -27,7 +31,7 @@
 
 ## [2.0.3] — 2026-09-11
 
-- **Malka is three linear steps.** Interview (Talk, Count, Critique, Confirm), Dispatch subagents (Cards, then Dispatch), Hand back. Count and the disk file live inside the interview; there is no planning step and no return-trip step. The return trip stays a file the closer opens. A different formula or a new cutoff is **new science**: that is Step 1.
+- **Malka is three linear steps.** Interview (Talk, Count, Critique, Confirm), Dispatch subagents (Cards, then Dispatch), Hand back. Count and the disk file live inside the interview. A different formula or a new cutoff is **new science**: that is Step 1.
 - **Talk, Count, Critique, Confirm.** Critique is criticizing your own draft specification for gaps, not criticizing the researcher's science. It offers no opinion on their formula. `interview-points.md` files stay leftover checks, opened per Counted job, not one domain for the whole request.
 - **Confirm writes `.malka/current_job.md`.** The Summary Card is folders plus values; on yes the plan is locked to disk. `planning.md` no longer announces the folders after the gate.
 - **`knowledge-index.md` is a lookup.** Trigger → path tables, a compact common-job table, one maintenance line. The point-file table and the seven worked-route chapters are gone. Reviewer `POINTS` is the sibling of each `interview-points.md` Critique opened.
@@ -44,7 +48,7 @@
   gains a `POINTS` slot for those paths. Still no how-tos on the Reviewer — `POINTS` is not
   `ROUTED READS`.
 
-- **`SKILL.md` is a spine: goal, the file to read, nothing the file already says.** Each step states its goal and names one follow-file. The approval halt at Step 1 and the step-to-step ordering stay in SKILL.md. The closer names `return-trip.md` and new science.
+- **`SKILL.md` is a spine: goal, the file to read, nothing the file already says.** Each step states its goal and names one follow-file. The approval halt at Step 1 and the step-to-step ordering stay in SKILL.md.
 
 - **`01-preprocessing/context.md` rewritten to three sections.** §1 goal (only main-folder that
   writes into `data/`); §2 `preprocessing/` is itself one job-folder; §3 the three `data/` stages
@@ -190,14 +194,6 @@
   withheld it. Every value that reaches the code now appears on the card in plain English, and the card
   names any `data/` stage the run will overwrite together with the folders that read it — the one thing
   on it a researcher cannot infer from their own request.
-
-- **Step 6, the return trip.** The workflow ended at handback, so a lab member whose tenth script
-  errored started a new request and re-ran the interview and the plan for work that already existed.
-  `references/return-trip.md` receives what running the code produced: the pasted console output, a
-  repair dispatch against the same approved specification (bounded at two attempts on one script), a
-  diagnostic table read against the conventional bounds, and the folder's findings written down. That
-  last one gives `summary.md`'s findings section an owner — it had a standing "fill this in once the
-  model is fitted" note addressed to nobody, and nothing in the system ever returned to it.
 
 - **`ADDED READS`.** `dispatch.md` defined a recovery for under-routing — "`BLOCKED`, naming a file it
   needs" — that nothing could produce: the Writer was bounded to `ROUTED READS` "and only those" and

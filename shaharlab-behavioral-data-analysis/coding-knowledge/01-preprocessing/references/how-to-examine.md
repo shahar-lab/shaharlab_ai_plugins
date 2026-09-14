@@ -4,7 +4,7 @@ An `examining_` script reads one data stage from disk and writes one Markdown re
 it. Every data inspection that belongs in the pipeline is an `examining_` script, so it reruns with
 every build rather than being done once by hand. The folder it writes into and the three prefixes
 it is named under are defined in
-`${CLAUDE_PLUGIN_ROOT}/coding-knowledge/01-preprocessing/context.md`.
+`${CLAUDE_PLUGIN_ROOT}/coding-knowledge/01-preprocessing/template-main.md`.
 The report file takes the same two-digit prefix as the script, per
 `${CLAUDE_PLUGIN_ROOT}/coding-knowledge/00-constitution/project-rules.md` §2.
 
@@ -13,17 +13,16 @@ same five description blocks, so their two reports line up column for column and
 sample reads side by side against the full one. A study with a further stage adds one
 `examining_` script for it, on the same pattern.
 
-**This file is the pipeline's statistical examination.** The one-off pass over a `data/` stage that
-happens before any code exists — the profile that feeds Malka's interview — is `exploration.md`.
-The type-and-domain sanity check that sits under the column names is a different output:
+**This file is the pipeline's statistical examination.** The type-and-domain sanity check that
+sits under the column names is a different output:
 `how-to-build-data-validation.md`, one self-contained HTML per tidy table.
 
 ## What an examining script reads and writes
 
 | Script | Reads | Writes |
 |---|---|---|
-| `examining_data_raw.R` | `data/raw/` from disk, plus `df_collected` from the environment to account for the rows the conversion dropped | `output/NN_examining_data_raw.md` |
-| `examining_data_processed.R` | `data/processed/` from disk | `output/NN_examining_data_processed.md` |
+| `examining_data_raw.R` | `data/raw/` from disk, plus `df_collected` from the environment to account for the rows the conversion dropped | `output/reports-raw/NN_examining_data_raw.md` |
+| `examining_data_processed.R` | `data/processed/` from disk | `output/reports-processed/NN_examining_data_processed.md` |
 
 Read the stage this script reports on from disk by path, so the report is a statement about what is
 actually saved. The one exception is the collected row count: `data/collected/` arrives in whatever
@@ -163,7 +162,7 @@ report_lines <- c(
   "## Per condition", "",        kable(per_condition, format = "pipe"), "",
   "## Per participant", "",      kable(per_subject, format = "pipe")
 )
-writeLines(report_lines, file.path(output_dir, "02_examining_data_raw.md"))
+writeLines(report_lines, file.path(reports_raw_dir, "02_examining_data_raw.md"))
 ```
 
 `examining_data_processed.R` is the same file with `processed_dir`/`data_processed.RDS` in place of
@@ -175,7 +174,7 @@ See `../assets/example-examining-report.md` for a worked example of the rendered
 ## Rules for the code
 
 - Read the stage by path from `raw_dir` or `processed_dir`, both set in `main.R`.
-- Write the report to `output_dir`; a script that saves data to `data/` is a `converting_` script.
+- Write raw reports to `reports_raw_dir` and processed reports to `reports_processed_dir`; a script that saves data to `data/` is a `converting_` script.
 - Build every table from the data objects themselves, so each number recomputes when the data
   changes.
 - Chain operations with the base pipe `|>` and named intermediate objects, calling functions

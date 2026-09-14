@@ -29,7 +29,7 @@ Summary Card
 
 - **Body**
 
-  One paragraph per job, or a short run of paragraphs when several jobs belong together. Take the folders from the Plan Card and the values from the Job Cards. Every formula, cutoff, family, prior, sampling setting, plot type, and recovery criterion that will appear in the code appears here, in the researcher's words. Where the Plan Card rebuilds a `data/` stage that existing folders read, say so and name them — that is the one thing on the Summary Card the user cannot infer from their own request. Where a later WAVE waits, say that it waits.
+  One paragraph per Job Card, or a short run of paragraphs when several jobs belong together. Include every folder, formula, cutoff, family, prior, sampling setting, plot type, and recovery criterion that will appear in the code. When a job rebuilds a `data/` stage that existing folders read, name those folders. When one job waits for another, say what it waits for.
 
 - **`- [ ] Confirm & Execute` / `- [ ] Revise`**
 
@@ -93,8 +93,8 @@ histogram panel following lab themes.
 
 **Revise** is a return into the interview, not a new request.
 
-- Jobs, folders, or WAVEs are wrong → go back to Plan. Rebuild the Plan Card and the Job Cards, then Clarify, then Confirm.
+- Jobs, folders, or dependencies are wrong → rebuild the affected Job Cards, then Clarify and Confirm again.
 - A leftover value is wrong or still missing → go back to Clarify. Update that Job Card's `SPECIFICATION`, then Confirm again.
 - Wording on the Summary Card is the only issue → edit the card and present it again.
 
-On **Confirm & Execute**, write the Plan Card and the Job Cards to `.malka/current_job.md`. Then go to Step 2.
+On **Confirm & Execute**, write the approved Job Cards to `.malka/current_job.md`. Then go to Step 2.

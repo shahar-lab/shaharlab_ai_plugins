@@ -35,7 +35,7 @@ the study: one generating design, one question about how the model behaves.
 
 - **Parameter recovery** — generate data from known parameters, fit the model back, and compare
   true against recovered values. Its figure is a scatter plot with the diagonal reference line, built
-  from the `02-analysis/visualization/` scatter knowledge; take that file as an `ADDED READ` where the card
+  from the `visualization/` scatter knowledge; take that file as an `ADDED READ` where the card
   carried no plot-type file.
 - **Model simulation** — generate behavior under a set of parameters and check it reproduces the
   qualitative pattern the task is meant to elicit.

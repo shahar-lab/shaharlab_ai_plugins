@@ -3,7 +3,7 @@
 Behavioral data analysis in R for the Shahar Lab (Tel Aviv University).
 Bundles the lab's brms Bayesian-regression workflow, data preprocessing,
 visualization standards, project scaffolding, and R code walkthroughs — plus Malka,
-the orchestrator skill that interviews you and directs the Code Writer that builds the work.
+the orchestrator skill that specifies, executes, and checks each job.
 
 > Installation is documented once at the [repo root README](../README.md).
 > This file lists what the plugin provides.
@@ -23,8 +23,8 @@ routes to the right one.
 
 Three steps.
 
-1. **Interview** — Plan, Clarify, Confirm. You approve one Summary Card. Nothing is built until you say yes.
-2. **Dispatch subagents** — complete one Job Card per ready job and spawn those Writers. Later WAVEs wait until earlier WAVEs are done.
+1. **Specify and confirm** — one Job Card per job, Clarify, then one Summary Card for approval.
+2. **Execute** — Malka handles one job directly; multiple jobs use one Code Writer per Job Card, with dependent jobs waiting for their inputs.
 3. **Hand back** — what to run and what to look at. Malka does not run R.
 
 A new formula or a new cutoff is **new science**: that is a new interview.
@@ -33,48 +33,49 @@ A new formula or a new cutoff is **new science**: that is a new interview.
 
 `SKILL.md` is the spine: each step carries its goal, the reference file to read, and nothing that reference already states.
 
-How the subagent *behaves* — the reads it always takes, how it reports, what it returns — lives in
-its own agent file rather than in the card, so a card carries only what varies from job to job.
+Execution behavior lives in `05-executing-job.md`, shared by Malka and the Code Writer.
+A Job Card carries only what varies from job to job.
 
 `coding-knowledge/` is not a skills folder — nothing under it has a `SKILL.md`, triggers on its
-own, or runs independently. Each numbered subfolder holds the `context.md`, templates, and craft
+own, or runs independently. Each numbered subfolder holds its templates and craft, plus `context.md`
+or `rules.md` where present,
 for one or two main-folders, which Malka points the subagent at through the card. Each covering
-folder's craft files are listed in `knowledge-index.md`. Each file is one heading
-and one box of three bullets — Path, What it covers, Deploy-checks. Plan copies matching
-Paths onto each Job Card's `ROUTED READS` and, when Deploy-checks apply, onto `CHECKS`. The Writer reads the how-to, not the checks.
+folder's craft files are listed in `02-knowledge-index.md`. Each file is one heading
+and one box of three bullets — Path, What it covers, CHECKS. Malka copies matching
+Paths onto each Job Card's `ROUTED READS` and copies the actual CHECKS bullets onto `CHECKS`.
 
 | Path                                 | Malka reads it for…                                                                                                                                                                                                                                                                                                     |
 | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `coding-knowledge/00-constitution/`  | the project rules and R coding rules every build reads                                                                                                                                                                                                                                                                  |
-| `coding-knowledge/01-preprocessing/` | cleaning, reshaping, excluding, examining, or reporting behavioral data — one `how-to-` file per script kind (`converting_`, `examining_`, `summary_`), building `data/raw` + `data/processed`, the Markdown examination and exclusion reports, a data-validation HTML per tidy table, and a manuscript-ready exclusions paragraph |
-| `coding-knowledge/02-analysis/`      | empirical analyses of real data. Holds `regression/` (Bayesian/brms sampling, priors, diagnostics), `visualization/` (color, panel-tagging, plot-type, and export standards), `descriptives/` (participant counts, demographics tables, questionnaire distributions), and `smart_clone.md` for duplicating a job-folder |
+| `coding-knowledge/01-preprocessing/` | cleaning, reshaping, excluding, examining, or reporting behavioral data — `template-main.md`, `template-summary.md`, and stage-specific report folders under `output/`, plus one `how-to-` file per script kind |
+| `coding-knowledge/02-analysis/`      | structure, templates, rules, and `smart_clone.md` for empirical-analysis job-folders |
+| `coding-knowledge/regression/`       | Bayesian/brms sampling, priors, and diagnostics |
+| `coding-knowledge/visualization/`    | color, panel-tagging, plot-type, and export standards |
+| `coding-knowledge/descriptives/`     | participant counts, demographics tables, questionnaire distributions |
 | `coding-knowledge/03-models/`        | writing a `models/` definition as a generating `.R` and fitting `.stan` pair                                                                                                                                                                                                                                            |
 | `coding-knowledge/04-simulations/`   | parameter-recovery and other studies on model-generated data — building the pipeline and reading its recovery                                                                                                                                                                                                           |
 
-Every covering folder holds one `context.md` stating the structure and file naming of the
-main-folder it documents, the templates that build that job-folder beside it, and the craft the
-subagent reads while it works. `00-constitution/` matches no main-folder, so it holds the two
-rules files alone.
+Each covering folder holds the templates that build its job-folder, any applicable `context.md` or
+`rules.md`, and the craft the subagent reads while it works. `00-constitution/` matches no
+main-folder, so it holds the two rules files alone.
 
-How the craft is arranged follows how much of it there is. `01-preprocessing/`, `03-models/`,
-and `04-simulations/` keep theirs in a `references/` folder, with worked examples in `assets/`.
-`02-analysis/` holds enough to group by kind instead, so `regression/`, `visualization/`, and
-`descriptives/` sit directly beside `smart_clone.md`.
+`01-preprocessing/`, `03-models/`, and `04-simulations/` keep craft in `references/`,
+with worked examples in `assets/`. Analysis craft is grouped at the coding-knowledge root
+under `regression/`, `visualization/`, and `descriptives/`.
 
-`context.md` and the templates are the standing read for any job landing in that main-folder. The
-craft files are routed per card, from `knowledge-index.md`, which carries every one of their paths.
+Templates and any applicable `context.md` or `rules.md` are standing reads for a job landing in that
+main-folder. Craft files are routed per card from `02-knowledge-index.md`, which carries every one of
+their paths.
 
 Craft is routed by path, not owned by one main-folder: an `analysis/` job and a `simulation/` job
-both route into `02-analysis/visualization/` for figures, and a `simulation/` job fitting brms on
-generated data routes into `02-analysis/regression/`.
+both route into `visualization/` for figures, and a `simulation/` job fitting brms on
+generated data routes into `regression/`.
 
 ## Agents
 
-Two subagent types, available once the plugin is loaded — dispatched by `malka`, not
-invoked directly:
+One subagent type is available once the plugin is loaded:
 
-- **`data-explorer`** — profiles a `data/` stage during Step 1 after Plan by running R over it (`data/collected/` for a preprocessing job, `data/processed/` for an analysis job in WAVE 1). The only agent here with a shell, and it writes nothing.
-- **`code-writer`** — prepares the job-folder, writes the code from the `coding-knowledge/` files Malka named on the Job Card, then checks its own work against the same rules and the approved specification before returning. One spawn per job.
+- **`code-writer`** — executes one approved Job Card when the request contains multiple jobs.
 
 There is no orchestrator agent — the orchestrator is the `malka` skill itself, so it runs in the main conversation thread where the user actually is (a subagent has no one to interview or wait on for approval).
 
@@ -89,11 +90,11 @@ entry points.
 - **Plain language** — describe the task ("clean my behavioral data," "fit a brms model on choice ~ reward"). Claude routes to Malka based on her `description`. This depends on the model recognizing the match, so it isn't guaranteed the way naming the skill is.
 - **`code-walkthrough` directly** — `/shaharlab-behavioral-data-analysis:code-walkthrough` to go straight to it without Malka.
 
-Lab rules (folder topology, R style) are **not** injected automatically into every session — the code-writer reads them on demand from `coding-knowledge/00-constitution/`, only when a lab task is actually in progress. This keeps unrelated sessions free of lab-specific context.
+Lab rules (folder topology, R style) are **not** injected automatically into every session — the executor reads them on demand only when a lab task is in progress. This keeps unrelated sessions free of lab-specific context.
 
 ## Terms
 
-See [`TERMS.md`](TERMS.md) for the vocabulary of the Malka workflow — Summary Card, Plan Card, Job Card,
+See [`TERMS.md`](TERMS.md) for the vocabulary of the Malka workflow — Summary Card, Job Card, Handback Card,
 job, dispatch, fit, `ASSUMED`, `BLOCKED`, and the rest.
 
 ## What changed

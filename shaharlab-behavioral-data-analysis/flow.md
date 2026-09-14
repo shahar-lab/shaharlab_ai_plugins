@@ -8,16 +8,16 @@ flowchart TD
   newScience["1. New science"]
   subgraph interview [Interview]
     direction TB
-    planCard["2. Plan"]
+    jobCards["2. Job Cards"]
     clarify["3. Clarify"]
     confirm["4. Confirm"]
-    planCard --> clarify
+    jobCards --> clarify
     clarify --> confirm
     confirm -->|"repeat if needed"| clarify
   end
-  newScience --> planCard
+  newScience --> jobCards
 ```
 
 **New science** sits outside the Interview. A different formula or a new cutoff is new science: it starts a new Interview.
 
-Inside **Interview**, the three beats run in order: Plan (a Plan Card, then one Job Card per line), then Clarify, then Confirm. Confirm can send the work back to Clarify and then forward again until the user approves.
+Inside **Interview**, Malka creates one Job Card per job-folder, then Clarifies and Confirms them. Confirm can return affected Job Cards to Clarify until the user approves.
