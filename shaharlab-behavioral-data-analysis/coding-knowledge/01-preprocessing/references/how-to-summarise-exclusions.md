@@ -1,88 +1,31 @@
 # How to write the `summary_` scripts
 
-A `summary_` script reports for the researcher and for the manuscript. Two come out of this file:
+## 1. Context for writing you script:
 
-| Script | Writes | Says |
-|---|---|---|
-| `summary_exclusions.R` | `output/reports-processed/NN_summary_exclusions.md` | the exclusion cascade as tables, one row per criterion |
-| `summary_manuscript_paragraph.R` | `output/reports-processed/NN_summary_manuscript_paragraph.md` | the same numbers as a "Data treatment" paragraph |
+A `preprocessing_excerpt` is a script that generates a manuscript ready pargarpah that detials the exclusion processes. For this, you should read yourself the `output/processed/exclusion.md` file. Then write a manuscript paragraph that is eactly in the numbers and pipilne that appears in the `exclusion.md` file. You should learn the tone and writing style according to the exmplae below.
 
-Both run after `converting_data_raw_to_processed.R` and read the named datasets it left in the
-environment, so every number they report is the number the pipeline actually produced. The folder
-they write into and the three prefixes they are named under are defined in
-`${CLAUDE_PLUGIN_ROOT}/coding-knowledge/01-preprocessing/template-main.md`.
-Each report file takes the same two-digit prefix as the script, per
-`${CLAUDE_PLUGIN_ROOT}/coding-knowledge/00-constitution/project-rules.md` §2.
+## 2. Rules and guidelines
 
-## `summary_exclusions.R`
+* Read `output/processed/exclusion.md` before writing anything. That file is the source of truth for the pipeline and the counts.
 
-One table per exclusion phase, one row per criterion in the order it ran, giving the criterion in
-the user's own words, how many it took out, that count as a percentage of what reached it, and how
-many remain. Then the final N.
+* Use every criterion in the order it appears. Do not add a criterion, drop one, or change the order.
 
-Each row's counts come from the named datasets in the converting script — `n_omitted` from the
-difference between two of them, `n_remaining` from the later one — so a criterion cannot be
-reported with a number the filter did not produce. The first row of each table is the phase's
-starting point, with no criterion of its own.
+* Every number in the paragraph must be a number from `exclusion.md`. Do not recompute from the data, and do not round to a different value.
 
-```r
-#### SUMMARISE EXCLUSIONS ####
+* Name each cutoff as the report names it (the researcher's wording).
 
-participant_exclusions <- tibble(
-  criterion = c("Starting point (raw)",
-                "Did not complete the session",
-                paste0("More than ", max_pct_fast_rt, "% of RTs under ", rt_min_sec, " s")),
-  n_omitted = c(NA_integer_,
-                length(incomplete_subjects),
-                length(fast_rt_subjects)),
-  n_remaining = c(n_distinct(df$subject_id),
-                  n_distinct(after_incomplete$subject_id),
-                  n_distinct(after_fast_rt$subject_id))
-) |>
-  mutate(pct_omitted = round(100 * n_omitted / lag(n_remaining), 1))
+* Write one dense narrative paragraph that starts with `Data treatment.` No headings, tables, or bullet lists.
 
-trial_exclusions <- tibble(
-  criterion = c("Starting point (after participant exclusions)",
-                "No response recorded",
-                paste0("RT under ", rt_min_sec, " s or over ", rt_max_sec, " s")),
-  n_omitted = c(NA_integer_,
-                nrow(after_fast_rt)     - nrow(after_no_response),
-                nrow(after_no_response) - nrow(after_rt_bounds)),
-  n_remaining = c(nrow(after_fast_rt), nrow(after_no_response), nrow(after_rt_bounds))
-) |>
-  mutate(pct_omitted = round(100 * n_omitted / lag(n_remaining), 1))
+* Match the tone of the example in section 3: past tense, first person plural, criteria first, then the Ns that remain.
 
-report_lines <- c(
-  "# Exclusion summary", "",
-  "Built by `preprocessing/code/summary_exclusions.R` from the named datasets in",
-  "`converting_data_raw_to_processed.R`. Participant criteria run first, then trial",
-  "criteria on the participants that remain. Each row filters the row above it.", "",
-  "## Participant exclusions (counts in participants)", "",
-  kable(participant_exclusions, format = "pipe"), "",
-  "## Trial exclusions (counts in observations)", "",
-  kable(trial_exclusions, format = "pipe"), "",
-  paste0("**Final: ", format(nrow(df_processed), big.mark = ","),
-         " observations across ", n_distinct(df_processed$subject_id),
-         " participants.**")
-)
-writeLines(report_lines, file.path(reports_processed_dir, "05_summary_exclusions.md"))
-```
+* Write the paragraph to `output/processed/` as a markdown file. This script does not save data to `data/`.
 
-Participant tables count participants and trial tables count observations, so each table's heading
-states its unit. Render with `kable(x, format = "pipe")`; `main.R` sets
-`options(knitr.kable.NA = "")` once, so the starting row's empty cells come out blank.
+* If `exclusion.md` is missing a count the paragraph would need, return `BLOCKED`. Do not guess.
 
-The description tables for the surviving sample live in `examining_data_processed.R`'s report, and
-the two files are read together.
+* Keep the script to 50–80 lines.
 
-See `../assets/example-summary-exclusions.md` for a worked example of the rendered output.
+## 3. Example
 
-## `summary_manuscript_paragraph.R`
-
-A single "Data treatment" paragraph, written to `output/reports-processed/NN_summary_manuscript_paragraph.md`, with
-every number computed from the data by the script rather than typed by hand. Assemble it with
-`paste0()` over the same objects `summary_exclusions.R` reads, so the paragraph and the tables can
-never disagree.
 
 The example below shows the style; each criterion and cutoff in the delivered paragraph is the
 user's own value:
@@ -99,15 +42,4 @@ user's own value:
 > for the ADHD group (198.11 mean trials per participant) and 8,661 trials for the control group
 > (196.84 mean trials per participant).*
 
-## Rules for the code
 
-- Read the named datasets from the environment `main.R` sources into — `df`, `after_*`, the
-  excluded-ID vectors, and `df_processed` — which is where every number here comes from.
-- Write to `reports_processed_dir`; a script that saves data to `data/` is a `converting_` script.
-- Quote each criterion using the same `main.R` cutoff variable the filter used, so the reported
-  criterion text and the filter agree by construction.
-- Compute every count from the datasets themselves, so each number recomputes when the data
-  changes.
-- Chain operations with the base pipe `|>` and named intermediate objects, calling functions
-  directly and adding any missing package's `library()` call to `main.R`'s `#### SETUP ####` block.
-- Keep each script to 50–80 lines.

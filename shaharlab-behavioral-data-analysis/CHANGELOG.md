@@ -19,8 +19,13 @@
 - **UI elements** in `TERMS.md`: `AskUserQuestion` is Claude Code's question dialog. `- [ ]` is the checklist fallback (Clarify leftovers, Summary Card Confirm & Execute / Revise).
 - **Structure Legend** is the named form for a heading, a skeleton box, then one bullet per named bit. The writing rule lives in the repo `.claude/CLAUDE.md`.
 
-## [2.0.4] — 2026-09-11
+## [2.0.4] — 2026-09-17
 
+- **Raw-to-processed craft is one `source()` per criterion.** Each step appends `exclusion.md` and saves survivors; the last step writes `data/processed/`.
+- **`how-to-summarise-exclusions.md`** writes a manuscript Data treatment excerpt from `exclusion.md`.
+- **Added `how-to-summarise-participants.md`** for the Participants excerpt (final N and demographics).
+- **Dropped `example-summary-exclusions.md`.** The knowledge index paths and CHECKS match the files on disk.
+- **`template-main.md`** shows report-folder paths, named cutoffs in SETUP, and one commented `source()` per exclusion.
 - **Interview beats are Talk, Plan, Critique, Confirm.** Plan counts the jobs and drafts one Code-Writer Card per job. Critique finishes the cards from `pre-deploy-checks.md`. Confirm is still the Summary Card; yes locks the finished Code-Writer Cards to `.malka/current_job.md`. Step 2 does not rebuild them.
 - **One file per interview beat.** `interview.md` stays Step 1's index. Beat files are `interview-talk.md`, `interview-plan.md` (renamed from `planning.md`), `interview-critique.md`, `interview-confirm.md` (folds in `user-request-summary.md`). Dispatch stays `dispatch.md`.
 - **`pre-deploy-checks.md` replaces `interview-points.md`.** Things Malka must know to finish this card; skip what Talk already settled. Count/split bullets (folder name, fit count, `data/processed/` stop) live in Plan.

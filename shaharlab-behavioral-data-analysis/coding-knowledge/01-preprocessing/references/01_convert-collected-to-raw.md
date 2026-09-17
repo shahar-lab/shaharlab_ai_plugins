@@ -43,7 +43,7 @@ This document explains what needs to be addresed in order to preprocessed `colle
 
 
 
-## Example
+## 3. Example
 
 ```r
 #### CONVERT COLLECTED DATA TO RAW ####
@@ -83,38 +83,3 @@ trials_dictionary <- tribble(
 
 write_data_validation_report(df_raw, trials_dictionary, "trials", prefix = "01_")
 ```
-
-`examining_data_raw.R` runs next and reports what came out, reading both stages from disk. This
-script writes the tidy table to `data/raw/` and the data-validation HTML to
-`preprocessing/output/reports-raw/` — the HTML is how the researcher verifies class and domain, not a
-statistical summary.
-
-## Rules for the code
-
-
-
-## Type coercion patterns
-
-```r
-# Numeric column carrying non-numeric strings — clean, then coerce
-score <- ifelse(score %in% c("NA", ".", ""), NA_real_, score)
-score <- as.numeric(score)
-
-# Character to factor
-choice   <- factor(choice, levels = c("left", "right"))
-severity <- factor(severity, levels = c("low", "medium", "high"), ordered = TRUE)
-
-# Character to date — match the format the data actually uses
-date_col <- as.Date(date_col, format = "%Y-%m-%d")
-
-# Logical from string representations
-outcome <- tolower(outcome) %in% c("true", "yes", "y", "1")
-```
-
-## What comes next
-
-| Script                               | File                                 |
-| ------------------------------------ | ------------------------------------ |
-| data-validation HTML                 | `how-to-build-data-validation.md`    |
-| `examining_data_raw.R`               | `how-to-examine.md`                  |
-| `converting_data_raw_to_processed.R` | `02_convert-raw-to-processed.md` |

@@ -1,123 +1,112 @@
-# How to write `converting_data_raw_to_processed.R`
+# How to convert raw data to processed data
 
-The second `converting_` script in the pipeline. It reads `data/raw/`, applies the exclusions the
-user approved, adds the calculated columns the plan names, and saves the result to
-`data/processed/`. Its data and report paths are defined in
-`${CLAUDE_PLUGIN_ROOT}/coding-knowledge/01-preprocessing/template-main.md`.
+## 1. Context for writing you script:
+Raw data becomes processed data by applying exclusion criteria one at a time.
+Each criterion is its own `source()` call in `main.R`. Write the criterion as a comment above that call. The sourced script drops the observations that fail it.
 
-Every criterion and every cutoff in this script came from the user through Malka's interview and
-arrives in the Job Card. Implement exactly the approved plan.
+Every step does the same four things:
 
-## What this stage does
+1. Load the current data — raw data on the first step; otherwise the table saved by the previous step.
+2. Apply this step's exclusion.
+3. Append counts and notes to `output/processed/exclusion.md`.
+4. Save the surviving data.
 
-`processed/` is `raw/` after two things only: exclusion of participants and of observations, and
-addition of calculated columns. Every exclusion count this script produces is a number that
-appears in the manuscript, so the code is written to make those counts recoverable: each
-criterion gets its own named surviving dataset, and `summary_exclusions.R` reads those names
-afterwards.
+When the last criterion has run, write the final table to `data/processed/` and add the final observation counts to `exclusion.md`. After the exclusions, add the calculated columns the plan names.
 
-Run the exclusions in two phases, in this order:
+## 2. Rules and guidelines
 
-1. **Participant phase** — whole-subject removal (left the session early, subject-level RT
-   thresholds).
-2. **Trial phase** — observation removal, applied to the participants that survived phase 1
-   (no response, RT bounds).
+* Criteria and cutoffs come from the Job Card. Implement exactly those. If the card is silent on a cutoff or cretria return `BLOCKED`.
 
-Within each phase, apply the criteria one at a time in the order the approved plan lists them, so
-each criterion filters the survivors of the one before it and every count stays attributable to a
-single criterion. A job with a further phase (session-level, block-level) puts it where the plan
-puts it. Calculated columns are added after the exclusions, on the surviving rows, using the
-formulae the plan names.
+* One criterion per sourced script. The comment above that `source()` in `main.R` is the criterion in the researcher's words.
 
-For an online study, one of the participant criteria is usually how many times the participant left
-the study window. Counting that takes a definition of its own — one exit is a *sequence* of trials
-away, not one trial — so it has its own file: `handling-leaving-window.md`.
 
-## Skeleton
+* The first script reads `data_raw.RDS` from `raw_dir` and does not write to `data/raw/`. Every later script loads the RDS the previous step saved under `artifacts/`. Only the last script writes to `data/processed/`.
+
+* Hold each cutoff in a named variable set once in `main.R` (`rt_min_sec`, `max_pct_fast_rt`, …). Use that same variable in the filter and in the text written to `exclusion.md`.
+
+* Use `tidyverse`. Chain with `|>`. Add any missing `library()` to `main.R`'s `#### SETUP ####` block.
+
+* Count before and after every filter: `n_distinct(subject_id)` for participant steps, `nrow()` for trial steps. The first script starts `output/processed/exclusion.md`; later scripts append; the last script adds the final N.
+
+* Save the survivors after every step. Intermediate tables go to `artifacts/`. The last script names the table `df_processed` and writes it to `data/processed/` (RDS; CSV too if useful).
+
+* Keep each script to 50–80 lines.
+
+* For counting window exits in an online study, see `handling-leaving-window.md`.
+
+## 3. Examples
+
+#### Example for a `source()` block in `main.R` is the pipeline. Each comment is one criterion:
 
 ```r
-#### CONVERT RAW DATA TO PROCESSED ####
+#### PROCESSED DATA ####
 
-df <- readRDS(file.path(raw_dir, "data_raw.RDS"))
+# Exclude participant that did not complete all sessions
+source(file.path(code_dir, "07_exclude_participants_incomplete_sessions.R"))
 
-# Cutoffs (rt_min_sec, rt_max_sec, max_pct_fast_rt) come from main.R, where each one
-# holds the value the user approved in the interview.
+# Exclude participants who left the window twice or more, or for more than 30
+# seconds total.
+source(file.path(code_dir, "08_exclude_participants_leave_window.R"))
 
-# Participant phase: name each surviving dataset, so the pipeline order reads off the code
-incomplete_subjects <- df |>
-  filter(session_status == "incomplete") |>
-  distinct(subject_id) |>
+# Exclude trials with NA, under 300ms RT or above 3sec RT. 
+source(file.path(code_dir, "09_exclude_trials_NA_RToutlier.R"))
+
+# Excluse participants with more the 20% trials ommited in the previous step
+source(file.path(code_dir, "09_exclude_participants_few_trials.R"))
+
+```
+
+##### Example for one exclusion script, here the first (participant-level) step:
+
+```r
+# reads: data/raw/data_raw.csv
+# writes: artifacts/07_after_incomplete_sessions.rds, reports-processed/exclusion.md
+
+#### EXCLUDE PARTICIPANTS: MISSING A SESSION ####
+
+df <- read_csv(file.path(raw_dir, "data_raw.csv"), show_col_types = FALSE)
+
+subjects_all <- unique(as.character(df$subject_id))
+
+subjects_excluded <- df |>
+  distinct(subject_id, session) |>
+  count(subject_id, name = "n_sessions") |>
+  filter(n_sessions < n_sessions_required) |>
   pull(subject_id)
 
-after_incomplete <- df |> filter(!subject_id %in% incomplete_subjects)
+subjects_after <- setdiff(subjects_all, subjects_excluded)
 
-fast_rt_subjects <- after_incomplete |>
-  group_by(subject_id) |>
-  summarise(pct_fast = 100 * mean(rt < rt_min_sec, na.rm = TRUE)) |>
-  filter(pct_fast > max_pct_fast_rt) |>
-  pull(subject_id)
+n_started  <- length(subjects_all)
+n_excluded <- length(subjects_excluded)
+n_left     <- length(subjects_after)
 
-after_fast_rt <- after_incomplete |> filter(!subject_id %in% fast_rt_subjects)
+criterion_text <- "Did not complete all sessions"
 
-# Trial phase: applied to the participants that survived the phase above
-after_no_response <- after_fast_rt     |> filter(!is.na(choice))
-after_rt_bounds   <- after_no_response |> filter(rt >= rt_min_sec, rt <= rt_max_sec)
+writeLines(
+  c(
+    "# Exclusion summary",
+    "",
+    paste0(
+      "1. ", criterion_text, ". Started with ", n_started,
+      " participants, excluded ", n_excluded, ", ", n_left, " left."
+    )
+  ),
+  file.path(reports_processed_dir, "exclusion.md")
+)
 
-df_processed <- after_rt_bounds
-
-saveRDS(df_processed, file = file.path(processed_dir, "data_processed.RDS"))
-
-# A processed data-validation report when the specification asks for one — see
-# how-to-build-data-validation.md. Build the dictionary in this script (include
-# calculated columns); do not rely on a tribble left behind by the raw step.
-write_data_validation_report(
-  df_processed,
-  trials_dictionary,
-  "trials",
-  suffix = "processed",
-  prefix = "03_"
+saveRDS(
+  list(subjects_all = subjects_all, subjects_after = subjects_after, subjects_excluded = subjects_excluded),
+  file.path(artifacts_dir, "07_after_incomplete_sessions.rds")
 )
 ```
 
-## Rules for the code
+#### Example for an `exclusion.md` summary file:
 
-- Read from `raw_dir` and write the tidy table to `processed_dir`; a processed data-validation
-  HTML goes to `reports_processed_dir`. All three variables come from `main.R`.
-- Anchor every path with `project_root <- here::here()` and build it with `file.path()`.
-- Chain operations with the base pipe `|>`, and call functions directly, adding any missing
-  package's `library()` call to `main.R`'s `#### SETUP ####` block.
-- Give each exclusion step its own named dataset (`after_no_response`, `after_rt_bounds`), so the
-  pipeline order is visible in the code and every count is recoverable afterwards by comparing two
-  named objects.
-- Hold each cutoff in a named variable (`rt_min_sec`, `max_pct_fast_rt`) set once in `main.R` from
-  the user's approved value, and reference that variable in the filter here and in the criterion
-  text `summary_exclusions.R` writes, so filter and report agree by construction.
-- Name the survivors `df_processed`, and leave every intermediate `after_*` object and every
-  excluded-ID vector in the environment — `summary_exclusions.R` and
-  `summary_manuscript_paragraph.R` are sourced after this script and read them.
-- When the specification asks for a processed data-validation report, call
-  `write_data_validation_report(..., suffix = "processed")` after `saveRDS`. The helper is sourced
-  from `main.R`'s `#### SETUP ####`.
-- Keep the script to 50–80 lines. A plan with enough criteria to break that splits by phase into a
-  second `converting_` script.
-
-## Where each cutoff comes from
-
-The Job Card carries the criteria in the user's own words and their numbers. A cutoff the
-card is silent on is a decision nobody has made — take a defensible default, mark it where it
-happens, and let Malka carry it back to the user:
-
-```r
-# ASSUMED[no criterion given]: dropped subjects with fewer than 10 trials
 ```
+# Exclusion summary
 
-Where guessing wrong would mean rewriting the analysis, return `BLOCKED` with the question phrased
-about the analysis rather than the code.
-
-## What comes next
-
-| Script | File |
-|---|---|
-| processed data-validation HTML | `how-to-build-data-validation.md` |
-| `examining_data_processed.R` | `how-to-examine.md` |
-| `summary_exclusions.R`, `summary_manuscript_paragraph.R` | `how-to-summarise-exclusions.md` |
+1. Did not have both sessions. Started with 11 participants, excluded 1, 10 left.
+2. Left the window twice or more, or more than 30 seconds total, on either time1 or time2, during PHQ9 or CBCU. Started with 10 participants, excluded 0, 10 left.
+3. Trials with NA, RT quicker than 0.5 seconds, or RT slower than 15 seconds. Started with 2100 trials, excluded 88, 2012 left.
+4. Trial exclusion took more than 15% of trials on either time1 or time2. Started with 10 participants, excluded 1, 9 left.
+```

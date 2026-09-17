@@ -46,7 +46,7 @@ Always read `01-preprocessing/template-main.md` and `01-preprocessing/template-s
 > 
 > - **What it covers**
 >   
->   `converting_data_collected_to_raw.R`: restructure, type every column, drop what was never data, save `data/raw/`.
+>   Collected-to-raw conversion: which files to write under `data/raw/`, column class and labels, missing data.
 > 
 > - **CHECKS**
 >   
@@ -62,7 +62,7 @@ Always read `01-preprocessing/template-main.md` and `01-preprocessing/template-s
 > 
 > - **What it covers**
 >   
->   `converting_data_raw_to_processed.R`: two-phase exclusions, one named surviving dataset per criterion, save `data/processed/`.
+>   Raw-to-processed conversion: one `source()` per exclusion criterion, append `exclusion.md`, save survivors to `artifacts/` then `data/processed/`.
 > 
 > - **CHECKS**
 >   
@@ -92,11 +92,25 @@ Always read `01-preprocessing/template-main.md` and `01-preprocessing/template-s
 > 
 > - **What it covers**
 >   
->   `summary_exclusions.R` and `summary_manuscript_paragraph.R`: cascade tables and the manuscript paragraph.
+>   `preprocessing_excerpt` for data treatment: manuscript paragraph from `output/processed/exclusion.md`.
 > 
 > - **CHECKS**
 >   
 >   —
+
+### `how-to-summarise-participants.md`
+
+> - **Path**
+>   
+>   `01-preprocessing/references/how-to-summarise-participants.md`
+> 
+> - **What it covers**
+>   
+>   `preprocessing_excerpt` for the analysed sample: manuscript paragraph of final N and demographics.
+> 
+> - **CHECKS**
+>   
+>   - Which demographic variables to report (age, sex, group, …)
 
 ### `conversion-and-filter-traps.md`
 
@@ -149,20 +163,6 @@ Always read `01-preprocessing/template-main.md` and `01-preprocessing/template-s
 > - **What it covers**
 >   
 >   Mockup of an `examining_` report.
-> 
-> - **CHECKS**
->   
->   —
-
-### `example-summary-exclusions.md`
-
-> - **Path**
->   
->   `01-preprocessing/assets/example-summary-exclusions.md`
-> 
-> - **What it covers**
->   
->   Mockup of `summary_exclusions.md`.
 > 
 > - **CHECKS**
 >   
@@ -465,8 +465,8 @@ Standing reads are the same in every job. Copy these extra paths onto the Job Ca
 
 | Job                                                  | Extra paths                                                                                                                                                                                 |
 | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| First preprocessing, study online                    | both numbered conversion files, `how-to-examine.md`, `how-to-summarise-exclusions.md`, `how-to-build-data-validation.md`, `conversion-and-filter-traps.md`, `handling-leaving-window.md`, three `01-preprocessing/assets/` examples |
-| Revising exclusions, study in person                 | `02_convert-raw-to-processed.md`, `conversion-and-filter-traps.md`, `how-to-summarise-exclusions.md`, `example-summary-exclusions.md`                                                       |
+| First preprocessing, study online                    | both numbered conversion files, `how-to-examine.md`, `how-to-summarise-exclusions.md`, `how-to-summarise-participants.md`, `how-to-build-data-validation.md`, `conversion-and-filter-traps.md`, `handling-leaving-window.md`, `example-examining-report.md`, `example-data-validation.html` |
+| Revising exclusions, study in person                 | `02_convert-raw-to-processed.md`, `conversion-and-filter-traps.md`, `how-to-summarise-exclusions.md`, `how-to-summarise-participants.md`                                                       |
 | New brms folder with a posterior plot                | both regression files, `plot-posterior.md`, `plot-posterior.png`, `EXPORT_STANDARD.md`, `COLOR_STANDARD.md` if colour                                                                       |
 | Revising a two-panel scatter                         | `plot-scatter.md`, `COLOR_STANDARD.md`, `EXPORT_STANDARD.md`, `PANEL_TAGGING_STANDARD.md`                                                                                                   |
 | First parameter-recovery, model already in `models/` | both `04-simulations` references, `example_main.R`, `plot-scatter.md`, `plot-posterior.md`, `plot-dot-histogram.md`, `COLOR_STANDARD.md`, `EXPORT_STANDARD.md`, `PANEL_TAGGING_STANDARD.md` |
