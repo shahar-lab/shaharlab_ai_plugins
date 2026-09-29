@@ -112,13 +112,14 @@ sigma_alpha <- NA_real_
 mu_beta     <- NA_real_
 sigma_beta  <- NA_real_
 
+n_subjects = NA_integer_   # number of agents
+
 source(file.path(code_dir, "01_generate_true_parameters.R"))
 source(file.path(code_dir, "02_plot_true_parameters.R"))
 
 
 #### GENERATING DATA ####
 
-n_subjects = NA_integer_   # number of agents
 n_trials   = NA_integer_   # trials (or observations) per agent per session
 n_sessions = NA_integer_   # sessions per agent; 1 when the task has no sessions
 

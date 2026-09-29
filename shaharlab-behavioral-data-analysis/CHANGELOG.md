@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+- **`n_subjects` is set in the true-parameters block of recovery `main.R`.** Agent-level draws need it there; `n_trials` and `n_sessions` stay in the generating-data block.
+
 ## [2.0.5] — 2026-09-29
 
 - **Parameter-recovery rules are eight bullets under `The rules`.** Stage how-to in `parameter_recovery/context.md` is now short paragraphs (true parameters, data, recovery, visualization, Word, three figures, multi-page PDF), not nested subsections.
