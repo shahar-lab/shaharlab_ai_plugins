@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+- **Recovery true-parameter plots overlay the theoretical distribution.** Draw-and-save is one `code/` script; a second script plots the dot histograms with the overlay scaled so both the curve and the dots are visible.
+- **Dot histograms have rounded ticks, an x-led aspect, and a scaled overlay.** Ticks round to at least 0.05 (about 5–10 marks, zero included); the y-axis is never longer than the x-axis; a theoretical curve is added only when asked, and its y-scale is fitted to the dots.
 - **`n_subjects` is set in the true-parameters block of recovery `main.R`.** Agent-level draws need it there; `n_trials` and `n_sessions` stay in the generating-data block.
 
 ## [2.0.5] — 2026-09-29

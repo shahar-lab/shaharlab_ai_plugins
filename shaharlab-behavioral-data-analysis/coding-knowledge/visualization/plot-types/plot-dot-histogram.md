@@ -17,8 +17,14 @@ The stacking is what shows the scatter directly.
 
 - **Layers** — the dots alone. Add a density or fitted curve when the user asks for one.
 
-- **X-axis range** — the variable's theoretical range when one applies; otherwise `range(df$x)` widened
-  10% at each end. Apply it with `coord_cartesian(xlim = full_range, clip = "off")`.
+- **X-axis range** — the variable's theoretical range when one applies; otherwise `range(df$x)` widened  10% at each end. Apply it with `coord_cartesian(xlim = full_range, clip = "off")`.
+- 
+- **Tick marks** - should always use ticks that are rounded up to .05 the least. Try to make not more then 5-10 tick marks on the x-axis. the Zero is almost always part of that.
+  
+- **Size** - Mostly, this plot has an x-axis and y-axis the same physical length. You can absolutely make the y-axis shorter, then the x-axis. But by no means never make the y-axis longer then the x-axis.
+  
+- **Overlay**  - if the researcher asked to overlay a theoretical distribution, make sure it is visible. The y-axis scale of the theoretical distribution is some times very very small or large compared to the dots y-axis scale, and then you cannot see the theoretical line. So adjust the theoretical line to fit the scale that the dot plot required. If the researcher did not ask for a theoretical overlay - don't add one.
+ 
 
   *Why:* a dot histogram answers where the data sits within what was *possible*, not only where it
   happens to fall — ratings clustered at 4 and 5 mean one thing on a 1–7 scale and another on a 1–100

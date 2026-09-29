@@ -44,7 +44,10 @@ simulation/
 
 - **`#### GENERATING TRUE PARAMETERS ####`**
 
-  Set the population location (`mu_*`) and scale (`sigma_*`) of each parameter in `main.R`, or the single true value when the study is not hierarchical. A `code/` script draws one row per agent, plots **dot histograms** (`../visualization/plot-types/plot-dot-histogram.md`; one panel per parameter), and saves `true_population.rds` and `true_parameters.rds` to `artifacts/`. Export PDF+PNG per `../visualization/standards/EXPORT_STANDARD.md`. Draw a unit-interval parameter on the unconstrained (logit) scale and apply `plogis()` before the generating function; state that transform in `main.R` and in the Word narrative.
+	 * If this is hierarchical model, set the population location (`mu_*`) and scale (`sigma_*`) of each parameter in `main.R`, or the single true value when the study is not hierarchical. 
+	 * A `code/` script draws one row per agent and saves `true_population.rds` and `true_parameters.rds` to `artifacts/`. 
+	 * Another code then plots **dot histograms** (`../visualization/plot-types/plot-dot-histogram.md`) with one panel per parameter, with the theoretical distribution overlayed (making sure the y-scale is set so that both the distribution and the dots are well visible ). Then export PDF+PNG per `../visualization/standards/EXPORT_STANDARD.md`. 
+	 * Draw a unit-interval parameter on the unconstrained (logit) scale and apply `plogis()` before the generating function; state that transform in `main.R` and in the Word narrative.
 
 - **`#### GENERATING DATA ####`**
 
