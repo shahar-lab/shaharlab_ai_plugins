@@ -33,10 +33,10 @@ the study: one generating design, one question about how the model behaves.
 
 ## What these studies are for
 
-- **Parameter recovery** — generate data from known parameters, fit the model back, and compare
-  true against recovered values. Its figure is a scatter plot with the diagonal reference line, built
-  from the `visualization/` scatter knowledge; take that file as an `ADDED READ` where the card
-  carried no plot-type file.
+- **Parameter recovery** — covering files live in `../parameter_recovery/`. Write `main.R` from
+  the example in that folder's `context.md`, not from this folder's `template_main.R`. That covering
+  folder states the four `main.R` stages, the Word and multi-page PDF deliverables, and the three
+  required recovery figures.
 - **Model simulation** — generate behavior under a set of parameters and check it reproduces the
   qualitative pattern the task is meant to elicit.
 - **Model comparison** — generate under one model, fit several, and see which is recovered.
@@ -48,10 +48,12 @@ nothing here is read from `data/`. `project-rules.md` §2 states the contract.
 
 ## Building one
 
-Create `code/`, `artifacts/`, `output/`; inject `template_main.R` as `main.R`; then replace
-`<folder_name>` with the real name. To copy an existing
-study, use `../02-analysis/smart_clone.md`.
+Create `code/`, `artifacts/`, `output/`; inject this folder's `template_main.R` as `main.R` for a
+model-simulation or model-comparison study; when the study is a recovery, write `main.R` from the
+example in `../parameter_recovery/context.md`. Then replace `<folder_name>` with the real name. To
+copy an existing study, use `../02-analysis/smart_clone.md`.
 
 `summary.md` is written by Malka from the approved specification, not by the Writer building the
 job-folder — the same split `../02-analysis/context.md` states. Scaffold the three directories and `main.R`;
-the notebook arrives separately, shaped by `template_summary.md` in this same subfolder.
+the notebook arrives separately, shaped by this folder's `template_summary.md` or, for a recovery,
+by `../parameter_recovery/template_summary.md`.

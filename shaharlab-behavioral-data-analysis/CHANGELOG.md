@@ -2,6 +2,7 @@
 
 ## [Unreleased]
 
+- **Parameter recovery is its own covering folder.** `coding-knowledge/parameter_recovery/` holds `context.md` (including the `main.R` example) and `template_summary.md` for recovery job-folders under `simulation/`. Four `main.R` stages (true parameters, generated data, recovered parameters, visualization and output); design values (`n_subjects`, `n_trials`, `n_sessions`, population `mu_*` / `sigma_*`) are set in `main.R`; evaluation deliverables are a Word `.docx` and a multi-page vector PDF of three custom recovery figures. The knowledge index, `05-executing-job.md`, and `04-simulations/` now point recovery jobs at `context.md`. There is no separate `template_main.R`.
 - **Job Cards are the only job index and execution contract.** One Job Card is created per job-folder, and dependencies are written in `SPECIFICATION`. Confirm writes only approved Job Cards to `.malka/current_job.md`.
 - **Malka's references now follow runtime order.** `01-job-card.md`, `02-knowledge-index.md`, `03-interview-clarify.md`, `04-confirm-card.md`, `05-executing-job.md`, `06-dispatch.md`, and `07-handback-card.md`.
 - **Single and multiple jobs share one execution guide.** Malka executes one Job Card directly; Code Writers execute multiple Job Cards using the same `05-executing-job.md` contract, including `summary.md`, `BLOCKED`, `ASSUMED`, and `ADDED READS`.

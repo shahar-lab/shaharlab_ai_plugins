@@ -53,15 +53,18 @@ Paths onto each Job Card's `ROUTED READS` and copies the actual CHECKS bullets o
 | `coding-knowledge/visualization/`    | color, panel-tagging, plot-type, and export standards |
 | `coding-knowledge/descriptives/`     | participant counts, demographics tables, questionnaire distributions |
 | `coding-knowledge/03-models/`        | writing a `models/` definition as a generating `.R` and fitting `.stan` pair                                                                                                                                                                                                                                            |
-| `coding-knowledge/04-simulations/`   | parameter-recovery and other studies on model-generated data — building the pipeline and reading its recovery                                                                                                                                                                                                           |
+| `coding-knowledge/04-simulations/`   | other studies on model-generated data (model simulation, model comparison) — plus recovery craft (`how-to-build-a-recovery-pipeline.md`, `how-to-read-recovery.md`) that a parameter-recovery job still routes                                                                                                                                                                          |
+| `coding-knowledge/parameter_recovery/` | parameter-recovery job-folders under `simulation/` — four-stage `main.R` (example in `context.md`), true-parameter / data / fit / Word-and-PDF evaluation, and `template_summary.md`                                                                                                                                   |
 
 Each covering folder holds the templates that build its job-folder, any applicable `context.md` or
 `rules.md`, and the craft the subagent reads while it works. `00-constitution/` matches no
 main-folder, so it holds the two rules files alone.
 
 `01-preprocessing/`, `03-models/`, and `04-simulations/` keep craft in `references/`,
-with worked examples in `assets/`. Analysis craft is grouped at the coding-knowledge root
-under `regression/`, `visualization/`, and `descriptives/`.
+with worked examples in `assets/`. `parameter_recovery/` holds `context.md` (including the `main.R`
+example) and `template_summary.md`; its remaining craft still lives under
+`04-simulations/references/`. Analysis craft is grouped at the coding-knowledge root under
+`regression/`, `visualization/`, and `descriptives/`.
 
 Templates and any applicable `context.md` or `rules.md` are standing reads for a job landing in that
 main-folder. Craft files are routed per card from `02-knowledge-index.md`, which carries every one of

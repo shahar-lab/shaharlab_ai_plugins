@@ -405,9 +405,33 @@ A new job-folder takes structure from `FOLDER`. A repair reads that covering fol
 >   - New definition or structural variant
 >   - The three generating/fitting agreements if a recovery will use the pair
 
-A definition a recovery study will generate from and fit back also matches `04-simulations/references/how-to-build-a-recovery-pipeline.md`.
+A definition a recovery study will generate from and fit back also matches `parameter_recovery/context.md` and `04-simulations/references/how-to-build-a-recovery-pipeline.md`.
+
+## Parameter recovery
+
+Always read `parameter_recovery/context.md` and `parameter_recovery/template_summary.md`. A parameter-recovery job-folder lives under `simulation/`. Write `main.R` from the example in `context.md`, not from `04-simulations/template_main.R`.
+
+### `context.md`
+
+> - **Path**
+>   
+>   `parameter_recovery/context.md`
+> 
+> - **What it covers**
+>   
+>   Parameter-recovery job-folder under `simulation/`: four-stage `main.R` (true parameters, generated data, recovered parameters, Word-and-PDF evaluation).
+> 
+> - **CHECKS**
+>   
+>   - Which `models/` definition generates and which is fitted
+>   - Population location and scale per parameter (set in `main.R`)
+>   - `n_subjects`, `n_trials`, `n_sessions`
+>   - Sampler (Stan, brms, or other)
+>   - Logistic transform onto the unit interval, or none
 
 ## 04 · Simulations
+
+Parameter-recovery job-folders take their covering files from `parameter_recovery/` (standing reads above). The files below remain routed craft for recovery studies. Other simulation studies (model simulation, model comparison) still take covering files from this folder.
 
 ### `how-to-build-a-recovery-pipeline.md`
 
@@ -417,7 +441,7 @@ A definition a recovery study will generate from and fit back also matches `04-s
 > 
 > - **What it covers**
 >   
->   Three pipeline stages, model-family mapping, generating-versus-fitting agreements.
+>   Model-family mapping and generating-versus-fitting agreements. Stage headers for a recovery job follow `parameter_recovery/context.md`, not this file's three-stage outline.
 > 
 > - **CHECKS**
 >   
@@ -451,13 +475,13 @@ A definition a recovery study will generate from and fit back also matches `04-s
 > 
 > - **What it covers**
 >   
->   Worked recovery `main.R`.
+>   Older three-stage recovery `main.R` skeleton. Do not inject; write `main.R` from the example in `parameter_recovery/context.md`.
 > 
 > - **CHECKS**
 >   
 >   —
 
-A first recovery study matches both reference entries, `example_main.R`, and the `visualization/` entries its figures call for. A study that fits brms also matches `regression/01_sampling_and_priors.md`.
+A first recovery study matches `parameter_recovery/context.md`, both `04-simulations` reference entries, and the `visualization/` entries its true-parameter and individual-recovery figures call for. A study that fits brms also matches `regression/01_sampling_and_priors.md`. Do not treat `example_main.R` as the study's `main.R` — that skeleton is the older three-stage outline; write `main.R` from the example in `parameter_recovery/context.md`.
 
 ## Common jobs
 
@@ -469,5 +493,5 @@ Standing reads are the same in every job. Copy these extra paths onto the Job Ca
 | Revising exclusions, study in person                 | `02_convert-raw-to-processed.md`, `conversion-and-filter-traps.md`, `how-to-summarise-exclusions.md`, `how-to-summarise-participants.md`                                                       |
 | New brms folder with a posterior plot                | both regression files, `plot-posterior.md`, `plot-posterior.png`, `EXPORT_STANDARD.md`, `COLOR_STANDARD.md` if colour                                                                       |
 | Revising a two-panel scatter                         | `plot-scatter.md`, `COLOR_STANDARD.md`, `EXPORT_STANDARD.md`, `PANEL_TAGGING_STANDARD.md`                                                                                                   |
-| First parameter-recovery, model already in `models/` | both `04-simulations` references, `example_main.R`, `plot-scatter.md`, `plot-posterior.md`, `plot-dot-histogram.md`, `COLOR_STANDARD.md`, `EXPORT_STANDARD.md`, `PANEL_TAGGING_STANDARD.md` |
+| First parameter-recovery, model already in `models/` | `parameter_recovery/context.md`, both `04-simulations` references, `plot-dot-histogram.md`, `plot-scatter.md`, `COLOR_STANDARD.md`, `EXPORT_STANDARD.md`, `PANEL_TAGGING_STANDARD.md` |
 | Writing the `models/` pair a recovery needs          | `how-to-write-a-model-definition.md`, `how-to-build-a-recovery-pipeline.md`                                                                                                                 |

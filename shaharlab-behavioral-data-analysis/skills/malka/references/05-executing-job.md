@@ -12,7 +12,7 @@ Malka and the Code Writer use this file to execute one approved Job Card consist
 
 - Write only inside the Job Card's `FOLDER`.
 - Create or verify the standard job-folder structure.
-- Start preprocessing `main.R` from `template-main.md`; use the covering folder's `template_main.R` for analysis and simulation, and the generating `.R` and fitting `.stan` templates for models.
+- Start preprocessing `main.R` from `template-main.md`; for a parameter-recovery job under `simulation/`, write `main.R` from the example in `parameter_recovery/context.md`; use the covering folder's `template_main.R` for other analysis and simulation jobs; use the generating `.R` and fitting `.stan` templates for models.
 
 ## Write and check
 
@@ -22,7 +22,7 @@ Malka and the Code Writer use this file to execute one approved Job Card consist
 
 ## Write `summary.md`
 
-- Start preprocessing from `template-summary.md`; start analysis and simulation from that covering folder's `template_summary.md`.
+- Start preprocessing from `template-summary.md`; start a parameter-recovery job from `parameter_recovery/template_summary.md`; start other analysis and simulation jobs from that covering folder's `template_summary.md`.
 - Record the approved model, hypotheses, variables, filters, and settings that apply.
 - Keep the findings placeholder until the user runs the code.
 - A `models/` job ends with its model files.
