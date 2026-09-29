@@ -18,125 +18,57 @@ simulation/
 ```
 
 
+- **Generating true parameters**  The known values the rest of the study is judged against: the population (or single true) values set in `main.R`, the drawn agent-level parameters, their plots, and the saved true-parameter artifacts.
 
-## Structuring the analysis in four parts
+- **Generating data**   The artificial dataset: sample-size and task constants set in `main.R`, the generating function sourced from `models/`, and the simulated trial-level file in this job-folder's `artifacts/`. The input is generated inside the job-folder.
 
-### Generating true parameters
+- **Recovering parameters**  The fit back onto that data: the researcher's estimator, sampler settings, the saved fit, extracted draws, and the recovered-parameter artifacts.
 
-Set the highest-level parameters in `main.R`. For a hierarchical model that is the population
-  location (`mu_*`) and scale (`sigma_*`) of each parameter. Non-hierarchical studies set the
-  single true value of each parameter in `main.R` instead.
+- **Visualization and output**  The human-facing evaluation: three custom recovery figures built from the saved artifacts, a Word narrative, and a multi-page PDF, all written under `output/`.
 
-A `code/` script draws the lower-level parameters from those values (one row per agent, one
-  column per parameter), plots them, and saves them to `artifacts/` (typically
-  `true_population.rds` and `true_parameters.rds`).
+## The rules
 
-Plotting at this stage is mostly **dot histograms** of the drawn agent-level values, following
-  `../visualization/plot-types/plot-dot-histogram.md`. One panel (or facet) per parameter. Export a  PDF+PNG to `output/` per `../visualization/standards/EXPORT_STANDARD.md`. Where a parameter is used on the unit interval, draw it on the unconstrained (logit) scale the
-  fitting model assumes and apply `plogis()` before it enters the generating function. State that
-  transform in `main.R` and again in the Word narrative.
-
-### Generating data
-
-This stage uses the saved true parameters and a data-generating model the researcher pinpoints in
-a subfolder of the `models/` main-folder (`models/[generative_model]/[generative_model].R`).
-
-Sample-size quantities — `n_subjects`, `n_trials`, `n_sessions` — are set in `main.R`. Task  constants the generating function also needs (arms, blocks, item set) are set there too.
-
-Source the generating definition by path from `models/`. Pass the true parameters on the scale that function reads them on. Do not draw parameters inside the generating function.
-
-The end result is artificial data saved into this job-folder's `artifacts/` (typically
-  `simulated_data.rds`): long format, one row per trial (or observation), with the columns the
-  fitting model reads.
-
-Nothing is read from `data/`.
-
-### Recovering parameters
-
-This stage activates the fitting method the researcher chose: a `.stan` file in the model's
-subfolder (`models/[fitted_model]/[fitted_model].stan` via cmdstanr), a `brms` fit, or another
-estimator named in the specification.
-
-Compile and sample here. Chains, warmup, and sampling iterations are reserved values; they  arrive in the Job Card and are set in `main.R` or the fitting script, not invented later.
-
-Extract agent-level and population-level draws (`as_draws_df()` or tidybayes `spread_draws()`)  and save them **separately** from the fit object, so comparison does not depend on the sampler's temporary CSV files. Typical artifacts: `stan_fit.rds` (or `brms_fit.rds`), `draws_sbj.rds`, `draws_pop.rds`.
-
-The end result is a saved set of recovered parameters in this job-folder's `artifacts/`   (typically `recovered_parameters.rds`: true, recovered, and posterior SD per agent per  parameter).
-
-A study that fits brms also follows `../regression/01_sampling_and_priors.md` and
-`../regression/02_diagnostics.md`. Convergence (`rhat`, ess, divergences) is reported before any
-recovery figure is treated as a result — see `../04-simulations/references/how-to-read-recovery.md`.
-
-### Visualization and output
-
-Evaluate Bayesian parameter recovery by **writing and executing custom plotting scripts from the
-raw saved draws and true values** (ggplot2, tidybayes, ggdist, and document-export tools). Do not
-rely on built-in diagnostic wrappers as the recovery figures: `bayesplot::mcmc_recover_*`, `plot(fit)`, `brms::pp_check()`, shinystan, rstan plotting shortcuts, or any other canned recover/trace helper. Those may be used only as optional extra diagnostics, never as the three required figures or as a substitute for the Word narrative.
-
-Build every recovery figure from `artifacts/` (`true_parameters.rds`, `draws_pop.rds`,
-`draws_sbj.rds`, `recovered_parameters.rds`). Apply clean publication aesthetics
-(`theme_minimal(base_size = 13)`, no cluttered grids, readable strip labels). Colour follows
-`../visualization/standards/COLOR_STANDARD.md` when colour is used. Export each figure as PDF+PNG to `output/` per `EXPORT_STANDARD.md`, then compile the three figures into the multi-page PDF.
-
-This stage produces **two primary deliverables**, both written under `output/` with the writing
-script's two-digit prefix:
-
-1. A formatted Word document (`.docx`)
-2. A standalone multi-page vector PDF (one figure per page)
-
-#### Word document (`.docx`)
-
-Write it with `officer` (and `flextable` if a table is needed). Do not leave the narrative as
-markdown only — the `.docx` is required. It contains an empirical-results narrative of the
-recovery simulation, embedded figures, and formal APA-style captions. The narrative must state:
-
-- **Sample size** — `n_subjects`, `n_trials`, `n_sessions`, and any other design quantities set in
-  `main.R`
-- **Generative prior distributions** — the population form each parameter was drawn from (family
-  and numeric location/scale), named as they appear in `main.R`
-- **Explicit logistic transformations to the unit interval** where they apply (e.g. a learning
-  rate drawn as `plogis(rnorm(n_subjects, mu_alpha, sigma_alpha))`)
-- **Quantitative evaluations of recovery** — at least posterior median vs true value and interval
-  coverage for each population parameter, and per-parameter Pearson *r*, bias, and precision for
-  agent-level recovery (`../04-simulations/references/how-to-read-recovery.md`)
-
-Embed the three figures below, each followed by an APA caption (`Figure 1.`, `Figure 2.`,
-`Figure 3.` in italics, then a sentence that states what is plotted, what the blue dotted line
-marks, and — for Figure 3 — that the line is the OLS fit and *r* is Pearson's correlation).
-
-#### The three figures
-
-**Figure 1 — population location parameters.** Custom posterior density of each population
-location (`mu_*`) with its median and credible interval. Facet one panel per location parameter.
-Label strips with mathematical notation (`mu[alpha]`, `mu[beta]`, … via `label_parsed` or
-equivalent). Draw a **vertical dotted blue** reference line at the true generating value on every
-facet.
-
-**Figure 2 — population scale parameters.** The same structure for each population scale
-(`sigma_*`): faceted posterior densities, medians and credible intervals, mathematical strip
-labels, and a **vertical dotted blue** line at the true generating scale on every facet.
-
-**Figure 3 — individual-level recovery.** Faceted scatter plots, one panel per agent-level
-parameter. Horizontal axis: true generating value. Vertical axis: recovered posterior estimate
-(posterior median unless the specification names another summary). Add a linear-regression fit
-line on each panel and annotate that panel with its Pearson correlation coefficient. Same-scale
-axes and an identity line follow `../visualization/plot-types/plot-scatter.md` so bias is readable
-against *r*.
-
-Suggested geom stack for Figures 1–2, one data frame of long draws plus a `true_value` column:
+`main.R` uses these headers, in this order.
 
 ```r
-geom_vline(aes(xintercept = true_value), linetype = "dotted", colour = "blue", linewidth = 0.8)
-# then ggdist/tidybayes density + median + interval, faceted with labeller = label_parsed
+#### SETUP ####
+#### GENERATING TRUE PARAMETERS ####
+#### GENERATING DATA ####
+#### RECOVERING PARAMETERS ####
+#### VISUALIZATION AND OUTPUT ####
 ```
 
-#### Multi-page PDF
+- **`#### SETUP ####`**
 
-Compile Figures 1–3 sequentially into a **single multi-page vector PDF**, one figure per page
-(e.g. `pdf(..., onefile = TRUE)` then `print()` each ggplot). Save it beside the Word deliverable
-in `output/`. This PDF is in addition to the per-figure PDF+PNG pair.
+  Libraries, `rm(list = ls())`, the path block, and the generative and fitted model names live here. Scripts in `code/` use these variables.
 
+- **`#### GENERATING TRUE PARAMETERS ####`**
 
+  Set the population location (`mu_*`) and scale (`sigma_*`) of each parameter in `main.R`, or the single true value when the study is not hierarchical. A `code/` script draws one row per agent, plots **dot histograms** (`../visualization/plot-types/plot-dot-histogram.md`; one panel per parameter), and saves `true_population.rds` and `true_parameters.rds` to `artifacts/`. Export PDF+PNG per `../visualization/standards/EXPORT_STANDARD.md`. Draw a unit-interval parameter on the unconstrained (logit) scale and apply `plogis()` before the generating function; state that transform in `main.R` and in the Word narrative.
+
+- **`#### GENERATING DATA ####`**
+
+  Set `n_subjects`, `n_trials`, `n_sessions`, and task constants (arms, blocks, item set) in `main.R`. Source `models/[generative_model]/[generative_model].R` and pass the saved true parameters on the scale that function reads. Write `simulated_data.rds` to this job-folder's `artifacts/`: long format, one row per trial, columns the fitting model reads. Generate the data inside the job-folder.
+
+- **`#### RECOVERING PARAMETERS ####`**
+
+  Fit the estimator named in the specification (`models/[fitted_model]/[fitted_model].stan` via cmdstanr, a `brms` fit, or another). Set chains, warmup, and sampling iterations from the Job Card in `main.R` or the fitting script. Extract agent- and population-level draws (`as_draws_df()` or tidybayes `spread_draws()`) and save them separately from the fit: `stan_fit.rds` or `brms_fit.rds`, `draws_sbj.rds`, `draws_pop.rds`, and `recovered_parameters.rds` (true, recovered, and posterior SD per agent per parameter). A brms study also follows `../regression/01_sampling_and_priors.md` and `../regression/02_diagnostics.md`. Report convergence (`rhat`, ess, divergences) before treating a recovery figure as a result (`../04-simulations/references/how-to-read-recovery.md`).
+
+- **`#### VISUALIZATION AND OUTPUT ####`**
+
+  Build every recovery figure from the saved artifacts with custom ggplot2 / tidybayes / ggdist scripts (`theme_minimal(base_size = 13)`; colour from `../visualization/standards/COLOR_STANDARD.md`; PDF+PNG per `EXPORT_STANDARD.md`). Wrappers such as `bayesplot::mcmc_recover_*`, `plot(fit)`, `brms::pp_check()`, shinystan, or rstan shortcuts stay optional extras. Two deliverables go in `output/` with the writing script's two-digit prefix: a Word `.docx` and a multi-page vector PDF.
+
+- **Word document**
+
+  Write it with `officer` (and `flextable` if a table is needed). The `.docx` is the narrative: sample size (`n_subjects`, `n_trials`, `n_sessions`), generative prior distributions as named in `main.R`, any logistic transform onto the unit interval, and quantitative recovery — posterior median vs true and interval coverage at the population; Pearson *r*, bias, and precision at the agent level (`../04-simulations/references/how-to-read-recovery.md`). Embed Figures 1–3, each followed by an APA caption (`Figure N.` in italics, then what is plotted, what the blue dotted line marks, and for Figure 3 that the line is the OLS fit and *r* is Pearson's correlation).
+
+- **The three figures**
+
+  Figure 1 is a faceted posterior density of each population location (`mu_*`), with median, credible interval, mathematical strip labels (`mu[alpha]` via `label_parsed`), and a vertical dotted blue line at the true value. Figure 2 is the same for each population scale (`sigma_*`). Figure 3 is a faceted scatter of true vs recovered (posterior median unless the specification names another summary), with an OLS line and Pearson *r* on each panel and same-scale axes plus an identity line per `../visualization/plot-types/plot-scatter.md`. For Figures 1–2, start from long draws plus a `true_value` column and `geom_vline(aes(xintercept = true_value), linetype = "dotted", colour = "blue", linewidth = 0.8)`, then ggdist/tidybayes density, median, and interval.
+
+- **Multi-page PDF**
+
+  Compile Figures 1–3 into one multi-page vector PDF (`pdf(..., onefile = TRUE)` then `print()` each ggplot), one figure per page, beside the Word file in `output/`. Keep the per-figure PDF+PNG pair as well.
 
 ## Examples
 
